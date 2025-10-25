@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Utils.Loggings;
+﻿using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Utils.Loggings;
 
 namespace Crimson_Knight_Server
 {
@@ -9,6 +10,7 @@ namespace Crimson_Knight_Server
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WriteLine("Start server");
             ServerSetting.SetUp();
+            HttpServer.Start();
             Console.WriteLine("Set up ok");
             Console.ReadLine();
         }

@@ -3,5 +3,9 @@
     "IsConsoleLoggingInfo": true,
     "IsConsoleLoggingError": true,
     "IsConsoleLoggingWarning": true
+  },
+  "Networking": {
+    "URI": "http://localhost",
+    "PORT_HTTP": 7678
   }
 }
