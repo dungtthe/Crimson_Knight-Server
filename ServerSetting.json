@@ -6,6 +6,7 @@
   },
   "Networking": {
     "URI": "http://localhost",
-    "PORT_HTTP": 7678
+    "PORT_HTTP": 7678,
+    "PORT_TCP": 7679
   }
 }
