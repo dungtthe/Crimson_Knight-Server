@@ -27,7 +27,14 @@ namespace Crimson_Knight_Server.Players
                     {
                         int x = msg.ReadInt();
                         int y = msg.ReadInt();
+                        msg.Close();
                         ConsoleLogging.LogInfor("Player: " + session.PlayerId + " di chuyển tới vị trí: " + x + ", " + y);
+                        Message msgSend = new Message(MessageId.OTHER_PLAYER_MOVE);
+                        msgSend.WriteInt(session.PlayerId);
+                        msgSend.WriteInt(x);
+                        msgSend.WriteInt(y);
+                        TcpServer.SendOthers(msgSend,session);
+                        msgSend.Close();
                         break;
                     }
                 default:

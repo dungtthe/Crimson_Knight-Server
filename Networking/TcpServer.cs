@@ -57,7 +57,30 @@ namespace Crimson_Knight_Server.Networking
 
         public static bool RemoveSession(Session session)
         {
-            return sessions.TryRemove(session.PlayerId,out Session s);
+            return sessions.TryRemove(session.PlayerId, out Session s);
+        }
+
+
+        public static void SendOthers(Message msg, Session session)
+        {
+            foreach (var item in TcpServer.sessions)
+            {
+                var s = item.Value;
+                if (s != session)
+                {
+                    s.SendMessage(msg);
+                }
+            }
+        }
+
+
+        public static void SendAll(Message msg)
+        {
+            foreach (var item in TcpServer.sessions)
+            {
+                var s = item.Value;
+                s.SendMessage(msg);
+            }
         }
     }
 }
