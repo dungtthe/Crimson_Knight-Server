@@ -54,7 +54,7 @@ namespace Crimson_Knight_Server
                     try
                     {
                         //test phat
-                        Thread.Sleep(1000);
+                        Thread.Sleep(10);
                         PlayerRepository playerRepository = new PlayerRepository();
                         playerRepository.GetPlayerById(1);
                     }

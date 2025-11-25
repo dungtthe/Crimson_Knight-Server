@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server.DataAccessLayer
 {
-    public class BaseRepository : IDisposable
+    public class BaseRepository
     {
         protected MySqlConnection Connection;
 
@@ -21,16 +21,10 @@ namespace Crimson_Knight_Server.DataAccessLayer
         protected IDataReader ExecuteReader(string sql, params MySqlParameter[] parameters)
         {
             var cmd = new MySqlCommand(sql, Connection);
+
             if (parameters != null)
                 cmd.Parameters.AddRange(parameters);
-
-            return cmd.ExecuteReader(); // Caller chịu trách nhiệm đóng reader
-        }
-
-        public void Dispose()
-        {
-            Connection?.Close();
-            Connection?.Dispose();
+            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
         }
     }
 }
