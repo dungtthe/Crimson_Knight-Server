@@ -19,6 +19,9 @@ namespace Crimson_Knight_Server
         public static string URI;
         public static int PORT_HTTP;
         public static int PORT_TCP;
+
+        //db
+        public static string ConnectionString;
         public static void SetUp()
         {
             JsonObject obj = (JsonObject)JsonNode.Parse(File.ReadAllText("ServerSetting.json"));
@@ -34,6 +37,10 @@ namespace Crimson_Knight_Server
             URI = (string)networkingSection["URI"];
             PORT_HTTP = (int)networkingSection["PORT_HTTP"];
             PORT_TCP = (int)networkingSection["PORT_TCP"];
+
+            //db
+            JsonObject dbsSection = (JsonObject)obj["Dbs"];
+            ConnectionString = (string)dbsSection["ConnectionString"];
         }
     }
 }

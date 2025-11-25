@@ -8,5 +8,8 @@
     "URI": "http://localhost",
     "PORT_HTTP": 7678,
     "PORT_TCP": 7679
+  },
+  "Dbs": {
+    "ConnectionString": "Server=localhost;Port=3306;Database=crimson_knight;User=root;Password=123456;"
   }
 }
