@@ -11,7 +11,7 @@ namespace Crimson_Knight_Server
             Console.WriteLine("Start server");
             ServerSetting.SetUp();
             HttpServer.Start();
-            TcpServer.Start();
+            ServerManager.GI().Start();
             Console.WriteLine("Set up ok");
             Console.ReadLine();
         }

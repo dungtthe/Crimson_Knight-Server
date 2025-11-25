@@ -10,8 +10,8 @@ namespace Crimson_Knight_Server.Players
 {
     public class MessageHandler
     {
-        private Session session;
-        public MessageHandler(Session session)
+        private Player session;
+        public MessageHandler(Player session)
         {
             this.session = session;
         }
@@ -33,7 +33,7 @@ namespace Crimson_Knight_Server.Players
                         msgSend.WriteInt(session.PlayerId);
                         msgSend.WriteInt(x);
                         msgSend.WriteInt(y);
-                        TcpServer.SendOthers(msgSend,session);
+                        ServerManager.GI().SendOthers(msgSend,session);
                         msgSend.Close();
                         break;
                     }
