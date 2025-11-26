@@ -1,4 +1,6 @@
 ﻿using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,12 @@ namespace Crimson_Knight_Server.Maps
         public short Id;
         public string Name;
 
+        public Map(MapTemplate template)
+        {
+            Id = template.Id;
+            Name = template.Name;
+        }
+
         private List<Player> Players  = new List<Player>();
 
         public void AddPlayer(Player player)
@@ -20,5 +28,9 @@ namespace Crimson_Knight_Server.Maps
             player.MapCur = this;
         }
 
+        public void UpdateMap()
+        {
+            ConsoleLogging.LogInfor("update map: " + Id);
+        }
     }
 }
