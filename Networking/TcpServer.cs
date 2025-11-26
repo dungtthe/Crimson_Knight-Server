@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Players;
+﻿using Crimson_Knight_Server.Maps;
+using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Utils.Loggings;
 using System.Collections.Concurrent;
 using System.Net;
@@ -48,7 +49,7 @@ namespace Crimson_Knight_Server.Networking
             foreach (var item in this.sessions)
             {
                 var s = item.Value;
-                if (s != session)
+                if (s != session && s.MapCur == session.MapCur)
                 {
                     s.SendMessage(msg);
                 }

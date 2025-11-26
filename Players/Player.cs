@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Networking;
+﻿using Crimson_Knight_Server.Maps;
+using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
@@ -105,6 +106,7 @@ namespace Crimson_Knight_Server.Players
         #endregion
 
         public int PlayerId;
+        public Map MapCur;
         public Player(int playerId)
         {
             PlayerId = playerId;

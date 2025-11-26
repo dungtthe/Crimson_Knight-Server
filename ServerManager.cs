@@ -1,5 +1,6 @@
 ﻿using Crimson_Knight_Server.DataAccessLayer;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,10 @@ namespace Crimson_Knight_Server
         {
             try
             {
+                if (!LoadData())
+                {
+                    return;
+                }
                 listener = new TcpListener(IPAddress.Any, ServerSetting.PORT_TCP);
                 isRunning = true;
 
@@ -37,12 +42,34 @@ namespace Crimson_Knight_Server
                 acceptThread.Start();
 
                 ConsoleLogging.LogInfor($"[TcpServer] Bắt đầu lắng nghe trên port {ServerSetting.PORT_TCP}...");
+
                 HandlerLoop();
             }
             catch (Exception ex)
             {
                 ConsoleLogging.LogError($"[TcpServer] Không thể khởi động: {ex.Message}");
             }
+        }
+
+        private bool LoadData()
+        {
+            bool flag = true;
+            try
+            {
+                TemplateManager.LoadTemplate();
+                LoadDB();
+            }
+            catch (Exception ex) 
+            {
+                ConsoleLogging.LogError($"[LoadData] Load loi: {ex.Message}");
+                flag = false;
+            }
+            return flag;
+        }
+
+        private void LoadDB()
+        {
+
         }
 
         private void HandlerLoop()
