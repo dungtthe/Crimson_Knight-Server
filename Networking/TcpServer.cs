@@ -44,7 +44,10 @@ namespace Crimson_Knight_Server.Networking
         {
             foreach (var item in session.MapCur.Players)
             {
-                item.SendMessage(msg);
+                if (item.PlayerId != session.PlayerId)
+                {
+                    item.SendMessage(msg);
+                }
             }
         }
 
