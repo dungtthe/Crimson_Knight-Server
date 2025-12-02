@@ -1,4 +1,5 @@
 ﻿using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,31 @@ namespace Crimson_Knight_Server.Players
         }
         public void HandleMessage(Message msg)
         {
+            if (msg.Id == MessageId.LOGIN)
+            {
+                string token = msg.ReadString();
+                string[] s = token.Split('.');
+                int id = int.Parse(s[0]);
+
+                //check lai
+                Player player = PlayerService.SetupPlayer(session,id);
+                if (player == null)
+                {
+                    session.Close();
+                }
+                msg.Close();
+
+                PlayerEnterGame();
+                return;
+            }
+            if (session.PlayerId == -1)
+            {
+                ConsoleLogging.LogWarning("Chưa đăng nhập mà gửi message khác LOGIN");
+                msg.Close();
+                return;
+            }
             switch (msg.Id)
             {
-                case MessageId.OK:
-                    {
-                        break;
-                    }
                 case MessageId.PLAYER_MOVE:
                     {
                         int x = msg.ReadInt();
@@ -33,7 +53,7 @@ namespace Crimson_Knight_Server.Players
                         msgSend.WriteInt(session.PlayerId);
                         msgSend.WriteInt(x);
                         msgSend.WriteInt(y);
-                        ServerManager.GI().SendOthers(msgSend,session);
+                        ServerManager.GI().SendOthers(msgSend, session);
                         msgSend.Close();
                         break;
                     }
@@ -42,6 +62,11 @@ namespace Crimson_Knight_Server.Players
                         break;
                     }
             }
+        }
+
+        private void PlayerEnterGame()
+        {
+
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Crimson_Knight_Server.Networking
         protected TcpListener listener;
         protected Thread acceptThread;
         protected volatile bool isRunning;
-        private int nextPlayerId = 0; //tam thoi nhu nay
 
 
 
@@ -24,11 +23,8 @@ namespace Crimson_Knight_Server.Networking
                 while (isRunning)
                 {
                     TcpClient client = listener.AcceptTcpClient();
-                    int playerId = Interlocked.Increment(ref nextPlayerId);
-                    ConsoleLogging.LogInfor($"[TcpServer] Chấp nhận kết nối cho tcpClient {playerId}...");
-                    Player session = new Player(playerId);
+                    Player session = new Player(-1);
                     session.InitNetwork(client);
-                    sessions.TryAdd(playerId, session);
                 }
             }
             catch (Exception ex)

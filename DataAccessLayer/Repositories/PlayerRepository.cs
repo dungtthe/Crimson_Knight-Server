@@ -26,6 +26,7 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                     Id = id,
                     Name = name,
                 };
+                return model;
             }
             return null;
         }

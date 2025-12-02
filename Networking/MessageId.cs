@@ -8,7 +8,7 @@ namespace Crimson_Knight_Server.Networking
 {
     public enum MessageId:short
     {
-        OK,
+        LOGIN,
         PLAYER_MOVE,
         OTHER_PLAYER_MOVE
     }

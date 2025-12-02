@@ -1,6 +1,8 @@
 ﻿using Crimson_Knight_Server.DataAccessLayer.Models;
 using Crimson_Knight_Server.DataAccessLayer.Repositories;
+using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Services.Dtos;
+using Crimson_Knight_Server.Services.Mappers;
 using Crimson_Knight_Server.Utils;
 using System;
 using System.Collections.Concurrent;
@@ -40,7 +42,7 @@ namespace Crimson_Knight_Server.Services
                 {
                     string[] s = token.Split('.');
                     long timeMillis = long.Parse(s[1]);
-                    if (SystemUtil.CurrentTimeMillis() - timeMillis > 30000)
+                    if (SystemUtil.CurrentTimeMillis() - timeMillis > 60000)
                     {
                         rsRemove.Add(token);
                     }
@@ -104,11 +106,20 @@ namespace Crimson_Knight_Server.Services
         }
 
 
-        //tra ve player id
         public static string ValidateToken(string token)
         {
             //tam thoi nhu nay
             return token;
+        }
+
+
+        public static Player SetupPlayer(Player player, int playerId)
+        {
+            PlayerRepository playerRepository = new PlayerRepository();
+            var playerModel = playerRepository.GetPlayerById(playerId);
+            if (playerModel == null) return null;
+
+            return PlayerMapper.MapToPlayer(player, playerModel);
         }
     }
 }

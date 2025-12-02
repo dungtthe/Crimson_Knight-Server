@@ -91,16 +91,24 @@ namespace Crimson_Knight_Server.Players
         private static object lockClose = new object();
         public void Close()
         {
+            if (!isRunning) return;
+            isRunning = false;
+
             lock (lockClose)
             {
-                ServerManager.GI().RemoveSession(this);
-                if (!isRunning) return;
-                isRunning = false;
+                if (this.PlayerId != -1)
+                {
+                    ServerManager.GI().RemoveSession(this);
+                    ConsoleLogging.LogWarning($"[Client {PlayerId}] Đã đóng kết nối.");
+                }
+                else
+                {
+
+                }
                 try { reader.Close(); } catch { }
                 try { writer.Close(); } catch { }
                 try { stream.Close(); } catch { }
                 try { tcpClient.Close(); } catch { }
-                ConsoleLogging.LogWarning($"[Client {PlayerId}] Đã đóng kết nối.");
             }
         }
         #endregion

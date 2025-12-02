@@ -10,9 +10,9 @@ namespace Crimson_Knight_Server.Services.Mappers
 {
     public static class PlayerMapper
     {
-        public static Player MapToPlayer(PlayerModel model)
+        public static Player MapToPlayer(Player player, PlayerModel model)
         {
-            Player player = new Player(model.Id);
+            player.PlayerId = model.Id;
             player.Name = model.Name;
             return player;
         }
