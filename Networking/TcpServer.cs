@@ -40,15 +40,11 @@ namespace Crimson_Knight_Server.Networking
         }
 
 
-        public void SendOthers(Message msg, Player session)
+        public void SendOthersInMap(Message msg, Player session)
         {
-            foreach (var item in this.sessions)
+            foreach (var item in session.MapCur.Players)
             {
-                var s = item.Value;
-                if (s != session && s.MapCur == session.MapCur)
-                {
-                    s.SendMessage(msg);
-                }
+                item.SendMessage(msg);
             }
         }
 

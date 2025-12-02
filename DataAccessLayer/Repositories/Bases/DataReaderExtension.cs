@@ -23,7 +23,10 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories.Bases
         {
             return reader.GetValue<int>(columnName);   
         }
-
+        public static short MyGetShort(this IDataReader reader, string columnName)
+        {
+            return reader.GetValue<short>(columnName);
+        }
         public static string MyGetString(this IDataReader reader, string columnName)
         {
             return reader.GetValue<string>(columnName);

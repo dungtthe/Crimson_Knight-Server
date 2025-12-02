@@ -15,7 +15,7 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
     {
         public PlayerModel GetPlayerById(int id)
         {
-            string sql = "select id, name from player where id = @id";
+            string sql = "select * from player where id = @id";
             using var reader = ExecuteReader(sql, new MySqlParameter("@id", id));
             if (reader.Read())
             {
@@ -25,6 +25,9 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                 {
                     Id = id,
                     Name = name,
+                    MapId = reader.MyGetShort("mapid"),
+                    X = reader.MyGetShort("x"),
+                    Y = reader.MyGetShort("y")
                 };
                 return model;
             }

@@ -25,14 +25,12 @@ namespace Crimson_Knight_Server.Players
                 int id = int.Parse(s[0]);
 
                 //check lai
-                Player player = PlayerService.SetupPlayer(session,id);
-                if (player == null)
+                if (!PlayerService.SetupPlayer(session, id))
                 {
                     session.Close();
                 }
                 msg.Close();
 
-                PlayerEnterGame();
                 return;
             }
             if (session.PlayerId == -1)
@@ -47,14 +45,10 @@ namespace Crimson_Knight_Server.Players
                     {
                         int x = msg.ReadInt();
                         int y = msg.ReadInt();
+                        session.X = (short)x;
+                        session.Y = (short)y;
                         msg.Close();
-                        ConsoleLogging.LogInfor("Player: " + session.PlayerId + " di chuyển tới vị trí: " + x + ", " + y);
-                        Message msgSend = new Message(MessageId.OTHER_PLAYER_MOVE);
-                        msgSend.WriteInt(session.PlayerId);
-                        msgSend.WriteInt(x);
-                        msgSend.WriteInt(y);
-                        ServerManager.GI().SendOthers(msgSend, session);
-                        msgSend.Close();
+                        session.BroadcastMove();
                         break;
                     }
                 default:
@@ -64,9 +58,6 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
-        private void PlayerEnterGame()
-        {
-
-        }
+       
     }
 }

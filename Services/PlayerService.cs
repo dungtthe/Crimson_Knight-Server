@@ -1,5 +1,6 @@
 ﻿using Crimson_Knight_Server.DataAccessLayer.Models;
 using Crimson_Knight_Server.DataAccessLayer.Repositories;
+using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Services.Dtos;
 using Crimson_Knight_Server.Services.Mappers;
@@ -113,13 +114,24 @@ namespace Crimson_Knight_Server.Services
         }
 
 
-        public static Player SetupPlayer(Player player, int playerId)
+        public static bool SetupPlayer(Player player, int playerId)
         {
             PlayerRepository playerRepository = new PlayerRepository();
             var playerModel = playerRepository.GetPlayerById(playerId);
-            if (playerModel == null) return null;
+            if (playerModel == null) return false;
+            player.PlayerId = playerModel.Id;
+            player.Name = playerModel.Name;
 
-            return PlayerMapper.MapToPlayer(player, playerModel);
+            PlayerEnterGame(player, playerModel);
+            return true;
+        }
+
+        private static void PlayerEnterGame(Player player, PlayerModel model)
+        {
+            player.X = model.X;
+            player.Y = model.Y;
+            Map map = MapManager.Maps[model.MapId];
+            map.BusPlayerEnterMap.Enqueue(player);
         }
     }
 }

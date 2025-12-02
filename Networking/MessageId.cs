@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server.Networking
 {
-    public enum MessageId:short
+    public enum MessageId : short
     {
         LOGIN,
         PLAYER_MOVE,
-        OTHER_PLAYER_MOVE
+        PLAYER_ENTER_MAP,
+
+        //send other
+        OTHER_PLAYER_MOVE,
+        OTHER_PLAYER_ENTER_MAP
     }
 }

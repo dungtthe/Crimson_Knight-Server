@@ -10,11 +10,6 @@ namespace Crimson_Knight_Server.Services.Mappers
 {
     public static class PlayerMapper
     {
-        public static Player MapToPlayer(Player player, PlayerModel model)
-        {
-            player.PlayerId = model.Id;
-            player.Name = model.Name;
-            return player;
-        }
+        
     }
 }

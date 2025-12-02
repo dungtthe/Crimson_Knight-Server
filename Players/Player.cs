@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server.Players
 {
-    public class Player
+    public class Player:IPlayerBroadcaster, IPlayerSelfSender
     {
         #region network
         private TcpClient tcpClient;
@@ -111,15 +111,61 @@ namespace Crimson_Knight_Server.Players
                 try { tcpClient.Close(); } catch { }
             }
         }
+
+       
         #endregion
 
         public int PlayerId;
         public string Name;
-
         public Map MapCur;
+        public short X;
+        public short Y;
         public Player(int playerId)
         {
             PlayerId = playerId;
+        }
+
+
+        public void BroadcastEnterMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.OTHER_PLAYER_ENTER_MAP);
+                msg.WriteInt(PlayerId);
+                msg.WriteString(Name);
+                msg.WriteShort(X);
+                msg.WriteShort(Y);
+                ServerManager.GI().SendOthersInMap(msg, this);
+                msg.Close();
+            }
+        }
+
+        public void BroadcastMove()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.OTHER_PLAYER_MOVE);
+                msg.WriteInt(PlayerId);
+                msg.WriteShort(X);
+                msg.WriteShort(Y);
+                ServerManager.GI().SendOthersInMap(msg, this);
+                msg.Close();
+            }
+        }
+
+        public void SendEnterMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.PLAYER_ENTER_MAP);
+                msg.WriteInt(PlayerId);
+                msg.WriteString(Name);
+                msg.WriteShort(X);
+                msg.WriteShort(Y);
+                msg.WriteShort(MapCur.Id);
+                SendMessage(msg);
+                msg.Close();
+            }
         }
     }
 

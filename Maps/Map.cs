@@ -2,6 +2,7 @@
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace Crimson_Knight_Server.Maps
 {
     public class Map
     {
+        public readonly ConcurrentQueue<Player> BusPlayerEnterMap = new ConcurrentQueue<Player>();
+        public readonly ConcurrentQueue<Player> BusPlayerExitMap = new ConcurrentQueue<Player>();
+
+
         public short Id;
         public string Name;
 
@@ -20,17 +25,23 @@ namespace Crimson_Knight_Server.Maps
             Name = template.Name;
         }
 
-        private List<Player> Players  = new List<Player>();
+        public List<Player> Players  = new List<Player>();
 
-        public void AddPlayer(Player player)
+        private void PlayerEnterMap(Player player)
         {
             Players.Add(player);
             player.MapCur = this;
+            player.SendEnterMap();
+            player.BroadcastEnterMap();
         }
 
         public void UpdateMap()
         {
-            ConsoleLogging.LogInfor("update map: " + Id);
+            while (BusPlayerEnterMap.TryDequeue(out Player playerEnter))
+            {
+                PlayerEnterMap(playerEnter);
+                ConsoleLogging.LogInfor($"Player {playerEnter.PlayerId} đã vào map {Id}");
+            }
         }
     }
 }

@@ -85,12 +85,11 @@ namespace Crimson_Knight_Server
             //map
             foreach(var item in TemplateManager.MapTemplates)
             {
-                Maps.Add(new Map(item));
+                MapManager.Maps.Add(new Map(item));
             }
             TemplateManager.MapTemplates.Clear();
         }
 
-        private List<Map> Maps = new List<Map>();
 
         private void RunGameLoop()
         {
@@ -102,7 +101,7 @@ namespace Crimson_Knight_Server
                     long start = SystemUtil.CurrentTimeMillis();
                     try
                     {
-                        foreach (var item in Maps)
+                        foreach (var item in MapManager.Maps)
                         {
                             item.UpdateMap();
                         }
