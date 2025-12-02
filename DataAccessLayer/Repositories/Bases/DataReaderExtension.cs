@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crimson_Knight_Server.DataAccessLayer
+namespace Crimson_Knight_Server.DataAccessLayer.Repositories.Bases
 {
     public static class DataReaderExtension
     {
@@ -14,19 +14,19 @@ namespace Crimson_Knight_Server.DataAccessLayer
         {
             int index = reader.GetOrdinal(columnName);
             if (reader.IsDBNull(index))
-                return default(T)!;
+                return default!;
 
             return (T)Convert.ChangeType(reader.GetValue(index), typeof(T));
         }
 
         public static int MyGetInt(this IDataReader reader, string columnName)
         {
-            return GetValue<int>(reader, columnName);   
+            return reader.GetValue<int>(columnName);   
         }
 
         public static string MyGetString(this IDataReader reader, string columnName)
         {
-            return GetValue<string>(reader, columnName);
+            return reader.GetValue<string>(columnName);
         }
     }
 }

@@ -106,6 +106,8 @@ namespace Crimson_Knight_Server.Players
         #endregion
 
         public int PlayerId;
+        public string Name;
+
         public Map MapCur;
         public Player(int playerId)
         {
