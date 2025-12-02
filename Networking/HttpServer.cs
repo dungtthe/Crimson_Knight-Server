@@ -1,4 +1,6 @@
-﻿using Crimson_Knight_Server.Utils.Loggings;
+﻿using Crimson_Knight_Server.Services;
+using Crimson_Knight_Server.Services.Dtos;
+using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,19 +64,59 @@ namespace Crimson_Knight_Server.Networking
                     var endianInfo = new { isLittleEndian = isLittle };
                     responseJson = JsonSerializer.Serialize(endianInfo);
 
-                    response.ContentType = "application/json";
                     statusCode = 200; 
+                    break;
+                case "/login":
+                    if (request.HttpMethod != "POST")
+                    {
+                        statusCode = 405;
+                        responseJson = JsonSerializer.Serialize(new LoginResponse
+                        {
+                            HttpStatusCode = 405,
+                            Message = "a"
+                        });
+                        break;
+                    }
+
+                    // Đọc body JSON
+                    string body;
+                    using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                    {
+                        body = reader.ReadToEnd();
+                    }
+
+                    LoginRequest loginRequest;
+                    try
+                    {
+                        loginRequest = JsonSerializer.Deserialize<LoginRequest>(body);
+                    }
+                    catch
+                    {
+                        statusCode = 400;
+                        responseJson = JsonSerializer.Serialize(new LoginResponse
+                        {
+                            HttpStatusCode = 400,
+                            Message = "a"
+                        });
+                        break;
+                    }
+
+                    var loginResponse = PlayerService.Login(loginRequest);
+
+                    statusCode = loginResponse.HttpStatusCode;
+                    responseJson = JsonSerializer.Serialize(loginResponse);
                     break;
 
                 default:
                     var errorInfo = new { error = "Not Found" };
                     responseJson = JsonSerializer.Serialize(errorInfo);
 
-                    response.ContentType = "application/json";
+                   
                     statusCode = 404; 
                     break;
             }
 
+            response.ContentType = "application/json";
             byte[] buffer = Encoding.UTF8.GetBytes(responseJson);
             response.StatusCode = statusCode;
             response.ContentLength64 = buffer.Length;

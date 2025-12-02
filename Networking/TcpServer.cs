@@ -65,5 +65,14 @@ namespace Crimson_Knight_Server.Networking
                 s.SendMessage(msg);
             }
         }
+
+        public Player GetPlayerById(int playerId)
+        {
+            if (sessions.TryGetValue(playerId, out Player player))
+            {
+                return player;
+            }
+            return null;
+        }
     }
 }

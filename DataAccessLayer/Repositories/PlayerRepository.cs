@@ -13,17 +13,6 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
 {
     public class PlayerRepository : BaseRepository
     {
-        private static PlayerRepository ins;
-        public static PlayerRepository GI()
-        {
-            if (ins == null)
-            {
-                ins = new PlayerRepository();
-            }
-            return ins;
-        }
-
-
         public PlayerModel GetPlayerById(int id)
         {
             string sql = "select id, name from player where id = @id";
@@ -39,6 +28,19 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                 };
             }
             return null;
+        }
+
+        public int GetIdByUsernameAndPassword(string username, string password)
+        {
+            string sql = "select id from player where username = @username and password = @password";
+            using var reader = ExecuteReader(sql,
+                new MySqlParameter("@username", username),
+                new MySqlParameter("@password", password));
+            if (reader.Read())
+            {
+                return reader.MyGetInt("id");
+            }
+            return -1;
         }
     }
 }
