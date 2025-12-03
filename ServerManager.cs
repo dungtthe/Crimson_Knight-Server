@@ -117,6 +117,9 @@ namespace Crimson_Knight_Server
                     {
                         Thread.Sleep(sleepTime);
                     }
+
+
+                    ConsoleLogging.LogInfor(sessions.Count + "");
                 }
             }).Start();
 

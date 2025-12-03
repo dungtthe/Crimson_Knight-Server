@@ -10,6 +10,6 @@
     "PORT_TCP": 7679
   },
   "Dbs": {
-    "ConnectionString": "Server=localhost;Port=3306;Database=crimson_knight;User=root;Password=123456;"
+    "ConnectionString": "Server=localhost;Port=3308;Database=crimson_knight;User=root;Password=123456;"
   }
 }

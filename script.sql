@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               8.4.6 - MySQL Community Server - GPL
+-- Server version:               10.4.32-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL Version:             12.3.0.6589
 -- --------------------------------------------------------
@@ -16,26 +16,25 @@
 
 
 -- Dumping database structure for crimson_knight
-CREATE DATABASE IF NOT EXISTS `crimson_knight` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `crimson_knight` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `crimson_knight`;
 
 -- Dumping structure for table crimson_knight.player
 CREATE TABLE IF NOT EXISTS `player` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `mapid` smallint NOT NULL DEFAULT '0',
-  `x` smallint NOT NULL DEFAULT '744',
-  `y` smallint NOT NULL DEFAULT '486',
-  KEY `key` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `mapid` smallint(6) NOT NULL DEFAULT 0,
+  `x` smallint(6) NOT NULL DEFAULT 744,
+  `y` smallint(6) NOT NULL DEFAULT 486,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table crimson_knight.player: ~3 rows (approximately)
-INSERT INTO `player` (`id`, `name`, `username`, `password`, `mapid`, `x`, `y`) VALUES
-	(1, 'xin chào 1', 'player1', '1', 0, 744, 486),
-	(2, 'xin chào 2', 'player2', '1', 0, 744, 486),
-	(2, 'xin chào 2', 'player3', '1', 0, 744, 486);
+-- Dumping data for table crimson_knight.player: ~2 rows (approximately)
+INSERT INTO `player` (`id`, `username`, `password`, `name`, `mapid`, `x`, `y`) VALUES
+	(1, 'player1', '1', 'Xin chào 1', 0, 744, 486),
+	(2, 'player2', '1', 'Xin chào 2', 0, 744, 486);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

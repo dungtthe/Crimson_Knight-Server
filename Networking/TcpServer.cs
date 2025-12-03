@@ -9,7 +9,7 @@ namespace Crimson_Knight_Server.Networking
 {
     public abstract class TcpServer
     {
-        private ConcurrentDictionary<int, Player> sessions = new ConcurrentDictionary<int, Player>();
+        protected ConcurrentDictionary<int, Player> sessions = new ConcurrentDictionary<int, Player>();
         protected TcpListener listener;
         protected Thread acceptThread;
         protected volatile bool isRunning;
@@ -33,6 +33,11 @@ namespace Crimson_Knight_Server.Networking
             }
         }
 
+
+        public bool AddSession(Player session)
+        {
+            return sessions.TryAdd(session.PlayerId, session);
+        }
 
         public bool RemoveSession(Player session)
         {
