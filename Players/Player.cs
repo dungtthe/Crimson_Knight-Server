@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server.Players
 {
-    public class Player:IPlayerBroadcaster, IPlayerSelfSender
+    public class Player : IPlayerBroadcaster, IPlayerSelfSender
     {
         #region network
         private TcpClient tcpClient;
@@ -112,7 +112,7 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
-       
+
         #endregion
 
         public int PlayerId;
@@ -158,15 +158,30 @@ namespace Crimson_Knight_Server.Players
             if (MapCur != null)
             {
                 Message msg = new Message(MessageId.PLAYER_ENTER_MAP);
-                msg.WriteInt(PlayerId);
-                msg.WriteString(Name);
-                msg.WriteShort(X);
-                msg.WriteShort(Y);
+                //map
                 msg.WriteShort(MapCur.Id);
+                msg.WriteString(MapCur.Template.Name);
+                //other players
+                msg.WriteShort((short)this.MapCur.Players.Count);
+                foreach (var other in this.MapCur.Players)
+                {
+                    msg.WriteInt(other.PlayerId);
+                    msg.WriteString(other.Name);
+                    msg.WriteShort(other.X);
+                    msg.WriteShort(other.Y);
+                }
+
+
+                //player
+                msg.WriteShort(this.X);
+                msg.WriteShort(this.Y);
+
                 SendMessage(msg);
                 msg.Close();
             }
         }
+
+
     }
 
 }

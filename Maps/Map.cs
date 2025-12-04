@@ -16,13 +16,12 @@ namespace Crimson_Knight_Server.Maps
         public readonly ConcurrentQueue<Player> BusPlayerExitMap = new ConcurrentQueue<Player>();
 
 
-        public short Id;
-        public string Name;
+        public short Id => Template.Id;
+        public MapTemplate Template;
 
         public Map(MapTemplate template)
         {
-            Id = template.Id;
-            Name = template.Name;
+            this.Template = template;   
         }
 
         public List<Player> Players  = new List<Player>();

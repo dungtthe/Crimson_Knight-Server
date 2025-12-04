@@ -31,6 +31,11 @@ namespace Crimson_Knight_Server.Players
                 }
                 msg.Close();
 
+                Message msg2 = new Message(MessageId.LOGIN);
+                msg2.WriteInt(this.session.PlayerId);
+                msg2.WriteString(this.session.Name);
+                session.SendMessage(msg2);
+                msg2.Close();
                 return;
             }
             if (session.PlayerId == -1)
