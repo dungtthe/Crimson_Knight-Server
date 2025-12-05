@@ -98,6 +98,7 @@ namespace Crimson_Knight_Server.Players
             {
                 if (this.PlayerId != -1)
                 {
+                    this.MapCur?.BusPlayerExitMap.Enqueue(this);
                     ServerManager.GI().RemoveSession(this);
                     ConsoleLogging.LogWarning($"[Client {PlayerId}] Đã đóng kết nối.");
                 }
@@ -181,7 +182,16 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
-
+        public void BroadcastExitMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.OTHER_PLAYER_EXIT_MAP);
+                msg.WriteInt(PlayerId);
+                ServerManager.GI().SendOthersInMap(msg, this);
+                msg.Close();
+            }
+        }
     }
 
 }

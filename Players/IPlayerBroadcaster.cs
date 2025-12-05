@@ -9,6 +9,7 @@ namespace Crimson_Knight_Server.Players
     public interface IPlayerBroadcaster
     {
         void BroadcastEnterMap();
+        void BroadcastExitMap();
         void BroadcastMove();
     }
 }

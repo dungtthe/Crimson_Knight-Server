@@ -119,7 +119,7 @@ namespace Crimson_Knight_Server
                     }
 
 
-                    ConsoleLogging.LogInfor(sessions.Count + "");
+                    //ConsoleLogging.LogInfor(sessions.Count + "");
                 }
             }).Start();
 

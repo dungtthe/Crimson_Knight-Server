@@ -14,6 +14,7 @@ namespace Crimson_Knight_Server.Networking
 
         //send other
         OTHER_PLAYER_MOVE,
-        OTHER_PLAYER_ENTER_MAP
+        OTHER_PLAYER_ENTER_MAP,
+        OTHER_PLAYER_EXIT_MAP,
     }
 }

@@ -52,6 +52,7 @@ namespace Crimson_Knight_Server.Players
                         int y = msg.ReadInt();
                         session.X = (short)x;
                         session.Y = (short)y;
+                        ConsoleLogging.LogInfor($"[Player {session.PlayerId}] Move to ({x},{y})");
                         msg.Close();
                         session.BroadcastMove();
                         break;

@@ -21,10 +21,10 @@ namespace Crimson_Knight_Server.Maps
 
         public Map(MapTemplate template)
         {
-            this.Template = template;   
+            this.Template = template;
         }
 
-        public List<Player> Players  = new List<Player>();
+        public List<Player> Players = new List<Player>();
 
         private void PlayerEnterMap(Player player)
         {
@@ -33,9 +33,18 @@ namespace Crimson_Knight_Server.Maps
             player.SendEnterMap();
             player.BroadcastEnterMap();
         }
-
+        private void PlayerExitMap(Player player)
+        {
+            Players.Remove(player);
+            player.BroadcastExitMap();
+            player.MapCur = null;
+        }
         public void UpdateMap()
         {
+            while (BusPlayerExitMap.TryDequeue(out Player playerExit))
+            {
+                PlayerExitMap(playerExit);
+            }
             while (BusPlayerEnterMap.TryDequeue(out Player playerEnter))
             {
                 PlayerEnterMap(playerEnter);
