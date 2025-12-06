@@ -48,6 +48,12 @@ namespace Crimson_Knight_Server.Maps
             while (BusPlayerEnterMap.TryDequeue(out Player playerEnter))
             {
                 PlayerEnterMap(playerEnter);
+                //ConsoleLogging.LogInfor(
+                //                        $"GetMaxHp() {playerEnter.GetMaxHp()}, " +
+                //                        $"GetMaxMp() {playerEnter.GetMaxMp()}, " +
+                //                        $"GetAtk() {playerEnter.GetAtk()}, " +
+                //                        $"GetDef() {playerEnter.GetDef()}"
+                //                        );
                 ConsoleLogging.LogInfor($"Player {playerEnter.PlayerId} đã vào map {Id}");
             }
         }

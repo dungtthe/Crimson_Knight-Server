@@ -121,6 +121,8 @@ namespace Crimson_Knight_Server.Services
             if (playerModel == null) return false;
             player.PlayerId = playerModel.Id;
             player.Name = playerModel.Name;
+            player.ClassType = (ClassType)playerModel.ClassType;
+            player.SetUpStats(playerModel.Stats);
             ServerManager.GI().AddSession(player);
             PlayerEnterGame(player, playerModel);
             return true;

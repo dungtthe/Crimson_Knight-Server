@@ -1,5 +1,6 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
@@ -8,11 +9,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-
 namespace Crimson_Knight_Server.Players
 {
-    public class Player : IPlayerBroadcaster, IPlayerSelfSender
+    public class Player : BaseObject, IPlayerBroadcaster, IPlayerSelfSender
     {
         #region network
         private TcpClient tcpClient;
@@ -121,12 +123,115 @@ namespace Crimson_Knight_Server.Players
         public Map MapCur;
         public short X;
         public short Y;
-        public Player(int playerId)
+        public Player(int playerId) : base(playerId)
         {
             PlayerId = playerId;
         }
 
+        public void SetUpStats(string data)
+        {
+            Stats = JsonSerializer.Deserialize<Dictionary<StatId, Stat>>(data, new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter() } // để deserialize enum từ string key
+            });
+        }
 
+
+        public ClassType ClassType;
+        //stats
+
+        public override int GetMaxHp()
+        {
+
+            int statHp = Stats.TryGetValue(StatId.HP, out Stat stat) ? stat.Value : 1;
+
+            if (ClassType == ClassType.CHIEN_BINH)
+            {
+                return statHp * 20;
+            }
+            else if (ClassType == ClassType.SAT_THU)
+            {
+                return statHp * 10;
+            }
+            else if (ClassType == ClassType.PHAP_SU)
+            {
+                return statHp * 8;
+            }
+            else if (ClassType == ClassType.XA_THU)
+            {
+                return statHp * 12;
+            }
+            return statHp;
+        }
+
+        public int GetMaxMp()
+        {
+            int statMp = Stats.TryGetValue(StatId.MP, out Stat stat) ? stat.Value : 1;
+
+            if (ClassType == ClassType.CHIEN_BINH)
+            {
+                return statMp * 5;
+            }
+            else if (ClassType == ClassType.SAT_THU)
+            {
+                return statMp * 8;
+            }
+            else if (ClassType == ClassType.PHAP_SU)
+            {
+                return statMp * 20;
+            }
+            else if (ClassType == ClassType.XA_THU)
+            {
+                return statMp * 15;
+            }
+            return statMp;
+        }
+        public override int GetAtk()
+        {
+            int statATK = Stats.TryGetValue(StatId.ATK, out Stat stat) ? stat.Value : 1;
+
+            if (ClassType == ClassType.CHIEN_BINH)
+            {
+                return statATK * 3;
+            }
+            else if (ClassType == ClassType.SAT_THU)
+            {
+                return statATK * 2;
+            }
+            else if (ClassType == ClassType.PHAP_SU)
+            {
+                return statATK * 2;
+            }
+            else if (ClassType == ClassType.XA_THU)
+            {
+                return statATK * 2;
+            }
+            return statATK;
+        }
+
+        public override int GetDef()
+        {
+            int statDEF = Stats.TryGetValue(StatId.DEF, out Stat stat) ? stat.Value : 1;
+            if (ClassType == ClassType.CHIEN_BINH)
+            {
+                return statDEF * 2;
+            }
+            else if (ClassType == ClassType.SAT_THU)
+            {
+                return statDEF * 1;
+            }
+            else if (ClassType == ClassType.PHAP_SU)
+            {
+                return statDEF * 1;
+            }
+            else if (ClassType == ClassType.XA_THU)
+            {
+                return statDEF * 1;
+            }
+            return statDEF;
+        }
+
+        #region msg
         public void BroadcastEnterMap()
         {
             if (MapCur != null)
@@ -192,6 +297,12 @@ namespace Crimson_Knight_Server.Players
                 msg.Close();
             }
         }
+
+
+
+
+        #endregion
+
     }
 
 }

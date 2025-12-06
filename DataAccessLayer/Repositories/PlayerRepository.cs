@@ -27,7 +27,9 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                     Name = name,
                     MapId = reader.MyGetShort("mapid"),
                     X = reader.MyGetShort("x"),
-                    Y = reader.MyGetShort("y")
+                    Y = reader.MyGetShort("y"),
+                    Stats = reader.MyGetString("stats"),
+                    ClassType =(byte) reader.MyGetSbyte("classtype")
                 };
                 return model;
             }
