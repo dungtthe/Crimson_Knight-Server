@@ -1,5 +1,6 @@
 ﻿using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Services.Dtos;
+using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -106,7 +107,13 @@ namespace Crimson_Knight_Server.Networking
                     statusCode = loginResponse.HttpStatusCode;
                     responseJson = JsonSerializer.Serialize(loginResponse);
                     break;
-
+                case "/load-templates":
+                    statusCode = 200;
+                    responseJson = JsonSerializer.Serialize(
+                    new {
+                        MonsterTemplates = TemplateManager.MonsterTemplates
+                    });
+                    break;
                 default:
                     var errorInfo = new { error = "Not Found" };
                     responseJson = JsonSerializer.Serialize(errorInfo);
