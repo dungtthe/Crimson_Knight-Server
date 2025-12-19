@@ -121,8 +121,7 @@ namespace Crimson_Knight_Server.Players
         public int PlayerId;
         public string Name;
         public Map MapCur;
-        public short X;
-        public short Y;
+
         public Player(int playerId) : base(playerId)
         {
             PlayerId = playerId;
@@ -266,17 +265,7 @@ namespace Crimson_Knight_Server.Players
                 Message msg = new Message(MessageId.PLAYER_ENTER_MAP);
                 //map
                 msg.WriteShort(MapCur.Id);
-                msg.WriteString(MapCur.Template.Name);
-                //other players
-                msg.WriteShort((short)this.MapCur.Players.Count);
-                foreach (var other in this.MapCur.Players)
-                {
-                    msg.WriteInt(other.PlayerId);
-                    msg.WriteString(other.Name);
-                    msg.WriteShort(other.X);
-                    msg.WriteShort(other.Y);
-                }
-
+                msg.WriteString(MapCur.Name);
 
                 //player
                 msg.WriteShort(this.X);
@@ -298,8 +287,44 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
+        public void SendMonstersInMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.PLAYER_MONSTERS_IN_MAP);
+                msg.WriteShort((short)MapCur.Monsters.Count);
+                for (int i = 0; i < MapCur.Monsters.Count; i++)
+                {
+                    var item = MapCur.Monsters[i];
+                    msg.WriteInt(item.Template.Id);
+                    //
+                    msg.WriteInt(item.Id);
+                    msg.WriteShort(item.X);
+                    msg.WriteShort(item.Y);
+                }
+                SendMessage(msg);
+                msg.Close();
+            }
+        }
 
-
+        public void SendOtherPlayersInMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.PLAYER_OTHERPLAYERS_IN_MAP);
+                //other players
+                msg.WriteShort((short)this.MapCur.Players.Count);
+                foreach (var other in this.MapCur.Players)
+                {
+                    msg.WriteInt(other.PlayerId);
+                    msg.WriteString(other.Name);
+                    msg.WriteShort(other.X);
+                    msg.WriteShort(other.Y);
+                }
+                SendMessage(msg);
+                msg.Close();
+            }
+        }
 
         #endregion
 

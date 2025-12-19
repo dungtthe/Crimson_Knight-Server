@@ -18,6 +18,8 @@ namespace Crimson_Knight_Server
         public string Name { get; set; }
         public int CurrentHp { get; set; }
         public int CurrentMp { get; set; }
+        public short X { get; set; }
+        public short Y { get; set; }
 
         public Dictionary<StatId, Stat> Stats = new Dictionary<StatId, Stat>();
         public abstract int GetMaxHp();

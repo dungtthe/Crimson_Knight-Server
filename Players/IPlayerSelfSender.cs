@@ -9,5 +9,7 @@ namespace Crimson_Knight_Server.Players
     public interface IPlayerSelfSender
     {
         void SendEnterMap();
+        void SendMonstersInMap();
+        void SendOtherPlayersInMap();
     }
 }

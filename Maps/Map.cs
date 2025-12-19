@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Players;
+﻿using Crimson_Knight_Server.Monsters;
+using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
@@ -16,12 +17,25 @@ namespace Crimson_Knight_Server.Maps
         public readonly ConcurrentQueue<Player> BusPlayerExitMap = new ConcurrentQueue<Player>();
 
 
-        public short Id => Template.Id;
-        public MapTemplate Template;
+        public short Id {  get; set; }
+        public string Name { get; set; }
+        //public MapTemplate Template;
+
+        public List<Monster> Monsters = new List<Monster>();
 
         public Map(MapTemplate template)
         {
-            this.Template = template;
+            this.Id = template.Id;
+            this.Name = template.Name;
+            if (template.Monsters != null)
+            {
+                for(int i = 0;i<template.Monsters.Count;i++)
+                {
+                    var item = template.Monsters[i];
+                    var monster = new Monster(i, item.X, item.Y, TemplateManager.MonsterTemplates[item.TemplateId]);
+                    Monsters.Add(monster);
+                }
+            }
         }
 
         public List<Player> Players = new List<Player>();
@@ -31,6 +45,8 @@ namespace Crimson_Knight_Server.Maps
             Players.Add(player);
             player.MapCur = this;
             player.SendEnterMap();
+            player.SendOtherPlayersInMap();
+            player.SendMonstersInMap();
             player.BroadcastEnterMap();
         }
         private void PlayerExitMap(Player player)

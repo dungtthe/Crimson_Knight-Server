@@ -1,7 +1,39 @@
 [
   {
     "Id": 0,
-    "Name": "Tên map số 0"
+    "Name": "Tên map số 0",
+    "Monsters": [
+      {
+        "TemplateId": 0,
+        "X": 285,
+        "Y": 310
+      },
+      {
+        "TemplateId": 0,
+        "X": 394,
+        "Y": 311
+      },
+      {
+        "TemplateId": 0,
+        "X": 418,
+        "Y": 419
+      },
+      {
+        "TemplateId": 0,
+        "X": 1382,
+        "Y": 236
+      },
+      {
+        "TemplateId": 0,
+        "X": 1496,
+        "Y": 236
+      },
+      {
+        "TemplateId": 0,
+        "X": 1430,
+        "Y": 126
+      }
+    ]
   },
   {
     "Id": 1,

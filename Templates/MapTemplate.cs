@@ -10,5 +10,16 @@ namespace Crimson_Knight_Server.Templates
     {
         public short Id { get; set; }
         public string Name { get; set; }
+
+        public List<MonsterInMap> Monsters { get; set; }
+
+        public class MonsterInMap
+        {
+            public int TemplateId { get; set; }
+            public short X { get; set; }
+            public short Y { get; set; }
+        }
     }
+
+
 }

@@ -11,6 +11,8 @@ namespace Crimson_Knight_Server.Networking
         LOGIN,
         PLAYER_MOVE,
         PLAYER_ENTER_MAP,
+        PLAYER_OTHERPLAYERS_IN_MAP,
+        PLAYER_MONSTERS_IN_MAP,
 
         //send other
         OTHER_PLAYER_MOVE,
