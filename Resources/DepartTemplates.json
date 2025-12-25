@@ -1,0 +1,26 @@
+﻿[
+  {
+    "Id": 0,
+    "MapEnterId": 1,
+    "XEnter": 185,
+    "YEnter": 795
+  },
+  {
+    "Id": 1,
+    "MapEnterId": 0,
+    "XEnter": 2250,
+    "YEnter": 425
+  },
+  {
+    "Id": 2,
+    "MapEnterId": 2,
+    "XEnter": 203,
+    "YEnter": 867
+  },
+  {
+    "Id": 3,
+    "MapEnterId": 1,
+    "XEnter": 1763,
+    "YEnter": 741
+  }
+]

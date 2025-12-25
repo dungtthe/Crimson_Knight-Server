@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Networking;
+﻿using Crimson_Knight_Server.Maps;
+using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
@@ -55,6 +56,23 @@ namespace Crimson_Knight_Server.Players
                         ConsoleLogging.LogInfor($"[Player {session.PlayerId}] Move to ({x},{y})");
                         msg.Close();
                         session.BroadcastMove();
+                        break;
+                    }
+                case MessageId.PLAYER_ENTER_MAP:
+                    {
+                        short departId = msg.ReadShort();
+                        if (session.MapCur != null)
+                        {
+                            var mapCur = MapManager.Maps[session.MapCur.Id];
+                            mapCur.BusPlayerExitMap.Enqueue(session);
+                        }
+
+                        var depart = MapManager.DepartTemplates[departId];
+                        var mapEnter = MapManager.Maps[depart.MapEnterId];
+                        session.X = depart.XEnter;
+                        session.Y = depart.YEnter;
+                        mapEnter.BusPlayerEnterMap.Enqueue(session);
+                        msg.Close();
                         break;
                     }
                 default:

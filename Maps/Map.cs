@@ -20,6 +20,8 @@ namespace Crimson_Knight_Server.Maps
         public short Id {  get; set; }
         public string Name { get; set; }
         //public MapTemplate Template;
+        public short XEnter { get; set; }
+        public short YEnter { get; set; }
 
         public List<Monster> Monsters = new List<Monster>();
 
@@ -27,6 +29,8 @@ namespace Crimson_Knight_Server.Maps
         {
             this.Id = template.Id;
             this.Name = template.Name;
+            this.XEnter = template.XEnter;
+            this.YEnter = template.YEnter;
             if (template.Monsters != null)
             {
                 for(int i = 0;i<template.Monsters.Count;i++)

@@ -10,7 +10,8 @@ namespace Crimson_Knight_Server.Templates
     {
         public short Id { get; set; }
         public string Name { get; set; }
-
+        public short XEnter { get; set; }
+        public short YEnter { get; set; }
         public List<MonsterInMap> Monsters { get; set; }
 
         public class MonsterInMap

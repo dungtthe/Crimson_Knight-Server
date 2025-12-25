@@ -12,6 +12,7 @@ namespace Crimson_Knight_Server.Templates
     {
         public static List<MapTemplate> MapTemplates = new List<MapTemplate>();
         public static List<MonsterTemplate> MonsterTemplates = new List<MonsterTemplate>();
+        public static List<DepartTemplate> DepartTemplates = new List<DepartTemplate>();
 
 
         static string DataDirectory = "Resources";
@@ -19,6 +20,7 @@ namespace Crimson_Knight_Server.Templates
         {
             LoadMapTemplates();
             LoadMonsterTemplate();
+            LoadDepartTemplates();
         }
 
         private static void LoadMonsterTemplate()
@@ -40,6 +42,15 @@ namespace Crimson_Knight_Server.Templates
             string filePath = Path.Combine(DataDirectory, fileName);
             string jsonString = File.ReadAllText(filePath);
             MapTemplates = JsonSerializer.Deserialize<List<MapTemplate>>(jsonString);
+        }
+
+
+        private static void LoadDepartTemplates()
+        {
+            string fileName = "DepartTemplates.json";
+            string filePath = Path.Combine(DataDirectory, fileName);
+            string jsonString = File.ReadAllText(filePath);
+            DepartTemplates = JsonSerializer.Deserialize<List<DepartTemplate>>(jsonString);
         }
     }
 }

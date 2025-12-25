@@ -88,6 +88,7 @@ namespace Crimson_Knight_Server
                 MapManager.Maps.Add(new Map(item));
             }
             TemplateManager.MapTemplates.Clear();
+            MapManager.DepartTemplates = TemplateManager.DepartTemplates;
         }
 
 

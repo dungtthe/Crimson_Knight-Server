@@ -1,4 +1,5 @@
 ﻿using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Templates;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Crimson_Knight_Server.Maps
     public static class MapManager
     {
         public static readonly List<Map> Maps = new List<Map>();
-
+        public static List<DepartTemplate> DepartTemplates;
 
     }
 }
