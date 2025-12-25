@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.DataAccessLayer;
 using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -100,6 +102,9 @@ namespace Crimson_Knight_Server
                 while (isRunning)
                 {
                     long start = SystemUtil.CurrentTimeMillis();
+
+                    CheckPlayerEnterOrExitMap();
+
                     try
                     {
                         foreach (var item in MapManager.Maps)
@@ -124,6 +129,42 @@ namespace Crimson_Knight_Server
                 }
             }).Start();
 
+        }
+
+
+        private void CheckPlayerEnterOrExitMap()
+        {
+            try
+            {
+                while (MapManager.PlayerEnterOrExitmap.TryDequeue(out var item))
+                {
+                    bool isEnterMap = item.Item3;
+                    if (isEnterMap)
+                    {
+                        if (item.Item2.MapCur != null)
+                        {
+                            item.Item2.BroadcastExitMap();
+                            item.Item1.Players.Remove(item.Item2);
+                        }
+
+                        item.Item1.Players.Add(item.Item2);
+                        item.Item2.MapCur = item.Item1;
+                        item.Item2.SendEnterMap();
+                        item.Item2.SendOtherPlayersInMap();
+                        item.Item2.SendMonstersInMap();
+                        item.Item2.BroadcastEnterMap();
+                    }
+                    else
+                    {
+                        item.Item2.BroadcastExitMap();
+                        item.Item1.Players.Remove(item.Item2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogging.LogError($"[CheckPlayerEnterOrExitMap] Load loi: {ex.Message}");
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -100,7 +101,9 @@ namespace Crimson_Knight_Server.Players
             {
                 if (this.PlayerId != -1)
                 {
-                    this.MapCur?.BusPlayerExitMap.Enqueue(this);
+                    //this.MapCur?.BusPlayerExitMap.Enqueue(this);
+                    //ServerManager.GI().RemoveSession(this);
+                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(this.MapCur, this, false));
                     ServerManager.GI().RemoveSession(this);
                     ConsoleLogging.LogWarning($"[Client {PlayerId}] Đã đóng kết nối.");
                 }

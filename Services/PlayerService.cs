@@ -133,7 +133,8 @@ namespace Crimson_Knight_Server.Services
             player.X = model.X;
             player.Y = model.Y;
             Map map = MapManager.Maps[model.MapId];
-            map.BusPlayerEnterMap.Enqueue(player);
+            //map.BusPlayerEnterMap.Enqueue(player);
+            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(map,player,true));
         }
     }
 }

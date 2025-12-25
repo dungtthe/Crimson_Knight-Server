@@ -14,5 +14,8 @@ namespace Crimson_Knight_Server.Maps
         public static readonly List<Map> Maps = new List<Map>();
         public static List<DepartTemplate> DepartTemplates;
 
+
+
+        public static readonly ConcurrentQueue<Tuple<Map, Player, bool>> PlayerEnterOrExitmap = new();//true la enter
     }
 }

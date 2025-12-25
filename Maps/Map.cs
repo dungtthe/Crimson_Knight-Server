@@ -13,8 +13,8 @@ namespace Crimson_Knight_Server.Maps
 {
     public class Map
     {
-        public readonly ConcurrentQueue<Player> BusPlayerEnterMap = new ConcurrentQueue<Player>();
-        public readonly ConcurrentQueue<Player> BusPlayerExitMap = new ConcurrentQueue<Player>();
+        //public readonly ConcurrentQueue<Player> BusPlayerEnterMap = new ConcurrentQueue<Player>();
+        //public readonly ConcurrentQueue<Player> BusPlayerExitMap = new ConcurrentQueue<Player>();
 
 
         public short Id {  get; set; }
@@ -44,38 +44,38 @@ namespace Crimson_Knight_Server.Maps
 
         public List<Player> Players = new List<Player>();
 
-        private void PlayerEnterMap(Player player)
-        {
-            Players.Add(player);
-            player.MapCur = this;
-            player.SendEnterMap();
-            player.SendOtherPlayersInMap();
-            player.SendMonstersInMap();
-            player.BroadcastEnterMap();
-        }
-        private void PlayerExitMap(Player player)
-        {
-            Players.Remove(player);
-            player.BroadcastExitMap();
-            player.MapCur = null;
-        }
+        //private void PlayerEnterMap(Player player)
+        //{
+        //    Players.Add(player);
+        //    player.MapCur = this;
+        //    player.SendEnterMap();
+        //    player.SendOtherPlayersInMap();
+        //    player.SendMonstersInMap();
+        //    player.BroadcastEnterMap();
+        //}
+        //private void PlayerExitMap(Player player)
+        //{
+        //    Players.Remove(player);
+        //    player.BroadcastExitMap();
+        //    player.MapCur = null;
+        //}
         public void UpdateMap()
         {
-            while (BusPlayerExitMap.TryDequeue(out Player playerExit))
-            {
-                PlayerExitMap(playerExit);
-            }
-            while (BusPlayerEnterMap.TryDequeue(out Player playerEnter))
-            {
-                PlayerEnterMap(playerEnter);
-                //ConsoleLogging.LogInfor(
-                //                        $"GetMaxHp() {playerEnter.GetMaxHp()}, " +
-                //                        $"GetMaxMp() {playerEnter.GetMaxMp()}, " +
-                //                        $"GetAtk() {playerEnter.GetAtk()}, " +
-                //                        $"GetDef() {playerEnter.GetDef()}"
-                //                        );
-                ConsoleLogging.LogInfor($"Player {playerEnter.PlayerId} đã vào map {Id}");
-            }
+            //while (BusPlayerExitMap.TryDequeue(out Player playerExit))
+            //{
+            //    PlayerExitMap(playerExit);
+            //}
+            //while (BusPlayerEnterMap.TryDequeue(out Player playerEnter))
+            //{
+            //    PlayerEnterMap(playerEnter);
+            //    //ConsoleLogging.LogInfor(
+            //    //                        $"GetMaxHp() {playerEnter.GetMaxHp()}, " +
+            //    //                        $"GetMaxMp() {playerEnter.GetMaxMp()}, " +
+            //    //                        $"GetAtk() {playerEnter.GetAtk()}, " +
+            //    //                        $"GetDef() {playerEnter.GetDef()}"
+            //    //                        );
+            //    ConsoleLogging.LogInfor($"Player {playerEnter.PlayerId} đã vào map {Id}");
+            //}
         }
     }
 }

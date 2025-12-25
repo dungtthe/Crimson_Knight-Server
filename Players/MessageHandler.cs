@@ -60,19 +60,28 @@ namespace Crimson_Knight_Server.Players
                     }
                 case MessageId.PLAYER_ENTER_MAP:
                     {
-                        short departId = msg.ReadShort();
-                        if (session.MapCur != null)
-                        {
-                            var mapCur = MapManager.Maps[session.MapCur.Id];
-                            mapCur.BusPlayerExitMap.Enqueue(session);
-                        }
+                        //short departId = msg.ReadShort();
+                        //if (session.MapCur != null)
+                        //{
+                        //    var mapCur = MapManager.Maps[session.MapCur.Id];
+                        //    mapCur.BusPlayerExitMap.Enqueue(session);
+                        //}
 
+                        //var depart = MapManager.DepartTemplates[departId];
+                        //var mapEnter = MapManager.Maps[depart.MapEnterId];
+                        //session.X = depart.XEnter;
+                        //session.Y = depart.YEnter;
+                        //mapEnter.BusPlayerEnterMap.Enqueue(session);
+                        //msg.Close();
+
+
+                        short departId = msg.ReadShort();
+                        msg.Close();
                         var depart = MapManager.DepartTemplates[departId];
                         var mapEnter = MapManager.Maps[depart.MapEnterId];
                         session.X = depart.XEnter;
                         session.Y = depart.YEnter;
-                        mapEnter.BusPlayerEnterMap.Enqueue(session);
-                        msg.Close();
+                        MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(mapEnter, session, true));
                         break;
                     }
                 default:
