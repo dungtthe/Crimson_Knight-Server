@@ -19,6 +19,12 @@
     <None Update="Resources\MapTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\MonsterTemplates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\NpcTemplates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ServerSetting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -329,6 +329,23 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
+        public void SendNpcsInMap()
+        {
+            if (MapCur != null)
+            {
+                Message msg = new Message(MessageId.PLAYER_NPCS_IN_MAP);
+                msg.WriteShort((short)MapCur.Npcs.Count);
+                for (int i = 0; i < MapCur.Npcs.Count; i++)
+                {
+                    var item = MapCur.Npcs[i];
+                    msg.WriteInt(item.Template.Id);
+                    msg.WriteShort(item.X);
+                    msg.WriteShort(item.Y);
+                }
+                SendMessage(msg);
+                msg.Close();
+            }
+        }
         #endregion
 
     }

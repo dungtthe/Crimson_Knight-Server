@@ -152,6 +152,7 @@ namespace Crimson_Knight_Server
                         item.Item2.SendEnterMap();
                         item.Item2.SendOtherPlayersInMap();
                         item.Item2.SendMonstersInMap();
+                        item.Item2.SendNpcsInMap();
                         item.Item2.BroadcastEnterMap();
                     }
                     else

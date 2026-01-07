@@ -11,5 +11,6 @@ namespace Crimson_Knight_Server.Players
         void SendEnterMap();
         void SendMonstersInMap();
         void SendOtherPlayersInMap();
+        void SendNpcsInMap();
     }
 }

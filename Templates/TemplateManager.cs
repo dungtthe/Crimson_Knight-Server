@@ -13,44 +13,23 @@ namespace Crimson_Knight_Server.Templates
         public static List<MapTemplate> MapTemplates = new List<MapTemplate>();
         public static List<MonsterTemplate> MonsterTemplates = new List<MonsterTemplate>();
         public static List<DepartTemplate> DepartTemplates = new List<DepartTemplate>();
+        public static List<NpcTemplate> NpcTemplates = new List<NpcTemplate>();
 
 
         static string DataDirectory = "Resources";
         public static void LoadTemplate()
         {
-            LoadMapTemplates();
-            LoadMonsterTemplate();
-            LoadDepartTemplates();
+            NpcTemplates = LoadTemplates<NpcTemplate>("NpcTemplates.json");
+            MonsterTemplates = LoadTemplates<MonsterTemplate>("MonsterTemplates.json");
+            MapTemplates = LoadTemplates<MapTemplate>("MapTemplates.json");
+            DepartTemplates = LoadTemplates<DepartTemplate>("DepartTemplates.json");
         }
 
-        private static void LoadMonsterTemplate()
+        private static List<T> LoadTemplates<T>(string fileName)
         {
-            List<MonsterTemplate> items = new List<MonsterTemplate>()
-            {
-                new MonsterTemplate(){Id = 0, Name = "Slime",    ImageId = 1000},
-                new MonsterTemplate(){Id = 1, Name = "Snail",    ImageId = 1001 },
-                new MonsterTemplate(){Id = 2, Name = "Scorpion", ImageId = 1103 },
-                new MonsterTemplate(){Id = 3, Name = "Bunny",    ImageId = 1173},
-                new MonsterTemplate(){Id = 4, Name = "Frog",     ImageId = 1215},
-            };
-            MonsterTemplates.AddRange(items);
-        }
-
-        private static void LoadMapTemplates()
-        {
-            string fileName = "MapTemplates.json";
             string filePath = Path.Combine(DataDirectory, fileName);
             string jsonString = File.ReadAllText(filePath);
-            MapTemplates = JsonSerializer.Deserialize<List<MapTemplate>>(jsonString);
-        }
-
-
-        private static void LoadDepartTemplates()
-        {
-            string fileName = "DepartTemplates.json";
-            string filePath = Path.Combine(DataDirectory, fileName);
-            string jsonString = File.ReadAllText(filePath);
-            DepartTemplates = JsonSerializer.Deserialize<List<DepartTemplate>>(jsonString);
+            return JsonSerializer.Deserialize<List<T>>(jsonString);
         }
     }
 }

@@ -111,7 +111,8 @@ namespace Crimson_Knight_Server.Networking
                     statusCode = 200;
                     responseJson = JsonSerializer.Serialize(
                     new {
-                        MonsterTemplates = TemplateManager.MonsterTemplates
+                        MonsterTemplates = TemplateManager.MonsterTemplates,
+                        NpcTemplates = TemplateManager.NpcTemplates,
                     });
                     break;
                 default:
