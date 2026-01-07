@@ -84,6 +84,21 @@ namespace Crimson_Knight_Server.Players
                         MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(mapEnter, session, true));
                         break;
                     }
+                case MessageId.CLIENT_SHOW_MENU:
+                    {
+                        int npcId = msg.ReadInt();
+                        msg.Close();
+                        NpcService.ShowMenu(npcId, session);
+                        break;
+                    }
+                case MessageId.CLIENT_SELECT_MENU_ITEM:
+                    {
+                        int npcId = msg.ReadInt();
+                        byte menuItemId = msg.ReadByte();
+                        msg.Close();
+                        NpcService.SelectMenuItem(npcId, menuItemId, session);
+                        break;
+                    }
                 default:
                     {
                         break;
@@ -91,6 +106,6 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
-       
+
     }
 }
