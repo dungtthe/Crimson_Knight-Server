@@ -19,7 +19,7 @@ namespace Crimson_Knight_Server.Players
         }
         public void HandleMessage(Message msg)
         {
-            if (msg.Id == MessageId.LOGIN)
+            if (msg.Id == MessageId.CLIENT_LOGIN)
             {
                 string token = msg.ReadString();
                 string[] s = token.Split('.');
@@ -32,7 +32,7 @@ namespace Crimson_Knight_Server.Players
                 }
                 msg.Close();
 
-                Message msg2 = new Message(MessageId.LOGIN);
+                Message msg2 = new Message(MessageId.SERVER_LOGIN);
                 msg2.WriteInt(this.session.PlayerId);
                 msg2.WriteString(this.session.Name);
                 session.SendMessage(msg2);
@@ -47,7 +47,7 @@ namespace Crimson_Knight_Server.Players
             }
             switch (msg.Id)
             {
-                case MessageId.PLAYER_MOVE:
+                case MessageId.CLIENT_MOVE:
                     {
                         int x = msg.ReadInt();
                         int y = msg.ReadInt();
@@ -58,7 +58,7 @@ namespace Crimson_Knight_Server.Players
                         session.BroadcastMove();
                         break;
                     }
-                case MessageId.PLAYER_ENTER_MAP:
+                case MessageId.CLIENT_ENTER_MAP:
                     {
                         //short departId = msg.ReadShort();
                         //if (session.MapCur != null)

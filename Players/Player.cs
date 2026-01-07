@@ -238,7 +238,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.OTHER_PLAYER_ENTER_MAP);
+                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_ENTER_MAP);
                 msg.WriteInt(PlayerId);
                 msg.WriteString(Name);
                 msg.WriteShort(X);
@@ -252,7 +252,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.OTHER_PLAYER_MOVE);
+                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_MOVE);
                 msg.WriteInt(PlayerId);
                 msg.WriteShort(X);
                 msg.WriteShort(Y);
@@ -265,7 +265,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.PLAYER_ENTER_MAP);
+                Message msg = new Message(MessageId.SERVER_ENTER_MAP);
                 //map
                 msg.WriteShort(MapCur.Id);
                 msg.WriteString(MapCur.Name);
@@ -283,7 +283,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.OTHER_PLAYER_EXIT_MAP);
+                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_EXIT_MAP);
                 msg.WriteInt(PlayerId);
                 ServerManager.GI().SendOthersInMap(msg, this);
                 msg.Close();
@@ -294,7 +294,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.PLAYER_MONSTERS_IN_MAP);
+                Message msg = new Message(MessageId.SERVER_MONSTERS_IN_MAP);
                 msg.WriteShort((short)MapCur.Monsters.Count);
                 for (int i = 0; i < MapCur.Monsters.Count; i++)
                 {
@@ -314,7 +314,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.PLAYER_OTHERPLAYERS_IN_MAP);
+                Message msg = new Message(MessageId.SERVER_OTHERPLAYERS_IN_MAP);
                 //other players
                 msg.WriteShort((short)this.MapCur.Players.Count);
                 foreach (var other in this.MapCur.Players)
@@ -326,6 +326,7 @@ namespace Crimson_Knight_Server.Players
                 }
                 SendMessage(msg);
                 msg.Close();
+                ConsoleLogging.LogInfor($"[Player {PlayerId}] Đã gửi otherplayer {this.MapCur.Players.Count} trong map.");
             }
         }
 
@@ -333,7 +334,7 @@ namespace Crimson_Knight_Server.Players
         {
             if (MapCur != null)
             {
-                Message msg = new Message(MessageId.PLAYER_NPCS_IN_MAP);
+                Message msg = new Message(MessageId.SERVER_NPCS_IN_MAP);
                 msg.WriteShort((short)MapCur.Npcs.Count);
                 for (int i = 0; i < MapCur.Npcs.Count; i++)
                 {
