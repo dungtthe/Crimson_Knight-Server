@@ -25,6 +25,9 @@
     <None Update="Resources\NpcTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\StatDefinitions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ServerSetting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
