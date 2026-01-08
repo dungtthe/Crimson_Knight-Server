@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
@@ -60,7 +61,7 @@ namespace Crimson_Knight_Server.Players
             }
             catch (Exception ex)
             {
-                ConsoleLogging.LogError($"[Client {PlayerId}] Lỗi ReceiveLoop: {ex.Message}");
+                ConsoleLogging.LogError($"[Client {Id}] Lỗi ReceiveLoop: {ex.Message}");
             }
             finally
             {
@@ -84,7 +85,7 @@ namespace Crimson_Knight_Server.Players
                 }
                 catch (Exception ex)
                 {
-                    ConsoleLogging.LogError($"[Client {PlayerId}] Lỗi SendMessage: {ex.Message}");
+                    ConsoleLogging.LogError($"[Client {Id}] Lỗi SendMessage: {ex.Message}");
                     Close();
                 }
             }
@@ -99,13 +100,13 @@ namespace Crimson_Knight_Server.Players
 
             lock (lockClose)
             {
-                if (this.PlayerId != -1)
+                if (this.Id != -1)
                 {
                     //this.MapCur?.BusPlayerExitMap.Enqueue(this);
                     //ServerManager.GI().RemoveSession(this);
                     MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(this.MapCur, this, false));
                     ServerManager.GI().RemoveSession(this);
-                    ConsoleLogging.LogWarning($"[Client {PlayerId}] Đã đóng kết nối.");
+                    ConsoleLogging.LogWarning($"[Client {Id}] Đã đóng kết nối.");
                 }
                 else
                 {
@@ -121,22 +122,16 @@ namespace Crimson_Knight_Server.Players
 
         #endregion
 
-        public int PlayerId;
         public Map MapCur;
 
         public Player(int playerId) : base(playerId)
         {
-            PlayerId = playerId;
         }
 
         public void SetUpStats(string data)
         {
-            Stats = JsonSerializer.Deserialize<Dictionary<StatId, Stat>>(data, new JsonSerializerOptions
-            {
-                Converters = { new JsonStringEnumConverter() } // để deserialize enum từ string key
-            });
+            Stats = Helpers.DeserializeStats(data);
         }
-
 
         public ClassType ClassType;
       
@@ -146,7 +141,7 @@ namespace Crimson_Knight_Server.Players
             if (MapCur != null)
             {
                 Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_ENTER_MAP);
-                msg.WriteInt(PlayerId);
+                msg.WriteInt(Id);
                 msg.WriteString(Name);
                 msg.WriteShort(X);
                 msg.WriteShort(Y);
@@ -160,7 +155,7 @@ namespace Crimson_Knight_Server.Players
             if (MapCur != null)
             {
                 Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_MOVE);
-                msg.WriteInt(PlayerId);
+                msg.WriteInt(Id);
                 msg.WriteShort(X);
                 msg.WriteShort(Y);
                 ServerManager.GI().SendOthersInMap(msg, this);
@@ -191,7 +186,7 @@ namespace Crimson_Knight_Server.Players
             if (MapCur != null)
             {
                 Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_EXIT_MAP);
-                msg.WriteInt(PlayerId);
+                msg.WriteInt(Id);
                 ServerManager.GI().SendOthersInMap(msg, this);
                 msg.Close();
             }
@@ -226,14 +221,14 @@ namespace Crimson_Knight_Server.Players
                 msg.WriteShort((short)this.MapCur.Players.Count);
                 foreach (var other in this.MapCur.Players)
                 {
-                    msg.WriteInt(other.PlayerId);
+                    msg.WriteInt(other.Id);
                     msg.WriteString(other.Name);
                     msg.WriteShort(other.X);
                     msg.WriteShort(other.Y);
                 }
                 SendMessage(msg);
                 msg.Close();
-                ConsoleLogging.LogInfor($"[Player {PlayerId}] Đã gửi otherplayer {this.MapCur.Players.Count} trong map.");
+                ConsoleLogging.LogInfor($"[Player {Id}] Đã gửi otherplayer {this.MapCur.Players.Count} trong map.");
             }
         }
 
@@ -255,7 +250,10 @@ namespace Crimson_Knight_Server.Players
             }
         }
         #endregion
-
+        public void SetId(int id)
+        {
+            this.Id = id;
+        }
     }
 
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server
 {
-    public enum ClassType:byte
+    public enum ClassType : byte
     {
         CHIEN_BINH = 0,
         SAT_THU = 1,
-        XA_THU = 2,
-        PHAP_SU = 3,
+        PHAP_SU = 2,
+        XA_THU = 3,
     }
 }

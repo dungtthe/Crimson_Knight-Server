@@ -15,46 +15,43 @@ namespace Crimson_Knight_Server
         {
             Id = id;
         }
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
         public string Name { get; set; }
         public int CurrentHp { get; set; }
         public int CurrentMp { get; set; }
+        public short Level { get; set; }
         public short X { get; set; }
         public short Y { get; set; }
 
         public Dictionary<StatId, Stat> Stats = new Dictionary<StatId, Stat>();
-        protected int GetStatValue(StatId id)
-        {
-            return Stats.TryGetValue(id, out Stat stat) ? stat.Value : 0;
-        }
 
         public virtual int GetMaxHp()
         {
-            int hp = GetStatValue(StatId.HP);
-            int percentHp = GetStatValue(StatId.PERCENT_HP);
+            int hp = Helpers.GetStatValue(this.Stats, StatId.HP);
+            int percentHp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_HP);
 
             return hp + (int)((long)hp * percentHp / 10000);
         }
 
         public virtual int GetAtk()
         {
-            int atk = GetStatValue(StatId.ATK);
-            int percentAtk = GetStatValue(StatId.PERCENT_ATK);
+            int atk = Helpers.GetStatValue(this.Stats, StatId.ATK);
+            int percentAtk = Helpers.GetStatValue(this.Stats, StatId.PERCENT_ATK);
 
             return atk + (int)((long)atk * percentAtk / 10000);
         }
         public virtual int GetDef()
         {
-            int def = GetStatValue(StatId.DEF);
-            int percentDef = GetStatValue(StatId.PERCENT_DEF);
+            int def = Helpers.GetStatValue(this.Stats, StatId.DEF);
+            int percentDef = Helpers.GetStatValue(this.Stats, StatId.PERCENT_DEF);
 
             return def + (int)((long)def * percentDef / 10000);
         }
 
         public virtual int GetMaxMp()
         {
-            int mp = GetStatValue(StatId.MP);
-            int percentMp = GetStatValue(StatId.PERCENT_MP);
+            int mp = Helpers.GetStatValue(this.Stats, StatId.MP);
+            int percentMp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_MP);
 
             return mp + (int)((long)mp * percentMp / 10000);
         }

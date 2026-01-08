@@ -36,12 +36,12 @@ namespace Crimson_Knight_Server.Networking
 
         public bool AddSession(Player session)
         {
-            return sessions.TryAdd(session.PlayerId, session);
+            return sessions.TryAdd(session.Id, session);
         }
 
         public bool RemoveSession(Player session)
         {
-            return sessions.TryRemove(session.PlayerId, out Player s);
+            return sessions.TryRemove(session.Id, out Player s);
         }
 
 
@@ -49,7 +49,7 @@ namespace Crimson_Knight_Server.Networking
         {
             foreach (var item in session.MapCur.Players)
             {
-                if (item.PlayerId != session.PlayerId)
+                if (item.Id != session.Id)
                 {
                     item.SendMessage(msg);
                 }

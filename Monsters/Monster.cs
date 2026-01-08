@@ -17,23 +17,5 @@ namespace Crimson_Knight_Server.Monsters
             this.Template = template;
         }
         public MonsterTemplate Template { get; set; }
-
-        public override int GetAtk()
-        {
-            int atk = Stats.TryGetValue(StatId.ATK, out Stats.Stat stat) ? stat.Value : 0;
-            return atk;
-        }
-
-        public override int GetDef()
-        {
-            int def = Stats.TryGetValue(StatId.DEF, out Stats.Stat stat) ? stat.Value : 0;
-            return def;
-        }
-
-        public override int GetMaxHp()
-        {
-            int maxHp = Stats.TryGetValue(StatId.HP, out Stats.Stat stat) ? stat.Value : 0;
-            return maxHp;
-        }
     }
 }

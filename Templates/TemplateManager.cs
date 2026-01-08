@@ -1,4 +1,5 @@
 ﻿using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,9 @@ namespace Crimson_Knight_Server.Templates
         public static StatDefinition GetStatDefinition(StatId id)
             => StatDefinitions.TryGetValue(id, out var def) ? def : null;
 
+
+        public static Dictionary<ClassType, List<SkillTemplate>> SkillTemplates;
+
         static string DataDirectory = "Resources";
         public static void LoadTemplate()
         {
@@ -30,6 +34,7 @@ namespace Crimson_Knight_Server.Templates
             DepartTemplates = LoadTemplates<DepartTemplate>("DepartTemplates.json");
 
             LoadStats();
+            LoadSkillTemplates();
         }
 
         private static void LoadStats()
@@ -47,6 +52,50 @@ namespace Crimson_Knight_Server.Templates
 
             StatDefinitions = list.ToDictionary(s => s.StatId, s => s);
         }
+        private static void LoadSkillTemplates()
+        {
+            string fileName = "SkillTemplates.json";
+            string filePath = Path.Combine(DataDirectory, fileName);
+
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"Không tìm thấy file {filePath}");
+
+            string jsonString = File.ReadAllText(filePath);
+
+            var dictRaw = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            SkillTemplates = new Dictionary<ClassType, List<SkillTemplate>>();
+
+            foreach (var kvp in dictRaw)
+            {
+                if (!Enum.TryParse<ClassType>(kvp.Key, out var classType))
+                    throw new Exception($"Lỗi khi chuyển đổi ClassType từ chuỗi: {kvp.Key}");
+
+                var skillList = new List<SkillTemplate>();
+
+                foreach (var skillElem in kvp.Value.EnumerateArray())
+                {
+                    var skill = JsonSerializer.Deserialize<SkillTemplate>(skillElem.GetRawText(),
+                        new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+
+                    if (skillElem.TryGetProperty("Stats", out var statsElem))
+                        skill.Stats = Helpers.DeserializeStats(statsElem.GetRawText());
+                    else
+                        skill.Stats = new Dictionary<StatId, Stat>();
+
+                    skillList.Add(skill);
+                }
+                SkillTemplates[classType] = skillList;
+            }
+        }
+
 
         private static List<T> LoadTemplates<T>(string fileName)
         {

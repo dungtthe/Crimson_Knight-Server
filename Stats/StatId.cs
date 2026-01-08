@@ -8,14 +8,14 @@ namespace Crimson_Knight_Server.Stats
 {
     public enum StatId:byte
     {
-        HP,
-        MP,
-        ATK,
-        DEF,
+        HP = 0,
+        MP = 1,
+        ATK = 2,
+        DEF = 3,
 
-        PERCENT_HP,
-        PERCENT_MP,
-        PERCENT_ATK,
-        PERCENT_DEF
+        PERCENT_HP = 4,
+        PERCENT_MP = 5,
+        PERCENT_ATK = 6,
+        PERCENT_DEF = 7
     }
 }

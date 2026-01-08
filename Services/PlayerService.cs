@@ -119,7 +119,7 @@ namespace Crimson_Knight_Server.Services
             PlayerRepository playerRepository = new PlayerRepository();
             var playerModel = playerRepository.GetPlayerById(playerId);
             if (playerModel == null) return false;
-            player.PlayerId = playerModel.Id;
+            player.SetId(playerModel.Id);
             player.Name = playerModel.Name;
             player.ClassType = (ClassType)playerModel.ClassType;
             player.SetUpStats(playerModel.Stats);
