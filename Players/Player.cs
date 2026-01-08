@@ -122,7 +122,6 @@ namespace Crimson_Knight_Server.Players
         #endregion
 
         public int PlayerId;
-        public string Name;
         public Map MapCur;
 
         public Player(int playerId) : base(playerId)
@@ -140,99 +139,7 @@ namespace Crimson_Knight_Server.Players
 
 
         public ClassType ClassType;
-        //stats
-
-        public override int GetMaxHp()
-        {
-
-            int statHp = Stats.TryGetValue(StatId.HP, out Stat stat) ? stat.Value : 1;
-
-            if (ClassType == ClassType.CHIEN_BINH)
-            {
-                return statHp * 20;
-            }
-            else if (ClassType == ClassType.SAT_THU)
-            {
-                return statHp * 10;
-            }
-            else if (ClassType == ClassType.PHAP_SU)
-            {
-                return statHp * 8;
-            }
-            else if (ClassType == ClassType.XA_THU)
-            {
-                return statHp * 12;
-            }
-            return statHp;
-        }
-
-        public int GetMaxMp()
-        {
-            int statMp = Stats.TryGetValue(StatId.MP, out Stat stat) ? stat.Value : 1;
-
-            if (ClassType == ClassType.CHIEN_BINH)
-            {
-                return statMp * 5;
-            }
-            else if (ClassType == ClassType.SAT_THU)
-            {
-                return statMp * 8;
-            }
-            else if (ClassType == ClassType.PHAP_SU)
-            {
-                return statMp * 20;
-            }
-            else if (ClassType == ClassType.XA_THU)
-            {
-                return statMp * 15;
-            }
-            return statMp;
-        }
-        public override int GetAtk()
-        {
-            int statATK = Stats.TryGetValue(StatId.ATK, out Stat stat) ? stat.Value : 1;
-
-            if (ClassType == ClassType.CHIEN_BINH)
-            {
-                return statATK * 3;
-            }
-            else if (ClassType == ClassType.SAT_THU)
-            {
-                return statATK * 2;
-            }
-            else if (ClassType == ClassType.PHAP_SU)
-            {
-                return statATK * 2;
-            }
-            else if (ClassType == ClassType.XA_THU)
-            {
-                return statATK * 2;
-            }
-            return statATK;
-        }
-
-        public override int GetDef()
-        {
-            int statDEF = Stats.TryGetValue(StatId.DEF, out Stat stat) ? stat.Value : 1;
-            if (ClassType == ClassType.CHIEN_BINH)
-            {
-                return statDEF * 2;
-            }
-            else if (ClassType == ClassType.SAT_THU)
-            {
-                return statDEF * 1;
-            }
-            else if (ClassType == ClassType.PHAP_SU)
-            {
-                return statDEF * 1;
-            }
-            else if (ClassType == ClassType.XA_THU)
-            {
-                return statDEF * 1;
-            }
-            return statDEF;
-        }
-
+      
         #region msg
         public void BroadcastEnterMap()
         {
