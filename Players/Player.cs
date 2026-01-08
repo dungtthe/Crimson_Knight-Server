@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
 using System.Numerics;
@@ -123,6 +124,7 @@ namespace Crimson_Knight_Server.Players
         #endregion
 
         public Map MapCur;
+        public List<Skill> Skills;
 
         public Player(int playerId) : base(playerId)
         {
@@ -132,9 +134,27 @@ namespace Crimson_Knight_Server.Players
         {
             Stats = Helpers.DeserializeStats(data);
         }
+        public void SetUpSkills(string data)
+        {
+            byte size = 1;
+            Skills = new List<Skill>();
+            string[] s1 = data.Split('_');
+            for (int i = 0; i < size; i++)
+            {
+                string[] s2 = s1[i].Split('.');
+                int templateId = int.Parse(s2[0]);
+                byte variantId = byte.Parse(s2[1]);
+                var skill = new Skill(templateId, variantId, this.ClassType);
+                Skills.Add(skill);
+            }
+        }
 
         public ClassType ClassType;
-      
+        public void SetId(int id)
+        {
+            this.Id = id;
+        }
+
         #region msg
         public void BroadcastEnterMap()
         {
@@ -250,10 +270,7 @@ namespace Crimson_Knight_Server.Players
             }
         }
         #endregion
-        public void SetId(int id)
-        {
-            this.Id = id;
-        }
+
     }
 
 }

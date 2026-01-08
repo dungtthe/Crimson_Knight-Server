@@ -123,6 +123,7 @@ namespace Crimson_Knight_Server.Services
             player.Name = playerModel.Name;
             player.ClassType = (ClassType)playerModel.ClassType;
             player.SetUpStats(playerModel.Stats);
+            player.SetUpSkills(playerModel.Skills);
             ServerManager.GI().AddSession(player);
             PlayerEnterGame(player, playerModel);
             return true;

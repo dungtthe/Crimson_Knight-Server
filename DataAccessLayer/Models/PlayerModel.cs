@@ -17,5 +17,6 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
 
         public string Stats;
         public byte ClassType;
+        public string Skills;
     }
 }

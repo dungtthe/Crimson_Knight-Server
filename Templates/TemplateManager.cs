@@ -57,12 +57,9 @@ namespace Crimson_Knight_Server.Templates
             string fileName = "SkillTemplates.json";
             string filePath = Path.Combine(DataDirectory, fileName);
 
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"Không tìm thấy file {filePath}");
-
             string jsonString = File.ReadAllText(filePath);
 
-            var dictRaw = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString,
+            var dictRaw = JsonSerializer.Deserialize<Dictionary<string, List<SkillTemplate>>>(jsonString,
                 new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -75,26 +72,25 @@ namespace Crimson_Knight_Server.Templates
                 if (!Enum.TryParse<ClassType>(kvp.Key, out var classType))
                     throw new Exception($"Lỗi khi chuyển đổi ClassType từ chuỗi: {kvp.Key}");
 
-                var skillList = new List<SkillTemplate>();
-
-                foreach (var skillElem in kvp.Value.EnumerateArray())
+                foreach (var skill in kvp.Value)
                 {
-                    var skill = JsonSerializer.Deserialize<SkillTemplate>(skillElem.GetRawText(),
-                        new JsonSerializerOptions
+                    if (skill.Variants != null)
+                    {
+                        foreach (var variant in skill.Variants)
                         {
-                            PropertyNameCaseInsensitive = true
-                        });
-
-                    if (skillElem.TryGetProperty("Stats", out var statsElem))
-                        skill.Stats = Helpers.DeserializeStats(statsElem.GetRawText());
-                    else
-                        skill.Stats = new Dictionary<StatId, Stat>();
-
-                    skillList.Add(skill);
+                            if (variant.Stats != null && variant.Stats.Count > 0)
+                            {
+                                var statsJson = JsonSerializer.Serialize(variant.Stats);
+                                variant.Stats = Helpers.DeserializeStats(statsJson);
+                            }
+                        }
+                    }
                 }
-                SkillTemplates[classType] = skillList;
+
+                SkillTemplates[classType] = kvp.Value;
             }
         }
+
 
 
         private static List<T> LoadTemplates<T>(string fileName)

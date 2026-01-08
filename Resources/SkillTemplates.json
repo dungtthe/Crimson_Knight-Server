@@ -3,88 +3,96 @@
     {
       "Id": 0,
       "Name": "Đánh Cơ Bản",
-      "Description": "Đòn đánh cơ bản của Chiến binh.",
+      "Description": "Đòn tấn công cơ bản của Chiến binh.",
       "LevelPlayerRequire": 1,
-      "LevelCurrent": 1,
-      "MaxLevel": 1,
       "IsBuff": false,
-      "MpLost": 2,
-      "Cooldown": 1000,
-      "Range": 100,
-      "TargetCount": 1,
       "IconId": 1,
-      "Stats": {
-        "PERCENT_ATK": {
-          "Id": 6,
-          "Value": 10000
+      "Variants": [
+        {
+          "MpLost": 2,
+          "Cooldown": 1000,
+          "Range": 80,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 10000
+            }
+          }
         }
-      }
+      ]
     }
   ],
   "SAT_THU": [
     {
       "Id": 0,
       "Name": "Đánh Cơ Bản",
-      "Description": "Đòn đánh cơ bản của Sát thủ.",
+      "Description": "Đòn tấn công cơ bản của Sát thủ.",
       "LevelPlayerRequire": 1,
-      "LevelCurrent": 1,
-      "MaxLevel": 1,
       "IsBuff": false,
-      "MpLost": 2,
-      "Cooldown": 1000,
-      "Range": 100,
-      "TargetCount": 1,
       "IconId": 2,
-      "Stats": {
-        "PERCENT_ATK": {
-          "Id": 6,
-          "Value": 10000
+      "Variants": [
+        {
+          "MpLost": 2,
+          "Cooldown": 1000,
+          "Range": 80,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 10000
+            }
+          }
         }
-      }
+      ]
     }
   ],
   "PHAP_SU": [
     {
       "Id": 0,
-      "Name": "Đánh Cơ Bản",
-      "Description": "Đòn đánh cơ bản của Pháp sư.",
+      "Name": "Gậy Cơ Bản",
+      "Description": "Đòn tấn công cơ bản của Pháp sư.",
       "LevelPlayerRequire": 1,
-      "LevelCurrent": 1,
-      "MaxLevel": 1,
       "IsBuff": false,
-      "MpLost": 5,
-      "Cooldown": 1000,
-      "Range": 200,
-      "TargetCount": 1,
       "IconId": 3,
-      "Stats": {
-        "PERCENT_ATK": {
-          "Id": 6,
-          "Value": 10000
+      "Variants": [
+        {
+          "MpLost": 5,
+          "Cooldown": 1000,
+          "Range": 120,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 10000
+            }
+          }
         }
-      }
+      ]
     }
   ],
   "XA_THU": [
     {
       "Id": 0,
-      "Name": "Đánh Cơ Bản",
-      "Description": "Đòn đánh cơ bản của Xạ thủ.",
+      "Name": "Bắn Cơ Bản",
+      "Description": "Đòn tấn công cơ bản của Xạ thủ.",
       "LevelPlayerRequire": 1,
-      "LevelCurrent": 1,
-      "MaxLevel": 1,
       "IsBuff": false,
-      "MpLost": 5,
-      "Cooldown": 1000,
-      "Range": 200,
-      "TargetCount": 1,
       "IconId": 4,
-      "Stats": {
-        "PERCENT_ATK": {
-          "Id": 6,
-          "Value": 10000
+      "Variants": [
+        {
+          "MpLost": 5,
+          "Cooldown": 1000,
+          "Range": 120,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 10000
+            }
+          }
         }
-      }
+      ]
     }
   ]
 }

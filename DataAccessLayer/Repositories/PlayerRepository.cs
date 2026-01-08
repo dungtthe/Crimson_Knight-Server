@@ -29,7 +29,8 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                     X = reader.MyGetShort("x"),
                     Y = reader.MyGetShort("y"),
                     Stats = reader.MyGetString("stats"),
-                    ClassType =(byte) reader.MyGetSbyte("classtype")
+                    ClassType =(byte) reader.MyGetSbyte("classtype"),
+                    Skills = reader.MyGetString("skills")
                 };
                 return model;
             }
