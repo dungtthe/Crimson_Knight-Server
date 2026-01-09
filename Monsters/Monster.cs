@@ -1,4 +1,6 @@
-﻿using Crimson_Knight_Server.Stats;
+﻿using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,14 @@ namespace Crimson_Knight_Server.Monsters
             return false;
         }
 
-     
+        public void SendMonsterBaseInfo(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_MONSTER_BASE_INFO);
+            msg.WriteInt(this.Id);
+            msg.WriteInt(this.CurrentHp);
+            msg.WriteInt(this.GetMaxHp());
+            p.SendMessage(msg);
+            msg.Close();
+        }
     }
 }

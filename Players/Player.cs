@@ -271,7 +271,7 @@ namespace Crimson_Knight_Server.Players
 
                 foreach (var item in MapCur.Monsters)
                 {
-                    SendMonsterBaseInfo(item.Id);
+                    item.SendMonsterBaseInfo(this);
                 }
             }
         }
@@ -364,16 +364,7 @@ namespace Crimson_Knight_Server.Players
             SendMessage(msg);
             msg.Close();
         }
-        public void SendMonsterBaseInfo(int id)
-        {
-            var monster = MapCur.Monsters[id];
-            Message msg = new Message(MessageId.SERVER_MONSTER_BASE_INFO);
-            msg.WriteInt(monster.Id);
-            msg.WriteInt(monster.CurrentHp);
-            msg.WriteInt(monster.GetMaxHp());
-            SendMessage(msg);
-            msg.Close();
-        }
+       
         #endregion
 
     }

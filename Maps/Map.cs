@@ -1,5 +1,6 @@
 ﻿using Crimson_Knight_Server.Maps.MessageMap.Attack;
 using Crimson_Knight_Server.Monsters;
+using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Templates;
@@ -18,7 +19,7 @@ namespace Crimson_Knight_Server.Maps
     {
         public ConcurrentBag<AttackMessage> AttackMessages = new ConcurrentBag<AttackMessage>();
 
-        public short Id {  get; set; }
+        public short Id { get; set; }
         public string Name { get; set; }
         public short XEnter { get; set; }
         public short YEnter { get; set; }
@@ -39,14 +40,14 @@ namespace Crimson_Knight_Server.Maps
             this.YEnter = template.YEnter;
             if (template.Monsters != null)
             {
-                for(int i = 0;i<template.Monsters.Count;i++)
+                for (int i = 0; i < template.Monsters.Count; i++)
                 {
                     var item = template.Monsters[i];
                     var monster = new Monster(i, item.X, item.Y, TemplateManager.MonsterTemplates[item.TemplateId]);
                     Monsters.Add(monster);
                 }
             }
-            if(template.Npcs != null)
+            if (template.Npcs != null)
             {
                 for (int i = 0; i < template.Npcs.Count; i++)
                 {
@@ -70,7 +71,7 @@ namespace Crimson_Knight_Server.Maps
                 try
                 {
                     Player playerSend = GetPlayerById(attackMessage.PlayerSenderId);
-                    if(playerSend == null)
+                    if (playerSend == null)
                     {
                         continue;
                     }
@@ -83,9 +84,10 @@ namespace Crimson_Knight_Server.Maps
                     playerSend.CurrentMp -= skillUse.GetMpLost();
 
                     int countTarget = 0;
-                    for (int i = 0; i< attackMessage.TargetIds.Length; i++)
+                    List<BaseObject> objTakeDamages = new List<BaseObject>();
+                    for (int i = 0; i < attackMessage.TargetIds.Length; i++)
                     {
-                        if(countTarget >= skillUse.GetTargetCount())
+                        if (countTarget >= skillUse.GetTargetCount())
                         {
                             break;
                         }
@@ -96,14 +98,14 @@ namespace Crimson_Knight_Server.Maps
                         if (isPlayer)
                         {
                             objReceive = GetPlayerById(objectTargetId);
-                            if(objReceive == null || objReceive.IsDie())
+                            if (objReceive == null || objReceive.IsDie())
                             {
                                 continue;
                             }
                         }
                         else
                         {
-                            objReceive = Monsters[i];
+                            objReceive = Monsters[objectTargetId];
                             if (objReceive.IsDie())
                             {
                                 continue;
@@ -116,6 +118,20 @@ namespace Crimson_Knight_Server.Maps
                             dam = 1;
                         }
                         objReceive.TakeDamage(dam);
+                        objTakeDamages.Add(objReceive);
+
+
+                        foreach (var p in Players)
+                        {
+                            foreach (var item in objTakeDamages)
+                            {
+                                if (item.IsMonster())
+                                {
+                                    ((Monster)item).SendMonsterBaseInfo(p);
+                                }
+                            }
+                        }
+                        SendAttackPlayerInfoMsg(playerSend, skillUse.TemplateId, dam, objTakeDamages);
                     }
                 }
                 catch (Exception ex)
@@ -123,6 +139,26 @@ namespace Crimson_Knight_Server.Maps
                     ConsoleLogging.LogError("HandleAttackMessages" + ex.Message);
                 }
             }
+        }
+
+        void SendAttackPlayerInfoMsg(BaseObject attacker, int skillUseId, int dame, List<BaseObject> targets)
+        {
+            Message msg = new Message(MessageId.SERVER_ALL_SEND_ATTACK_PLAYER_INFO);
+            msg.WriteInt(attacker.Id);
+            msg.WriteInt(skillUseId);
+            msg.WriteInt(dame);
+
+            msg.WriteByte((byte)targets.Count);
+            for(int i =  0; i < targets.Count; i++)
+            {
+                msg.WriteBool(targets[i].IsPlayer());
+                msg.WriteInt(targets[i].Id);
+            }
+            foreach(var p in Players)
+            {
+                p.SendMessage(msg);
+            }
+            msg.Close();
         }
     }
 }

@@ -32,5 +32,7 @@ namespace Crimson_Knight_Server.Networking
         SERVER_OTHER_PLAYER_ENTER_MAP,
         SERVER_OTHER_PLAYER_EXIT_MAP,
         SERVER_OTHER_PLAYER_BASE_INFO,
+        //ALL
+        SERVER_ALL_SEND_ATTACK_PLAYER_INFO,
     }
 }
