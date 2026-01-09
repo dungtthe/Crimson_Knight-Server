@@ -185,6 +185,14 @@ namespace Crimson_Knight_Server.Players
                 msg.WriteShort(Y);
                 ServerManager.GI().SendOthersInMap(msg, this);
                 msg.Close();
+
+                foreach (var p in MapCur.Players)
+                {
+                    if (p.Id != this.Id)
+                    {
+                        p.SendOtherPlayerBaseInfo(this);
+                    }
+                }
             }
         }
 
@@ -276,6 +284,10 @@ namespace Crimson_Knight_Server.Players
                 //
                 foreach (var other in this.MapCur.Players)
                 {
+                    if(other.Id == this.Id)
+                    {
+                        continue;
+                    }
                     SendOtherPlayerBaseInfo(other);
                 }
             }

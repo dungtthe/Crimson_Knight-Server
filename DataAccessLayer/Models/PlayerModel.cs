@@ -18,5 +18,8 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
         public string Stats;
         public byte ClassType;
         public string Skills;
-    }
+
+        public short Level { get; set; }
+        public long Exp { get; set; }
+        }
 }

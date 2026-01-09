@@ -30,14 +30,17 @@ CREATE TABLE IF NOT EXISTS `player` (
   `y` smallint(6) NOT NULL DEFAULT 486,
   `stats` varchar(2000) NOT NULL DEFAULT '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}',
   `classtype` tinyint(4) NOT NULL DEFAULT 0,
+  `skills` varchar(4000) NOT NULL DEFAULT '0.0',
+  `level` smallint(6) NOT NULL DEFAULT 1,
+  `exp` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table crimson_knight.player: ~3 rows (approximately)
-INSERT INTO `player` (`id`, `username`, `password`, `name`, `mapid`, `x`, `y`, `stats`, `classtype`) VALUES
-	(1, 'player1', '1', 'Xin chào 1', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0),
-	(2, 'player2', '1', 'Xin chào 2', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0),
-	(3, 'player3', '1', 'Xin chào 3', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0);
+INSERT INTO `player` (`id`, `username`, `password`, `name`, `mapid`, `x`, `y`, `stats`, `classtype`, `skills`, `level`, `exp`) VALUES
+	(1, 'player1', '1', 'Xin chào 1', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0, '0.0', 1, 0),
+	(2, 'player2', '1', 'Xin chào 2', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0, '0.0', 1, 0),
+	(3, 'player3', '1', 'Xin chào 3', 0, 744, 486, '{"HP":{"Id":0,"Value":100},"MP":{"Id":1,"Value":50},"ATK":{"Id":2,"Value":20},"DEF":{"Id":3,"Value":15}}', 0, '0.0', 1, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

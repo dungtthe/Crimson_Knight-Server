@@ -35,5 +35,9 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories.Bases
         {
             return reader.GetValue<string>(columnName);
         }
+        public static long MyGetLong(this IDataReader reader, string columnName)
+        {
+            return reader.GetValue<long>(columnName);
+        }
     }
 }

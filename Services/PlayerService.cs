@@ -122,6 +122,8 @@ namespace Crimson_Knight_Server.Services
             player.SetId(playerModel.Id);
             player.Name = playerModel.Name;
             player.ClassType = (ClassType)playerModel.ClassType;
+            player.Level = playerModel.Level;
+            player.Exp = playerModel.Exp;
             player.SetUpStats(playerModel.Stats);
             player.SetUpSkills(playerModel.Skills);
             ServerManager.GI().AddSession(player);
