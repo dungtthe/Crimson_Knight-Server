@@ -15,6 +15,7 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_SHOW_MENU,
         CLIENT_SELECT_MENU_ITEM,
         CLIENT_PLAYER_ATTACK,
+        CLIENT_PLAYER_CHANGE_PKTYPE,
 
         //server
         SERVER_LOGIN,
@@ -29,5 +30,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_PLAYER_SKILL_INFO,
         SERVER_MONSTER_BASE_INFO,
         SERVER_PLAYER_ATTACK,
+        SERVER_PLAYER_PKTYPE_INFO,
     }
 }

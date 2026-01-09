@@ -125,6 +125,7 @@ namespace Crimson_Knight_Server.Players
         public string Name { get; set; }
         public int CurrentMp { get; set; }
         public short Level { get; set; }
+        public PkType PkType { get; set; }
 
         public Map MapCur;
         public List<Skill> Skills;
@@ -132,6 +133,7 @@ namespace Crimson_Knight_Server.Players
 
         public Player(int playerId) : base(playerId)
         {
+            this.PkType = PkType.None;
         }
 
         public void SetUpStats(string data)

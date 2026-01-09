@@ -102,6 +102,10 @@ namespace Crimson_Knight_Server.Maps
                             {
                                 continue;
                             }
+                            if(playerSend.PkType == ((Player)objReceive).PkType)
+                            {
+                                continue;
+                            }
                         }
                         else
                         {

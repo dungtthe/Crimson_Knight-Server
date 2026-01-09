@@ -178,6 +178,7 @@ namespace Crimson_Knight_Server.Players
                 p.SendMessage(msg);
             }
             msg.Close();
+            SendPkType(p);
         }
 
         public static void MonsterBaseInfo(Monster m, Map map)
@@ -187,6 +188,23 @@ namespace Crimson_Knight_Server.Players
             msg.WriteInt(m.CurrentHp);
             msg.WriteInt(m.GetMaxHp());
             foreach (var item in map.Players)
+            {
+                item.SendMessage(msg);
+            }
+            msg.Close();
+        }
+
+        public static void SendPkType(Player p)
+        {
+            if (p.MapCur == null)
+            {
+                ConsoleLogging.LogError("SendPkType: mapcur la null");
+                return;
+            }
+            Message msg = new Message(MessageId.SERVER_PLAYER_PKTYPE_INFO);
+            msg.WriteInt(p.Id);
+            msg.WriteByte((byte)p.PkType);
+            foreach (var item in p.MapCur.Players)
             {
                 item.SendMessage(msg);
             }

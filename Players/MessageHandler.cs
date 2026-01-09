@@ -53,7 +53,7 @@ namespace Crimson_Knight_Server.Players
                         session.Y = (short)y;
                         ConsoleLogging.LogInfor($"[Player {session.Id}] Move to ({x},{y})");
                         msg.Close();
-                        ServerMessageSender.PlayerMove(this.session, (short)x,(short)y);
+                        ServerMessageSender.PlayerMove(this.session, (short)x, (short)y);
                         break;
                     }
                 case MessageId.CLIENT_ENTER_MAP:
@@ -103,16 +103,16 @@ namespace Crimson_Knight_Server.Players
                         byte size = msg.ReadByte();
                         bool[] isPlayers = new bool[size];
                         int[] targetIds = new int[size];
-                        for (int i = 0;i<size; i++)
+                        for (int i = 0; i < size; i++)
                         {
-                           isPlayers[i] = msg.ReadBool();
+                            isPlayers[i] = msg.ReadBool();
                         }
                         for (int i = 0; i < size; i++)
                         {
                             targetIds[i] = msg.ReadInt();
                         }
                         msg.Close();
-                        if(isPlayers.Length == 0 || isPlayers.Length != targetIds.Length)
+                        if (isPlayers.Length == 0 || isPlayers.Length != targetIds.Length)
                         {
                             return;
                         }
@@ -125,10 +125,19 @@ namespace Crimson_Knight_Server.Players
                         });
                         break;
                     }
-                default:
+                case MessageId.CLIENT_PLAYER_CHANGE_PKTYPE:
+                    byte pktype = msg.ReadByte();
+                    msg.Close();
+                    if (pktype > (byte)PkType.Yellow)
                     {
-                        break;
+                        return;
                     }
+                    PkType pkType = (PkType)pktype;
+                    session.PkType = pkType;
+                    ServerMessageSender.SendPkType(session);
+                    break;
+                default:
+                        break;
             }
         }
 
