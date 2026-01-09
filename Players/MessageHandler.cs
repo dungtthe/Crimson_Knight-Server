@@ -5,6 +5,7 @@ using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,8 +36,10 @@ namespace Crimson_Knight_Server.Players
                 Message msg2 = new Message(MessageId.SERVER_LOGIN);
                 msg2.WriteInt(this.session.Id);
                 msg2.WriteString(this.session.Name);
+                msg2.WriteByte((byte)this.session.ClassType);
                 session.SendMessage(msg2);
                 msg2.Close();
+                session.FinalSetup();
                 return;
             }
             if (session.Id == -1)

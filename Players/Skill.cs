@@ -11,25 +11,25 @@ namespace Crimson_Knight_Server.Players
 {
     public class Skill
     {
-        private int templateId;
+        public int TemplateId { get; private set; }
         private ClassType playerClassType;
-        private byte variantId;
+        public byte VariantId { get; private set; }
         public Skill(int templateId, byte variantId, ClassType playerClassType)
         {
-            this.templateId = templateId;
-            this.variantId = variantId;
+            this.TemplateId = templateId;
+            this.VariantId = variantId;
             this.playerClassType = playerClassType;
         }
 
         private SkillTemplate GetTemplate()
         {
-            return TemplateManager.SkillTemplates[playerClassType][templateId];
+            return TemplateManager.SkillTemplates[playerClassType][TemplateId];
         }
 
         private SkillTemplate.Variant GetVariantCurent()
         {
             var template = GetTemplate();
-            return template.Variants[this.variantId];
+            return template.Variants[this.VariantId];
         }
 
         public Dictionary<StatId, Stat> GetStats()
@@ -55,7 +55,7 @@ namespace Crimson_Knight_Server.Players
         }
 
 
-        public bool IsLearned => templateId >= 0;
+        public bool IsLearned => VariantId >= 0;
         public long StartTimeAttack { get; set; }
         public bool CanAttack()
         {

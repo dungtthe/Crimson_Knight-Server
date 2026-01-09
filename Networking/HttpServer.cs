@@ -113,6 +113,7 @@ namespace Crimson_Knight_Server.Networking
                     new {
                         MonsterTemplates = TemplateManager.MonsterTemplates,
                         NpcTemplates = TemplateManager.NpcTemplates,
+                        SkillTemplates = TemplateManager.SkillTemplates,
                     });
                     break;
                 default:

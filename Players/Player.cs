@@ -125,6 +125,7 @@ namespace Crimson_Knight_Server.Players
 
         public Map MapCur;
         public List<Skill> Skills;
+        public long Exp { get; set; }
 
         public Player(int playerId) : base(playerId)
         {
@@ -147,6 +148,13 @@ namespace Crimson_Knight_Server.Players
                 var skill = new Skill(templateId, variantId, this.ClassType);
                 Skills.Add(skill);
             }
+        }
+        public void FinalSetup()
+        {
+            this.CurrentHp = this.GetMaxHp();
+            this.CurrentMp = this.GetMaxMp();
+            this.SendPlayerBaseInfo();
+            this.SendPlayerSkillInfo();
         }
 
         public ClassType ClassType;
@@ -229,6 +237,11 @@ namespace Crimson_Knight_Server.Players
                 }
                 SendMessage(msg);
                 msg.Close();
+
+                foreach (var item in MapCur.Monsters)
+                {
+                    SendMonsterBaseInfo(item.Id);
+                }
             }
         }
 
@@ -243,12 +256,18 @@ namespace Crimson_Knight_Server.Players
                 {
                     msg.WriteInt(other.Id);
                     msg.WriteString(other.Name);
+                    msg.WriteByte((byte)other.ClassType);
                     msg.WriteShort(other.X);
                     msg.WriteShort(other.Y);
                 }
                 SendMessage(msg);
                 msg.Close();
                 ConsoleLogging.LogInfor($"[Player {Id}] Đã gửi otherplayer {this.MapCur.Players.Count} trong map.");
+                //
+                foreach (var other in this.MapCur.Players)
+                {
+                    SendOtherPlayerBaseInfo(other);
+                }
             }
         }
 
@@ -268,6 +287,57 @@ namespace Crimson_Knight_Server.Players
                 SendMessage(msg);
                 msg.Close();
             }
+        }
+
+
+        public void SendPlayerBaseInfo()
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_BASE_INFO);
+            //base
+            msg.WriteInt(Id);
+            msg.WriteString(Name);
+            msg.WriteShort(Level);
+            msg.WriteLong(Exp);
+            msg.WriteInt(CurrentHp);
+            msg.WriteInt(GetMaxMp());
+            msg.WriteInt(CurrentMp);
+            msg.WriteInt(GetMaxMp());
+            SendMessage(msg);
+            msg.Close();
+        }
+
+        public void SendPlayerSkillInfo()
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_SKILL_INFO);
+            msg.WriteByte((byte)Skills.Count);
+            foreach (var item in Skills)
+            {
+                msg.WriteInt(item.TemplateId);
+                msg.WriteByte(item.VariantId);
+            }
+            SendMessage(msg);
+            msg.Close();
+        }
+
+        public void SendOtherPlayerBaseInfo(Player other)
+        {
+            Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_BASE_INFO);
+            msg.WriteInt(other.Id);
+            msg.WriteInt(other.CurrentHp);
+            msg.WriteInt(other.GetMaxHp());
+            msg.WriteShort(other.Level);
+            SendMessage(msg);
+            msg.Close();
+        }
+        public void SendMonsterBaseInfo(int id)
+        {
+            var monster = MapCur.Monsters[id];
+            Message msg = new Message(MessageId.SERVER_MONSTER_BASE_INFO);
+            msg.WriteInt(monster.Id);
+            msg.WriteInt(monster.CurrentHp);
+            msg.WriteInt(monster.GetMaxHp());
+            SendMessage(msg);
+            msg.Close();
         }
         #endregion
 
