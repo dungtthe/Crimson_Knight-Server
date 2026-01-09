@@ -19,5 +19,17 @@ namespace Crimson_Knight_Server.Monsters
             this.CurrentHp = this.GetMaxHp();
         }
         public MonsterTemplate Template { get; set; }
+
+        public override bool IsMonster()
+        {
+            return true;
+        }
+
+        public override bool IsPlayer()
+        {
+            return false;
+        }
+
+     
     }
 }

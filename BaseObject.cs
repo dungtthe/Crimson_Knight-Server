@@ -51,5 +51,17 @@ namespace Crimson_Knight_Server
         {
             return CurrentHp <= 0;
         }
+
+        public abstract bool IsPlayer();
+        public abstract bool IsMonster();
+        public virtual void TakeDamage(int dam)
+        {
+            this.CurrentHp -= dam;
+            if (this.CurrentHp < 0)
+            {
+                this.CurrentHp = 0;
+            }
+        }
+
     }
 }

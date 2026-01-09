@@ -57,8 +57,12 @@ namespace Crimson_Knight_Server.Players
 
         public bool IsLearned => VariantId >= 0;
         public long StartTimeAttack { get; set; }
-        public bool CanAttack()
+        public bool CanAttack(int playerMp)
         {
+            if(playerMp < GetMpLost())
+            {
+                return false;
+            }
             if (SystemUtil.CurrentTimeMillis() - StartTimeAttack >= GetCooldown())
             {
                 return true;

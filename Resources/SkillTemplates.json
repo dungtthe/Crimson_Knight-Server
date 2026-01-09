@@ -11,7 +11,7 @@
         {
           "MpLost": 2,
           "Cooldown": 1000,
-          "Range": 80,
+          "Range": 150,
           "TargetCount": 1,
           "Stats": {
             "PERCENT_ATK": {
@@ -35,7 +35,7 @@
         {
           "MpLost": 2,
           "Cooldown": 1000,
-          "Range": 80,
+          "Range": 150,
           "TargetCount": 1,
           "Stats": {
             "PERCENT_ATK": {
@@ -59,7 +59,7 @@
         {
           "MpLost": 5,
           "Cooldown": 1000,
-          "Range": 120,
+          "Range": 200,
           "TargetCount": 1,
           "Stats": {
             "PERCENT_ATK": {
@@ -83,7 +83,7 @@
         {
           "MpLost": 5,
           "Cooldown": 1000,
-          "Range": 120,
+          "Range": 200,
           "TargetCount": 1,
           "Stats": {
             "PERCENT_ATK": {

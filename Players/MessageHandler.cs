@@ -1,4 +1,5 @@
 ﻿using Crimson_Knight_Server.Maps;
+using Crimson_Knight_Server.Maps.MessageMap.Attack;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -100,6 +101,34 @@ namespace Crimson_Knight_Server.Players
                         byte menuItemId = msg.ReadByte();
                         msg.Close();
                         NpcService.SelectMenuItem(npcId, menuItemId, session);
+                        break;
+                    }
+                case MessageId.CLIENT_ATTACK:
+                    {
+                        int skillUsedId = msg.ReadInt();
+                        byte size = msg.ReadByte();
+                        bool[] isPlayers = new bool[size];
+                        int[] targetIds = new int[size];
+                        for (int i = 0;i<size; i++)
+                        {
+                           isPlayers[i] = msg.ReadBool();
+                        }
+                        for (int i = 0; i < size; i++)
+                        {
+                            targetIds[i] = msg.ReadInt();
+                        }
+                        msg.Close();
+                        if(isPlayers.Length == 0 || isPlayers.Length != targetIds.Length)
+                        {
+                            return;
+                        }
+                        session.MapCur?.AttackMessages.Add(new AttackMessage()
+                        {
+                            PlayerSenderId = session.Id,
+                            SkillUseId = skillUsedId,
+                            IsPlayers = isPlayers,
+                            TargetIds = targetIds
+                        });
                         break;
                     }
                 default:

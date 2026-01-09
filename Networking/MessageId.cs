@@ -14,6 +14,7 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_ENTER_MAP,
         CLIENT_SHOW_MENU,
         CLIENT_SELECT_MENU_ITEM,
+        CLIENT_ATTACK,
 
         //server
         SERVER_LOGIN,

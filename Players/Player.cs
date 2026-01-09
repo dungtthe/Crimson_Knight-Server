@@ -173,6 +173,19 @@ namespace Crimson_Knight_Server.Players
             return mp + (int)((long)mp * percentMp / 10000);
         }
 
+
+        public override bool IsMonster()
+        {
+            return false;
+        }
+
+        public override bool IsPlayer()
+        {
+            return true;
+        }
+
+      
+
         #region msg
         public void BroadcastEnterMap()
         {
@@ -321,7 +334,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteShort(Level);
             msg.WriteLong(Exp);
             msg.WriteInt(CurrentHp);
-            msg.WriteInt(GetMaxMp());
+            msg.WriteInt(GetMaxHp());
             msg.WriteInt(CurrentMp);
             msg.WriteInt(GetMaxMp());
             SendMessage(msg);

@@ -1,7 +1,9 @@
-﻿using Crimson_Knight_Server.Monsters;
+﻿using Crimson_Knight_Server.Maps.MessageMap.Attack;
+using Crimson_Knight_Server.Monsters;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
@@ -14,6 +16,8 @@ namespace Crimson_Knight_Server.Maps
 {
     public class Map
     {
+        public ConcurrentBag<AttackMessage> AttackMessages = new ConcurrentBag<AttackMessage>();
+
         public short Id {  get; set; }
         public string Name { get; set; }
         public short XEnter { get; set; }
@@ -23,6 +27,10 @@ namespace Crimson_Knight_Server.Maps
         public List<Npc> Npcs = new List<Npc>();
         public List<Player> Players = new List<Player>();
 
+        public Player GetPlayerById(int playerId)
+        {
+            return Players.FirstOrDefault(p => p.Id == playerId);
+        }
         public Map(MapTemplate template)
         {
             this.Id = template.Id;
@@ -52,7 +60,69 @@ namespace Crimson_Knight_Server.Maps
 
         public void UpdateMap()
         {
-           
+            HandleAttackMessages();
+        }
+
+        private void HandleAttackMessages()
+        {
+            while (AttackMessages.TryTake(out var attackMessage))
+            {
+                try
+                {
+                    Player playerSend = GetPlayerById(attackMessage.PlayerSenderId);
+                    if(playerSend == null)
+                    {
+                        continue;
+                    }
+                    Skill skillUse = playerSend.Skills[attackMessage.SkillUseId];
+                    if (!skillUse.IsLearned || !skillUse.CanAttack(playerSend.CurrentMp))
+                    {
+                        continue;
+                    }
+                    skillUse.StartTimeAttack = SystemUtil.CurrentTimeMillis();
+                    playerSend.CurrentMp -= skillUse.GetMpLost();
+
+                    int countTarget = 0;
+                    for (int i = 0; i< attackMessage.TargetIds.Length; i++)
+                    {
+                        if(countTarget >= skillUse.GetTargetCount())
+                        {
+                            break;
+                        }
+                        countTarget++;
+                        BaseObject objReceive = null;
+                        int objectTargetId = attackMessage.TargetIds[i];
+                        bool isPlayer = attackMessage.IsPlayers[i];
+                        if (isPlayer)
+                        {
+                            objReceive = GetPlayerById(objectTargetId);
+                            if(objReceive == null || objReceive.IsDie())
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            objReceive = Monsters[i];
+                            if (objReceive.IsDie())
+                            {
+                                continue;
+                            }
+                        }
+                        int dam = playerSend.GetAtk();
+                        dam = dam - objReceive.GetDef();
+                        if (dam < 1)
+                        {
+                            dam = 1;
+                        }
+                        objReceive.TakeDamage(dam);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ConsoleLogging.LogError("HandleAttackMessages" + ex.Message);
+                }
+            }
         }
     }
 }
