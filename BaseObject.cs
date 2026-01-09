@@ -16,10 +16,7 @@ namespace Crimson_Knight_Server
             Id = id;
         }
         public int Id { get; protected set; }
-        public string Name { get; set; }
         public int CurrentHp { get; set; }
-        public int CurrentMp { get; set; }
-        public short Level { get; set; }
         public short X { get; set; }
         public short Y { get; set; }
 
@@ -48,12 +45,11 @@ namespace Crimson_Knight_Server
             return def + (int)((long)def * percentDef / 10000);
         }
 
-        public virtual int GetMaxMp()
-        {
-            int mp = Helpers.GetStatValue(this.Stats, StatId.MP);
-            int percentMp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_MP);
+        
 
-            return mp + (int)((long)mp * percentMp / 10000);
+        public bool IsDie()
+        {
+            return CurrentHp <= 0;
         }
     }
 }

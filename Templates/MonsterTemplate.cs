@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crimson_Knight_Server.Stats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,8 @@ namespace Crimson_Knight_Server.Templates
         public int Id { get; set; }
         public string Name { get; set; }
         public int ImageId { get; set; }
+        public short Level { get; set; }
+        public int Cooldown { get; set; }
+        public Dictionary<StatId, Stat> Stats { get; set; }
     }
 }

@@ -122,6 +122,9 @@ namespace Crimson_Knight_Server.Players
 
 
         #endregion
+        public string Name { get; set; }
+        public int CurrentMp { get; set; }
+        public short Level { get; set; }
 
         public Map MapCur;
         public List<Skill> Skills;
@@ -161,6 +164,13 @@ namespace Crimson_Knight_Server.Players
         public void SetId(int id)
         {
             this.Id = id;
+        }
+        public virtual int GetMaxMp()
+        {
+            int mp = Helpers.GetStatValue(this.Stats, StatId.MP);
+            int percentMp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_MP);
+
+            return mp + (int)((long)mp * percentMp / 10000);
         }
 
         #region msg

@@ -15,6 +15,8 @@ namespace Crimson_Knight_Server.Monsters
             this.X = x;
             this.Y = y;
             this.Template = template;
+            this.Stats = template.Stats;
+            this.CurrentHp = this.GetMaxHp();
         }
         public MonsterTemplate Template { get; set; }
     }

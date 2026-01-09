@@ -2,26 +2,86 @@
   {
     "Id": 0,
     "Name": "Slime",
-    "ImageId": 1000
+    "ImageId": 1000,
+    "Level": 1,
+    "Cooldown": 3000,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 200
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 5
+      }
+    }
   },
   {
     "Id": 1,
     "Name": "Snail",
-    "ImageId": 1001
+    "ImageId": 1001,
+    "Level": 4,
+    "Cooldown": 3000,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 500
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 10
+      }
+    }
   },
   {
     "Id": 2,
     "Name": "Scorpion",
-    "ImageId": 1103
+    "ImageId": 1103,
+    "Cooldown": 3000,
+    "Level": 7,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 1000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 12
+      }
+    }
   },
   {
     "Id": 3,
     "Name": "Bunny",
-    "ImageId": 1173
+    "ImageId": 1173,
+    "Level": 10,
+    "Cooldown": 3000,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 1500
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 15
+      }
+    }
   },
   {
     "Id": 4,
     "Name": "Frog",
-    "ImageId": 1215
+    "ImageId": 1215,
+    "Cooldown": 3000,
+    "Level": 14,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 2000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
   }
 ]
