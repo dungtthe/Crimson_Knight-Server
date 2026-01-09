@@ -145,7 +145,7 @@ namespace Crimson_Knight_Server.Players
 
             foreach(var item in p.MapCur.Players)
             {
-                PlayerBaseInfo(p, true);
+                PlayerBaseInfo(item, true);
             }
         }
         public static void PlayerBaseInfo(Player p, bool isSendFull)
@@ -154,7 +154,6 @@ namespace Crimson_Knight_Server.Players
             {
                 ConsoleLogging.LogError("PlayerBaseInfo: mapcur la null");
                 isSendFull = false;
-                return;
             }
             Message msg = new Message(MessageId.SERVER_PLAYER_BASE_INFO);
             //base
