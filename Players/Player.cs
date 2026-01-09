@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 namespace Crimson_Knight_Server.Players
 {
-    public class Player : BaseObject, IPlayerBroadcaster, IPlayerSelfSender
+    public class Player : BaseObject
     {
         #region network
         private TcpClient tcpClient;

@@ -129,6 +129,10 @@ namespace Crimson_Knight_Server.Maps
                                 {
                                     ((Monster)item).SendMonsterBaseInfo(p);
                                 }
+                                else
+                                {
+                                    ((Player)item).SendPlayerBaseInfo();
+                                }
                             }
                         }
                         SendAttackPlayerInfoMsg(playerSend, skillUse.TemplateId, dam, objTakeDamages);
