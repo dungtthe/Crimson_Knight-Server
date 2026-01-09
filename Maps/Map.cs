@@ -120,19 +120,15 @@ namespace Crimson_Knight_Server.Maps
                         objReceive.TakeDamage(dam);
                         objTakeDamages.Add(objReceive);
 
-
-                        foreach (var p in Players)
+                        foreach (var item in objTakeDamages)
                         {
-                            foreach (var item in objTakeDamages)
+                            if (item.IsMonster())
                             {
-                                if (item.IsMonster())
-                                {
-                                    ((Monster)item).SendMonsterBaseInfo(p);
-                                }
-                                else
-                                {
-                                    ((Player)item).SendPlayerBaseInfo();
-                                }
+                                ServerMessageSender.MonsterBaseInfo((Monster)item, this);
+                            }
+                            else
+                            {
+                                ServerMessageSender.PlayerBaseInfo((Player)item, true);
                             }
                         }
                         SendAttackPlayerInfoMsg(playerSend, skillUse.TemplateId, dam, objTakeDamages);
@@ -147,18 +143,18 @@ namespace Crimson_Knight_Server.Maps
 
         void SendAttackPlayerInfoMsg(BaseObject attacker, int skillUseId, int dame, List<BaseObject> targets)
         {
-            Message msg = new Message(MessageId.SERVER_ALL_SEND_ATTACK_PLAYER_INFO);
+            Message msg = new Message(MessageId.SERVER_PLAYER_ATTACK);
             msg.WriteInt(attacker.Id);
             msg.WriteInt(skillUseId);
             msg.WriteInt(dame);
 
             msg.WriteByte((byte)targets.Count);
-            for(int i =  0; i < targets.Count; i++)
+            for (int i = 0; i < targets.Count; i++)
             {
                 msg.WriteBool(targets[i].IsPlayer());
                 msg.WriteInt(targets[i].Id);
             }
-            foreach(var p in Players)
+            foreach (var p in Players)
             {
                 p.SendMessage(msg);
             }

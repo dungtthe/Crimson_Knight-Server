@@ -47,6 +47,11 @@ namespace Crimson_Knight_Server.Networking
 
         public void SendOthersInMap(Message msg, Player session)
         {
+            if (session.MapCur == null)
+            {
+                ConsoleLogging.LogError("SendOthersInMap: mapcur la null");
+                return;
+            }
             foreach (var item in session.MapCur.Players)
             {
                 if (item.Id != session.Id)

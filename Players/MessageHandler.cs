@@ -33,13 +33,7 @@ namespace Crimson_Knight_Server.Players
                     session.Close();
                 }
                 msg.Close();
-
-                Message msg2 = new Message(MessageId.SERVER_LOGIN);
-                msg2.WriteInt(this.session.Id);
-                msg2.WriteString(this.session.Name);
-                msg2.WriteByte((byte)this.session.ClassType);
-                session.SendMessage(msg2);
-                msg2.Close();
+                ServerMessageSender.Login(session);
                 session.FinalSetup();
                 return;
             }
@@ -51,7 +45,7 @@ namespace Crimson_Knight_Server.Players
             }
             switch (msg.Id)
             {
-                case MessageId.CLIENT_MOVE:
+                case MessageId.CLIENT_PLAYER_MOVE:
                     {
                         int x = msg.ReadInt();
                         int y = msg.ReadInt();
@@ -59,7 +53,7 @@ namespace Crimson_Knight_Server.Players
                         session.Y = (short)y;
                         ConsoleLogging.LogInfor($"[Player {session.Id}] Move to ({x},{y})");
                         msg.Close();
-                        session.BroadcastMove();
+                        ServerMessageSender.PlayerMove(this.session, (short)x,(short)y);
                         break;
                     }
                 case MessageId.CLIENT_ENTER_MAP:
@@ -103,7 +97,7 @@ namespace Crimson_Knight_Server.Players
                         NpcService.SelectMenuItem(npcId, menuItemId, session);
                         break;
                     }
-                case MessageId.CLIENT_ATTACK:
+                case MessageId.CLIENT_PLAYER_ATTACK:
                     {
                         int skillUsedId = msg.ReadInt();
                         byte size = msg.ReadByte();

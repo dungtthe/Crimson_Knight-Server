@@ -156,7 +156,7 @@ namespace Crimson_Knight_Server.Players
         {
             this.CurrentHp = this.GetMaxHp();
             this.CurrentMp = this.GetMaxMp();
-            this.SendPlayerBaseInfo();
+            ServerMessageSender.PlayerBaseInfo(this, true);
             this.SendPlayerSkillInfo();
         }
 
@@ -187,159 +187,22 @@ namespace Crimson_Knight_Server.Players
       
 
         #region msg
-        public void BroadcastEnterMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_ENTER_MAP);
-                msg.WriteInt(Id);
-                msg.WriteString(Name);
-                msg.WriteShort(X);
-                msg.WriteShort(Y);
-                ServerManager.GI().SendOthersInMap(msg, this);
-                msg.Close();
+       
 
-                foreach (var p in MapCur.Players)
-                {
-                    if (p.Id != this.Id)
-                    {
-                        p.SendOtherPlayerBaseInfo(this);
-                    }
-                }
-            }
-        }
+        
 
-        public void BroadcastMove()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_MOVE);
-                msg.WriteInt(Id);
-                msg.WriteShort(X);
-                msg.WriteShort(Y);
-                ServerManager.GI().SendOthersInMap(msg, this);
-                msg.Close();
-            }
-        }
+        
 
-        public void SendEnterMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_ENTER_MAP);
-                //map
-                msg.WriteShort(MapCur.Id);
-                msg.WriteString(MapCur.Name);
+      
 
-                //player
-                msg.WriteShort(this.X);
-                msg.WriteShort(this.Y);
+       
 
-                SendMessage(msg);
-                msg.Close();
-            }
-        }
+       
 
-        public void BroadcastExitMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_EXIT_MAP);
-                msg.WriteInt(Id);
-                ServerManager.GI().SendOthersInMap(msg, this);
-                msg.Close();
-            }
-        }
-
-        public void SendMonstersInMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_MONSTERS_IN_MAP);
-                msg.WriteShort((short)MapCur.Monsters.Count);
-                for (int i = 0; i < MapCur.Monsters.Count; i++)
-                {
-                    var item = MapCur.Monsters[i];
-                    msg.WriteInt(item.Template.Id);
-                    //
-                    msg.WriteInt(item.Id);
-                    msg.WriteShort(item.X);
-                    msg.WriteShort(item.Y);
-                }
-                SendMessage(msg);
-                msg.Close();
-
-                foreach (var item in MapCur.Monsters)
-                {
-                    item.SendMonsterBaseInfo(this);
-                }
-            }
-        }
-
-        public void SendOtherPlayersInMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_OTHERPLAYERS_IN_MAP);
-                //other players
-                msg.WriteShort((short)this.MapCur.Players.Count);
-                foreach (var other in this.MapCur.Players)
-                {
-                    msg.WriteInt(other.Id);
-                    msg.WriteString(other.Name);
-                    msg.WriteByte((byte)other.ClassType);
-                    msg.WriteShort(other.X);
-                    msg.WriteShort(other.Y);
-                }
-                SendMessage(msg);
-                msg.Close();
-                ConsoleLogging.LogInfor($"[Player {Id}] Đã gửi otherplayer {this.MapCur.Players.Count} trong map.");
-                //
-                foreach (var other in this.MapCur.Players)
-                {
-                    if(other.Id == this.Id)
-                    {
-                        continue;
-                    }
-                    SendOtherPlayerBaseInfo(other);
-                }
-            }
-        }
-
-        public void SendNpcsInMap()
-        {
-            if (MapCur != null)
-            {
-                Message msg = new Message(MessageId.SERVER_NPCS_IN_MAP);
-                msg.WriteShort((short)MapCur.Npcs.Count);
-                for (int i = 0; i < MapCur.Npcs.Count; i++)
-                {
-                    var item = MapCur.Npcs[i];
-                    msg.WriteInt(item.Template.Id);
-                    msg.WriteShort(item.X);
-                    msg.WriteShort(item.Y);
-                }
-                SendMessage(msg);
-                msg.Close();
-            }
-        }
+       
 
 
-        public void SendPlayerBaseInfo()
-        {
-            Message msg = new Message(MessageId.SERVER_PLAYER_BASE_INFO);
-            //base
-            msg.WriteInt(Id);
-            msg.WriteString(Name);
-            msg.WriteShort(Level);
-            msg.WriteLong(Exp);
-            msg.WriteInt(CurrentHp);
-            msg.WriteInt(GetMaxHp());
-            msg.WriteInt(CurrentMp);
-            msg.WriteInt(GetMaxMp());
-            SendMessage(msg);
-            msg.Close();
-        }
+       
 
         public void SendPlayerSkillInfo()
         {
@@ -354,16 +217,6 @@ namespace Crimson_Knight_Server.Players
             msg.Close();
         }
 
-        public void SendOtherPlayerBaseInfo(Player other)
-        {
-            Message msg = new Message(MessageId.SERVER_OTHER_PLAYER_BASE_INFO);
-            msg.WriteInt(other.Id);
-            msg.WriteInt(other.CurrentHp);
-            msg.WriteInt(other.GetMaxHp());
-            msg.WriteShort(other.Level);
-            SendMessage(msg);
-            msg.Close();
-        }
        
         #endregion
 

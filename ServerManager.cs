@@ -143,21 +143,20 @@ namespace Crimson_Knight_Server
                     {
                         if (item.Item2.MapCur != null)
                         {
-                            item.Item2.BroadcastExitMap();
+                            ServerMessageSender.ExitMap(item.Item2);
                             item.Item1.Players.Remove(item.Item2);
                         }
 
                         item.Item1.Players.Add(item.Item2);
                         item.Item2.MapCur = item.Item1;
-                        item.Item2.SendEnterMap();
-                        item.Item2.SendOtherPlayersInMap();
-                        item.Item2.SendMonstersInMap();
-                        item.Item2.SendNpcsInMap();
-                        item.Item2.BroadcastEnterMap();
+                        ServerMessageSender.EnterMap(item.Item2);
+                        ServerMessageSender.OtherPlayersInMap(item.Item2);
+                        ServerMessageSender.MonstersInMap(item.Item2);
+                        ServerMessageSender.NpcsInMap(item.Item2);
                     }
                     else
                     {
-                        item.Item2.BroadcastExitMap();
+                        ServerMessageSender.ExitMap(item.Item2);
                         item.Item1.Players.Remove(item.Item2);
                     }
                 }
