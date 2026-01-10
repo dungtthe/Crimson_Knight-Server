@@ -25,7 +25,8 @@ namespace Crimson_Knight_Server.Monsters
             this.CurrentHp = this.GetMaxHp();
         }
         public MonsterTemplate Template { get; set; }
-        public long StartTimeDie { get; set; }
+        private long startTimeDie;
+        private long startTimeAttack;
 
         public override bool IsMonster()
         {
@@ -41,13 +42,14 @@ namespace Crimson_Knight_Server.Monsters
         {
             if (this.CurrentHp <= 0)
             {
-                StartTimeDie = SystemUtil.CurrentTimeMillis();
+                startTimeDie = SystemUtil.CurrentTimeMillis();
             }
         }
 
         public override void Update()
         {
             CheckRespawn();
+            AttackPlayer();
         }
 
 
@@ -55,12 +57,79 @@ namespace Crimson_Knight_Server.Monsters
         {
             if (IsDie())
             {
-                if (SystemUtil.CurrentTimeMillis() - StartTimeDie > Template.RespawnTime)
+                if (SystemUtil.CurrentTimeMillis() - startTimeDie > Template.RespawnTime)
                 {
                     this.CurrentHp = this.GetMaxHp();
                     ServerMessageSender.MonsterBaseInfo(this, this.map);
                 }
             }
+        }
+
+        void AttackPlayer()
+        {
+            if (IsDie())
+            {
+                return;
+            }
+            if(SystemUtil.CurrentTimeMillis() - startTimeAttack < Template.Cooldown)
+            {
+                return;
+            }
+            int range = Template.Range;
+            int targetCount = Template.TargetCount;
+            List<Player> targets = new List<Player>();
+            foreach (var p in map.Players)
+            {
+                if (p.IsDie())
+                {
+                    continue;
+                }
+                int dis = MathUtil.Distance(this, p);
+                if (dis > range)
+                {
+                    continue;
+                }
+
+                targets.Add(p);
+
+                if(targets.Count >= targetCount)
+                {
+                    break;
+                }
+            }
+            if(targets.Count == 0)
+            {
+                return;
+            }
+            this.startTimeAttack = SystemUtil.CurrentTimeMillis();
+
+            foreach(var p in targets)
+            {
+                int dam = this.GetAtk() - p.GetDef();
+                if(dam <= 0)
+                {
+                    dam = 1;
+                }
+                p.CurrentHp -= dam;
+                ServerMessageSender.PlayerBaseInfo(p, true);
+                SendAttackInfoMsg(dam,targets);
+            }
+        }
+
+
+
+        void SendAttackInfoMsg(int dam, List<Player>targets)
+        {
+            Message msg = new Message(MessageId.SERVER_MONSTER_ATTACK);
+            msg.WriteInt(this.Id);
+            msg.WriteInt(dam);
+            msg.WriteByte((byte)targets.Count);
+            foreach(var p in targets)
+            {
+                msg.WriteInt(p.Id);
+            }
+            ServerManager.GI().SendAllInMap(msg, this.map);
+            msg.Close();
         }
     }
 }

@@ -16,5 +16,7 @@ namespace Crimson_Knight_Server.Templates
         public int Cooldown { get; set; }
         public Dictionary<StatId, Stat> Stats { get; set; }
         public int RespawnTime { get; set; }
+        public short Range { get; set; }
+        public byte TargetCount { get; set; }
     }
 }

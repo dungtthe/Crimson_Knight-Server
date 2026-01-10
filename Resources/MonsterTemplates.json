@@ -6,6 +6,8 @@
     "Level": 1,
     "Cooldown": 3000,
     "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -24,6 +26,8 @@
     "Level": 4,
     "Cooldown": 3000,
     "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -41,6 +45,8 @@
     "ImageId": 1103,
     "Cooldown": 3000,
     "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
     "Level": 7,
     "Stats": {
       "HP": {
@@ -60,6 +66,8 @@
     "Level": 10,
     "Cooldown": 3000,
     "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -77,6 +85,8 @@
     "ImageId": 1215,
     "Cooldown": 3000,
     "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
     "Level": 14,
     "Stats": {
       "HP": {

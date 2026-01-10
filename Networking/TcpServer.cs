@@ -61,6 +61,19 @@ namespace Crimson_Knight_Server.Networking
             }
         }
 
+        public void SendAllInMap(Message msg, Map map)
+        {
+            if(map == null)
+            {
+                ConsoleLogging.LogError("SendAllInMap: map la null");
+                return;
+            }
+            foreach (var item in map.Players)
+            {
+                item.SendMessage(msg);
+            }
+        }
+
 
         public void SendAll(Message msg)
         {

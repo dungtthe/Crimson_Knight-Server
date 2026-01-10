@@ -31,5 +31,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_MONSTER_BASE_INFO,
         SERVER_PLAYER_ATTACK,
         SERVER_PLAYER_PKTYPE_INFO,
+        SERVER_MONSTER_ATTACK
     }
 }
