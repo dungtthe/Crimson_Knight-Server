@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 0,
+    "Name": "Bình Hp nhỏ",
+    "Description": "Hồi phục 300 Hp",
+    "LevelRequire": 1,
+    "IconId": 0,
+    "Cooldown": 2000,
+    "Value": 300
+  },
+  {
+    "Id": 1,
+    "Name": "Bình Mp nhỏ",
+    "Description": "Hồi phục 300 Mp",
+    "LevelRequire": 1,
+    "IconId": 1,
+    "Cooldown": 2000,
+    "Value": 300
+  },
+  {
+    "Id": 2,
+    "Name": "Bình Hp lớn",
+    "Description": "Hồi phục 2000 Hp",
+    "LevelRequire": 10,
+    "IconId": 2,
+    "Cooldown": 2000,
+    "Value": 2000
+  },
+  {
+    "Id": 3,
+    "Name": "Bình Mp lớn",
+    "Description": "Hồi phục 2000 Mp",
+    "LevelRequire": 10,
+    "IconId": 3,
+    "Cooldown": 2000,
+    "Value": 2000
+  }
+]

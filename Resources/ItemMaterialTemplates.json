@@ -1,0 +1,9 @@
+[
+  {
+    "Id": 0,
+    "Name": "Đá nâng cấp",
+    "Description": "Dùng để nâng cấp trang bị",
+    "LevelRequire": 1,
+    "IconId": 0
+  }
+]

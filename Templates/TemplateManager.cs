@@ -1,4 +1,5 @@
 ﻿using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Templates.Item;
 using Crimson_Knight_Server.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace Crimson_Knight_Server.Templates
         public static List<MonsterTemplate> MonsterTemplates = new List<MonsterTemplate>();
         public static List<DepartTemplate> DepartTemplates = new List<DepartTemplate>();
         public static List<NpcTemplate> NpcTemplates = new List<NpcTemplate>();
+        public static List<ItemEquipmentTemplate> ItemEquipmentTemplates = new List<ItemEquipmentTemplate>();
+        public static List<ItemConsumableTemplate> ItemConsumableTemplates = new List<ItemConsumableTemplate>();
+        public static List<ItemMaterialTemplate> ItemMaterialTemplates = new List<ItemMaterialTemplate>();
 
         private static Dictionary<StatId, StatDefinition> StatDefinitions;
         public static StatDefinition GetStatDefinition(StatId id)
@@ -32,6 +36,9 @@ namespace Crimson_Knight_Server.Templates
             MonsterTemplates = LoadTemplates<MonsterTemplate>("MonsterTemplates.json");
             MapTemplates = LoadTemplates<MapTemplate>("MapTemplates.json");
             DepartTemplates = LoadTemplates<DepartTemplate>("DepartTemplates.json");
+            ItemEquipmentTemplates = LoadTemplates<ItemEquipmentTemplate>("ItemEquipmentTemplates.json");
+            ItemConsumableTemplates = LoadTemplates<ItemConsumableTemplate>("ItemConsumableTemplates.json");
+            ItemMaterialTemplates = LoadTemplates<ItemMaterialTemplate>("ItemMaterialTemplates.json");
 
             LoadStats();
             LoadSkillTemplates();

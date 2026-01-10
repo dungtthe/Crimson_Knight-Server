@@ -16,6 +16,15 @@
     <None Update="Resources\DepartTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\ItemConsumableTemplates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ItemEquipmentTemplates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ItemMaterialTemplates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\MapTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

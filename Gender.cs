@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server
 {
-    public enum ClassType : byte
+    public enum Gender : byte
     {
-        CHIEN_BINH = 0,
-        SAT_THU = 1,
-        PHAP_SU = 2,
-        XA_THU = 3,
-        NONE = 4,
+        Unisex = 0,
+        Male = 1,
+        Female = 2
     }
+
 }

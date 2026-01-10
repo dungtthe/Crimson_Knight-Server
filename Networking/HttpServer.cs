@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Services.Dtos;
 using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Templates.Item;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -114,6 +115,9 @@ namespace Crimson_Knight_Server.Networking
                         MonsterTemplates = TemplateManager.MonsterTemplates,
                         NpcTemplates = TemplateManager.NpcTemplates,
                         SkillTemplates = TemplateManager.SkillTemplates,
+                        ItemEquipmentTemplates = TemplateManager.ItemEquipmentTemplates,
+                        ItemConsumableTemplates = TemplateManager.ItemConsumableTemplates,
+                        ItemMaterialTemplates = TemplateManager.ItemMaterialTemplates,
                     });
                     break;
                 default:

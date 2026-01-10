@@ -1,0 +1,138 @@
+[
+  {
+    "Id": 0,
+    "Name": "Kiếm chiến binh",
+    "Description": "Kiếm cho chiến binh",
+    "LevelRequire": 1,
+    "IconId": 0,
+    "Gender": "Unisex",
+    "ClassType": "CHIEN_BINH",
+    "EquipmentType": "Weapon",
+    "PartId": 0,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 1,
+    "Name": "Kiếm sát thủ",
+    "Description": "Kiếm cho sát thủ",
+    "LevelRequire": 1,
+    "IconId": 1,
+    "Gender": "Unisex",
+    "ClassType": "SAT_THU",
+    "EquipmentType": "Weapon",
+    "PartId": 0,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 2,
+    "Name": "Gậy pháp sư",
+    "Description": "Gậy cho pháp sư",
+    "LevelRequire": 1,
+    "IconId": 2,
+    "Gender": "Unisex",
+    "ClassType": "PHAP_SU",
+    "EquipmentType": "Weapon",
+    "PartId": 0,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 3,
+    "Name": "Súng xạ thủ",
+    "Description": "Súng cho xạ thủ",
+    "LevelRequire": 1,
+    "IconId": 3,
+    "Gender": "Unisex",
+    "ClassType": "XA_THU",
+    "EquipmentType": "Weapon",
+    "PartId": 0,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 4,
+    "Name": "Áo nam sơ cấp",
+    "Description": "Mô tả áo nam sơ cấp",
+    "LevelRequire": 1,
+    "IconId": 4,
+    "Gender": "Male",
+    "ClassType": "NONE",
+    "EquipmentType": "Armor",
+    "PartId": 0,
+    "Stats": {
+      "DEF": {
+        "Id": 3,
+        "Value": 5
+      }
+    }
+  },
+  {
+    "Id": 5,
+    "Name": "Áo nữ sơ cấp",
+    "Description": "Mô tả áo nữ sơ cấp",
+    "LevelRequire": 1,
+    "IconId": 5,
+    "Gender": "Female",
+    "ClassType": "NONE",
+    "EquipmentType": "Armor",
+    "PartId": 3,
+    "Stats": {
+      "DEF": {
+        "Id": 3,
+        "Value": 5
+      }
+    }
+  },
+  {
+    "Id": 6,
+    "Name": "Quần nam sơ cấp",
+    "Description": "Mô tả quần nam sơ cấp",
+    "LevelRequire": 1,
+    "IconId": 6,
+    "Gender": "Male",
+    "ClassType": "NONE",
+    "EquipmentType": "Pants",
+    "PartId": 0,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 40
+      }
+    }
+  },
+  {
+    "Id": 7,
+    "Name": "Quần nữ sơ cấp",
+    "Description": "Mô tả quần nữ sơ cấp",
+    "LevelRequire": 1,
+    "IconId": 7,
+    "Gender": "Female",
+    "ClassType": "NONE",
+    "EquipmentType": "Pants",
+    "PartId": 3,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 40
+      }
+    }
+  }
+]
