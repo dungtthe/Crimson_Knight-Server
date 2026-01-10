@@ -7,6 +7,7 @@
       "LevelPlayerRequire": 1,
       "IsBuff": false,
       "IconId": 1,
+      "EffectName": "FlameTrail",
       "Variants": [
         {
           "MpLost": 2,
@@ -31,6 +32,7 @@
       "LevelPlayerRequire": 1,
       "IsBuff": false,
       "IconId": 2,
+      "EffectName": "PoisonousArrow",
       "Variants": [
         {
           "MpLost": 2,
@@ -55,6 +57,7 @@
       "LevelPlayerRequire": 1,
       "IsBuff": false,
       "IconId": 3,
+      "EffectName": "IceArrow",
       "Variants": [
         {
           "MpLost": 5,
@@ -79,6 +82,7 @@
       "LevelPlayerRequire": 1,
       "IsBuff": false,
       "IconId": 4,
+      "EffectName": "ConductedEffect",
       "Variants": [
         {
           "MpLost": 5,

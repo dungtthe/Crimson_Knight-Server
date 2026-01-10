@@ -15,7 +15,7 @@ namespace Crimson_Knight_Server.Templates
         public int LevelPlayerRequire { get; set; }
         public bool IsBuff { get; set; }
         public short IconId { get; set; }
-
+        public string EffectName { get; set; }
         public List<Variant> Variants { get; set; }
         public class Variant
         {

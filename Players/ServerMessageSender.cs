@@ -59,6 +59,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteString(p.Name);
             msg.WriteShort(p.X);
             msg.WriteShort(p.Y);
+            msg.WriteByte((byte)p.ClassType);
             ServerManager.GI().SendOthersInMap(msg, p);
             msg.Close();
         }
