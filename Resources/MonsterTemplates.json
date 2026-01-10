@@ -5,6 +5,7 @@
     "ImageId": 1000,
     "Level": 1,
     "Cooldown": 3000,
+    "RespawnTime": 5000,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -22,6 +23,7 @@
     "ImageId": 1001,
     "Level": 4,
     "Cooldown": 3000,
+    "RespawnTime": 5000,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -38,6 +40,7 @@
     "Name": "Scorpion",
     "ImageId": 1103,
     "Cooldown": 3000,
+    "RespawnTime": 5000,
     "Level": 7,
     "Stats": {
       "HP": {
@@ -56,6 +59,7 @@
     "ImageId": 1173,
     "Level": 10,
     "Cooldown": 3000,
+    "RespawnTime": 5000,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -72,6 +76,7 @@
     "Name": "Frog",
     "ImageId": 1215,
     "Cooldown": 3000,
+    "RespawnTime": 5000,
     "Level": 14,
     "Stats": {
       "HP": {

@@ -186,25 +186,28 @@ namespace Crimson_Knight_Server.Players
             return true;
         }
 
-      
+        protected override void CheckDie()
+        {
+
+        }
 
         #region msg
-       
-
-        
-
-        
-
-      
-
-       
-
-       
-
-       
 
 
-       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void SendPlayerSkillInfo()
         {

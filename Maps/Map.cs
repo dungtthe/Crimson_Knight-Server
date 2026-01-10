@@ -43,7 +43,7 @@ namespace Crimson_Knight_Server.Maps
                 for (int i = 0; i < template.Monsters.Count; i++)
                 {
                     var item = template.Monsters[i];
-                    var monster = new Monster(i, item.X, item.Y, TemplateManager.MonsterTemplates[item.TemplateId]);
+                    var monster = new Monster(i, item.X, item.Y, TemplateManager.MonsterTemplates[item.TemplateId],this);
                     Monsters.Add(monster);
                 }
             }
@@ -62,6 +62,15 @@ namespace Crimson_Knight_Server.Maps
         public void UpdateMap()
         {
             HandleAttackMessages();
+            UpdateMonsters();
+        }
+
+        void UpdateMonsters()
+        {
+            foreach (var monster in Monsters)
+            {
+                monster.Update();
+            }
         }
 
         private void HandleAttackMessages()

@@ -16,7 +16,23 @@ namespace Crimson_Knight_Server
             Id = id;
         }
         public int Id { get; protected set; }
-        public int CurrentHp { get; set; }
+        private int _currentHp;
+
+        public int CurrentHp
+        {
+            get => _currentHp;
+            set
+            {
+                if (_currentHp == value) return;
+
+                _currentHp = Math.Max(0, value);
+                CheckDie();
+            }
+        }
+
+        protected abstract void CheckDie();
+        public virtual void Update() { }
+
         public short X { get; set; }
         public short Y { get; set; }
 
@@ -57,10 +73,6 @@ namespace Crimson_Knight_Server
         public virtual void TakeDamage(int dam)
         {
             this.CurrentHp -= dam;
-            if (this.CurrentHp < 0)
-            {
-                this.CurrentHp = 0;
-            }
         }
 
     }
