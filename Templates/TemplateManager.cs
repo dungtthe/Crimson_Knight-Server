@@ -22,10 +22,7 @@ namespace Crimson_Knight_Server.Templates
         public static List<ItemConsumableTemplate> ItemConsumableTemplates = new List<ItemConsumableTemplate>();
         public static List<ItemMaterialTemplate> ItemMaterialTemplates = new List<ItemMaterialTemplate>();
 
-        private static Dictionary<StatId, StatDefinition> StatDefinitions;
-        public static StatDefinition GetStatDefinition(StatId id)
-            => StatDefinitions.TryGetValue(id, out var def) ? def : null;
-
+        public static Dictionary<StatId, StatDefinition> StatDefinitions;
 
         public static Dictionary<ClassType, List<SkillTemplate>> SkillTemplates;
 

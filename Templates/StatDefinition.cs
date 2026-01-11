@@ -11,7 +11,6 @@ namespace Crimson_Knight_Server.Templates
     {
         public StatId StatId { get; set; }
         public string Name { get; init; }
-        public string Description { get; init; }
         public bool IsPercent { get; init; }
     }
 }

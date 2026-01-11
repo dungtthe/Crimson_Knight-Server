@@ -14,37 +14,31 @@
   {
     "StatId": "ATK",
     "Name": "Tấn công",
-    "Description": "Sát thương",
     "IsPercent": false
   },
   {
     "StatId": "DEF",
     "Name": "Phòng thủ",
-    "Description": "Giảm sát thương nhận vào",
     "IsPercent": false
   },
   {
     "StatId": "PERCENT_HP",
     "Name": "% HP",
-    "Description": "Tăng phần trăm HP",
     "IsPercent": true
   },
   {
     "StatId": "PERCENT_MP",
     "Name": "% MP",
-    "Description": "Tăng phần trăm MP",
     "IsPercent": true
   },
   {
     "StatId": "PERCENT_ATK",
     "Name": "% Tấn công",
-    "Description": "Tăng phần trăm sát thương",
     "IsPercent": true
   },
   {
     "StatId": "PERCENT_DEF",
     "Name": "% Phòng thủ",
-    "Description": "Tăng phần trăm phòng thủ",
     "IsPercent": true
   }
 ]
