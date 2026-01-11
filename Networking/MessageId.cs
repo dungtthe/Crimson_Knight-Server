@@ -33,5 +33,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_PLAYER_PKTYPE_INFO,
         SERVER_MONSTER_ATTACK,
         SERVER_PLAYER_WEARING_ITEMS_INFO,
+        SERVER_PLAYER_INVENTORY_ITEMS_INFO,
     }
 }

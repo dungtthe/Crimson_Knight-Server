@@ -206,6 +206,7 @@ namespace Crimson_Knight_Server.Players
             ServerMessageSender.PlayerBaseInfo(this, true);
             ServerMessageSender.SendPlayerSkillInfo(this);
             ServerMessageSender.SendWearingItems(this);
+            ServerMessageSender.SendInventoryItems(this);
         }
 
         public ClassType ClassType;

@@ -258,5 +258,46 @@ namespace Crimson_Knight_Server.Players
             }
             msg.Close();
         }
+
+        public static void SendInventoryItems(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_INVENTORY_ITEMS_INFO);
+            msg.WriteByte((byte)p.InventoryItems.Length);
+            for (int i = 0; i < p.InventoryItems.Length; i++)
+            {
+                BaseItem item = p.InventoryItems[i];
+                bool has = true;
+                if (item == null)
+                {
+                    has = false;
+                }
+                msg.WriteBool(has);
+                if (has)
+                {
+                    msg.WriteString(item.Id);
+                    msg.WriteInt(item.TemplateId);
+                    msg.WriteByte((byte)item.GetItemType());
+                    if (item.GetItemType() == ItemType.Equipment)
+                    {
+
+                    }
+                    else
+                    {
+                        int quantity = 0;
+                        if (item.GetItemType() == ItemType.Consumable)
+                        {
+                            quantity = ((ItemConsumable)item).Quantity;
+                        }
+                        else
+                        {
+                            quantity = ((ItemMaterial)item).Quantity;
+                        }
+                        msg.WriteInt(quantity);
+                    }
+                }
+            }
+            p.SendMessage(msg);
+            msg.Close();
+        }
     }
 }
