@@ -144,7 +144,7 @@ namespace Crimson_Knight_Server.Services
             player.Y = model.Y;
             Map map = MapManager.Maps[model.MapId];
             //map.BusPlayerEnterMap.Enqueue(player);
-            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(map, player, true));
+            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool,short, short>(map, player, true, player.X, player.Y));
         }
 
         public static void SaveData(Player player)

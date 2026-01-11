@@ -144,9 +144,10 @@ namespace Crimson_Knight_Server
                         if (item.Item2.MapCur != null)
                         {
                             ServerMessageSender.ExitMap(item.Item2);
-                            item.Item1.Players.Remove(item.Item2);
+                            item.Item2.MapCur.Players.Remove(item.Item2);
                         }
-
+                        item.Item2.X = item.Item4; 
+                        item.Item2.Y = item.Item5;
                         item.Item1.Players.Add(item.Item2);
                         item.Item2.MapCur = item.Item1;
                         ServerMessageSender.EnterMap(item.Item2);

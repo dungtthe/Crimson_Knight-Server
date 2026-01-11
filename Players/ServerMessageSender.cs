@@ -53,6 +53,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteShort(p.Y);
             p.SendMessage(msg);
             msg.Close();
+            ConsoleLogging.LogError($"EnterMap: {p.X} {p.Y}");
 
             //broadcast
             msg = new Message(MessageId.SERVER_ENTER_MAP);

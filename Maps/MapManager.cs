@@ -16,6 +16,6 @@ namespace Crimson_Knight_Server.Maps
 
 
 
-        public static readonly ConcurrentQueue<Tuple<Map, Player, bool>> PlayerEnterOrExitmap = new();//true la enter
+        public static readonly ConcurrentQueue<Tuple<Map, Player, bool,short,short>> PlayerEnterOrExitmap = new();//true la enter
     }
 }

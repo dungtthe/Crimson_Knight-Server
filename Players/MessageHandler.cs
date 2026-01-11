@@ -77,9 +77,9 @@ namespace Crimson_Knight_Server.Players
                         msg.Close();
                         var depart = MapManager.DepartTemplates[departId];
                         var mapEnter = MapManager.Maps[depart.MapEnterId];
-                        session.X = depart.XEnter;
-                        session.Y = depart.YEnter;
-                        MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(mapEnter, session, true));
+                        //session.X = depart.XEnter;
+                        //session.Y = depart.YEnter;
+                        MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(mapEnter, session, true, depart.XEnter, depart.YEnter));
                         break;
                     }
                 case MessageId.CLIENT_SHOW_MENU:

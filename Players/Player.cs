@@ -108,7 +108,7 @@ namespace Crimson_Knight_Server.Players
                 {
                     //this.MapCur?.BusPlayerExitMap.Enqueue(this);
                     //ServerManager.GI().RemoveSession(this);
-                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(this.MapCur, this, false));
+                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool,short,short>(this.MapCur, this, false,-1,-1));
                     ServerManager.GI().RemoveSession(this);
                     ConsoleLogging.LogWarning($"[Client {Id}] Đã đóng kết nối.");
                 }
