@@ -153,6 +153,7 @@ namespace Crimson_Knight_Server
                         ServerMessageSender.OtherPlayersInMap(item.Item2);
                         ServerMessageSender.MonstersInMap(item.Item2);
                         ServerMessageSender.NpcsInMap(item.Item2);
+                        ServerMessageSender.SendWearingItems(item.Item2);
                     }
                     else
                     {

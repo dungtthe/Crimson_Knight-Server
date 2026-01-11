@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Monsters;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteInt(p.Id);
             msg.WriteString(p.Name);
             msg.WriteByte((byte)p.ClassType);
+            msg.WriteByte((byte)p.Gender);
             p.SendMessage(msg);
             msg.Close();
         }
@@ -60,6 +62,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteShort(p.X);
             msg.WriteShort(p.Y);
             msg.WriteByte((byte)p.ClassType);
+            msg.WriteByte((byte)p.Gender);
             ServerManager.GI().SendOthersInMap(msg, p);
             msg.Close();
         }
@@ -95,7 +98,7 @@ namespace Crimson_Knight_Server.Players
             p.SendMessage(msg);
             msg.Close();
 
-            foreach(var item in  p.MapCur.Monsters)
+            foreach (var item in p.MapCur.Monsters)
             {
                 MonsterBaseInfo(item, p.MapCur);
             }
@@ -139,12 +142,13 @@ namespace Crimson_Knight_Server.Players
                 msg.WriteByte((byte)other.ClassType);
                 msg.WriteShort(other.X);
                 msg.WriteShort(other.Y);
+                msg.WriteByte((byte)other.Gender);
             }
             p.SendMessage(msg);
             msg.Close();
 
 
-            foreach(var item in p.MapCur.Players)
+            foreach (var item in p.MapCur.Players)
             {
                 PlayerBaseInfo(item, true);
             }
@@ -207,6 +211,50 @@ namespace Crimson_Knight_Server.Players
             foreach (var item in p.MapCur.Players)
             {
                 item.SendMessage(msg);
+            }
+            msg.Close();
+        }
+
+        public static void SendPlayerSkillInfo(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_SKILL_INFO);
+            msg.WriteByte((byte)p.Skills.Count);
+            foreach (var item in p.Skills)
+            {
+                msg.WriteInt(item.TemplateId);
+                msg.WriteByte(item.VariantId);
+            }
+            p.SendMessage(msg);
+            msg.Close();
+        }
+
+        public static void SendWearingItems(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_WEARING_ITEMS_INFO);
+            msg.WriteInt(p.Id);
+            msg.WriteByte((byte)p.WearingItems.Length);
+            for (int i = 0; i < p.WearingItems.Length; i++)
+            {
+                ItemEquipment item = p.WearingItems[i];
+                bool has = true;
+                if (item == null)
+                {
+                    has = false;
+                }
+                msg.WriteBool(has);
+                if (has)
+                {
+                    msg.WriteString(item.Id);
+                    msg.WriteInt(item.TemplateId);
+                }
+            }
+            if (p.MapCur == null)
+            {
+                p.SendMessage(msg);
+            }
+            else
+            {
+                ServerManager.GI().SendAllInMap(msg, p.MapCur);
             }
             msg.Close();
         }

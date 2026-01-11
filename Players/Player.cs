@@ -1,6 +1,9 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Players.Item;
+using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
@@ -130,6 +133,10 @@ namespace Crimson_Knight_Server.Players
         public Map MapCur;
         public List<Skill> Skills;
         public long Exp { get; set; }
+        public Gender Gender { get; set; }
+
+        public readonly BaseItem[] InventoryItems = new BaseItem[48];
+        public readonly ItemEquipment[] WearingItems = new ItemEquipment[3];
 
         public Player(int playerId) : base(playerId)
         {
@@ -154,12 +161,51 @@ namespace Crimson_Knight_Server.Players
                 Skills.Add(skill);
             }
         }
+        public void SetUpItem(string inventoryItems, string wearingItems)
+        {
+            JsonElement[] invens = JsonSerializer.Deserialize<JsonElement[]>(inventoryItems);
+
+            for (int i = 0; i < invens.Length; i++)
+            {
+                if (invens[i].ValueKind != JsonValueKind.Null)
+                {
+                    JsonElement item = invens[i];
+                    ItemType type = (ItemType)item[0].GetByte();
+                    JsonElement data = item[1];
+                    switch (type)
+                    {
+                        case ItemType.Equipment:
+                            InventoryItems[i] = ItemEquipment.Create(data);
+                            break;
+
+                        case ItemType.Consumable:
+                            InventoryItems[i] = ItemConsumable.Create(data);
+                            break;
+
+                        case ItemType.Material:
+                            InventoryItems[i] = ItemMaterial.Create(data);
+                            break;
+                    }
+                }    
+            }
+
+            JsonElement[] wears = JsonSerializer.Deserialize<JsonElement[]>(wearingItems);
+
+            for (int i = 0; i < wears.Length; i++)
+            {
+                if (wears[i].ValueKind != JsonValueKind.Null)
+                {
+                    WearingItems[i] = ItemEquipment.Create(wears[i]);
+                }
+            }
+        }
         public void FinalSetup()
         {
             this.CurrentHp = this.GetMaxHp();
             this.CurrentMp = this.GetMaxMp();
             ServerMessageSender.PlayerBaseInfo(this, true);
-            this.SendPlayerSkillInfo();
+            ServerMessageSender.SendPlayerSkillInfo(this);
+            ServerMessageSender.SendWearingItems(this);
         }
 
         public ClassType ClassType;
@@ -176,9 +222,9 @@ namespace Crimson_Knight_Server.Players
         }
 
 
-        public override bool IsMonster()
+        protected override void CheckDie()
         {
-            return false;
+
         }
 
         public override bool IsPlayer()
@@ -186,45 +232,35 @@ namespace Crimson_Knight_Server.Players
             return true;
         }
 
-        protected override void CheckDie()
+        private bool test = false;
+        public override void Update()
         {
+            //if (test)
+            //{
+            //    return;
+            //}
+            //test = true;
 
+            //ItemConsumable hp = new ItemConsumable(0, 5546);
+            //InventoryItems[0] = hp;
+            //ItemConsumable mp = new ItemConsumable(1, 65);
+            //InventoryItems[1] = mp;
+
+            //ItemMaterial da = new ItemMaterial(0, 8855);
+            //InventoryItems[2] = da;
+
+            //ItemEquipment vukhi = new ItemEquipment(Helpers.GenerateId(), 0);
+            //InventoryItems[3] = vukhi;
+            //ItemEquipment ao = new ItemEquipment(Helpers.GenerateId(), 4);
+            //InventoryItems[4] = ao;
+            //ItemEquipment quan = new ItemEquipment(Helpers.GenerateId(), 6);
+            //InventoryItems[5] = quan;
+
+            //WearingItems[0] = vukhi;
+            //WearingItems[1] = ao;
+            //WearingItems[2] = quan;
+            //PlayerService.SaveData(this);
         }
-
-        #region msg
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void SendPlayerSkillInfo()
-        {
-            Message msg = new Message(MessageId.SERVER_PLAYER_SKILL_INFO);
-            msg.WriteByte((byte)Skills.Count);
-            foreach (var item in Skills)
-            {
-                msg.WriteInt(item.TemplateId);
-                msg.WriteByte(item.VariantId);
-            }
-            SendMessage(msg);
-            msg.Close();
-        }
-
-       
-        #endregion
-
     }
 
 }

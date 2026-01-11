@@ -34,5 +34,10 @@ namespace Crimson_Knight_Server.Utils
             if (stats == null || stats.Count == 0) return 0;
             return stats.TryGetValue(id, out Stat stat) ? stat.Value : 0;
         }
+
+        public static string GenerateId()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }

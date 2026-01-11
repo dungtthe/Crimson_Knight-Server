@@ -25,7 +25,7 @@
     "Gender": "Unisex",
     "ClassType": "SAT_THU",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 7,
     "Stats": {
       "ATK": {
         "Id": 2,

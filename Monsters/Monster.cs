@@ -33,11 +33,6 @@ namespace Crimson_Knight_Server.Monsters
             return true;
         }
 
-        public override bool IsPlayer()
-        {
-            return false;
-        }
-
         protected override void CheckDie()
         {
             if (this.CurrentHp <= 0)

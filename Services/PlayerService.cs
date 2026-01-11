@@ -2,14 +2,19 @@
 using Crimson_Knight_Server.DataAccessLayer.Repositories;
 using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Services.Dtos;
 using Crimson_Knight_Server.Services.Mappers;
 using Crimson_Knight_Server.Utils;
+using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Crimson_Knight_Server.Services
@@ -124,8 +129,10 @@ namespace Crimson_Knight_Server.Services
             player.ClassType = (ClassType)playerModel.ClassType;
             player.Level = playerModel.Level;
             player.Exp = playerModel.Exp;
+            player.Gender = playerModel.Gender;
             player.SetUpStats(playerModel.Stats);
             player.SetUpSkills(playerModel.Skills);
+            player.SetUpItem(playerModel.InventoryItems, playerModel.WearingItems);
             ServerManager.GI().AddSession(player);
             PlayerEnterGame(player, playerModel);
             return true;
@@ -137,7 +144,52 @@ namespace Crimson_Knight_Server.Services
             player.Y = model.Y;
             Map map = MapManager.Maps[model.MapId];
             //map.BusPlayerEnterMap.Enqueue(player);
-            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(map,player,true));
+            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool>(map, player, true));
         }
+
+        public static void SaveData(Player player)
+        {
+
+            object[] inven = new object[player.InventoryItems.Length];
+
+            for (int i = 0; i < inven.Length; i++)
+            {
+                BaseItem item = player.InventoryItems[i];
+                if (item == null) continue;
+
+                inven[i] = new object[]
+                {
+                    (byte)item.GetItemType(),
+                    item switch
+                    {
+                        ItemEquipment e  => e.ToSaveData(),
+                        ItemConsumable c => c.ToSaveData(),
+                        ItemMaterial m   => m.ToSaveData(),
+                        _ => null
+                    }
+                };
+            }
+
+            File.WriteAllText(
+                @"C:\Users\ADMIN\Desktop\inventory.json",
+                JsonSerializer.Serialize(inven)
+               
+            );
+
+            object[] wear = new object[player.WearingItems.Length];
+
+            for (int i = 0; i < wear.Length; i++)
+            {
+                ItemEquipment item = player.WearingItems[i];
+                if (item == null) continue;
+                wear[i] = item.ToSaveData();
+            }
+
+            File.WriteAllText(
+                @"C:\Users\ADMIN\Desktop\wearing.json",
+                JsonSerializer.Serialize(wear)
+            );
+        }
+
     }
 }

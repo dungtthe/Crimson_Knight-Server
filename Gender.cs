@@ -8,9 +8,9 @@ namespace Crimson_Knight_Server
 {
     public enum Gender : byte
     {
-        Unisex = 0,
-        Male = 1,
-        Female = 2
+        Male = 0,
+        Female = 1,
+        Unisex = 2,
     }
 
 }

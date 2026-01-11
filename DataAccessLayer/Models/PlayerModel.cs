@@ -21,5 +21,9 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
 
         public short Level { get; set; }
         public long Exp { get; set; }
-        }
+        public Gender Gender { get; set; }
+
+        public string InventoryItems { get; set; }
+        public string WearingItems { get; set; }
+    }
 }

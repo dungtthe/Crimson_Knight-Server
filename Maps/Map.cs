@@ -63,6 +63,15 @@ namespace Crimson_Knight_Server.Maps
         {
             HandleAttackMessages();
             UpdateMonsters();
+            UpdatePlayers();
+        }
+
+        private void UpdatePlayers()
+        {
+            foreach(var p in Players)
+            {
+                p.Update();
+            }
         }
 
         void UpdateMonsters()
