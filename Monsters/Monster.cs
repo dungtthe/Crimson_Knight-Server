@@ -7,6 +7,7 @@ using Crimson_Knight_Server.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -125,6 +126,54 @@ namespace Crimson_Knight_Server.Monsters
             }
             ServerManager.GI().SendAllInMap(msg, this.map);
             msg.Close();
+        }
+
+        public override void TakeDamage(int dam, BaseObject attacker)
+        {
+            base.TakeDamage(dam, attacker);
+            if(attacker != null && IsDie())
+            {
+                AfterDie(attacker);
+            }
+        }
+
+        protected override void AfterDie(BaseObject attacker)
+        {
+            //hp,mp
+            if (Helpers.Roll(4000))
+            {
+                //hp
+                int idConsu = 0;
+                if (this.Template.Level >= 10)
+                {
+                    idConsu = 2;
+                }
+                //mp
+                if (Helpers.Roll(5000))
+                {
+                    idConsu += 1;
+                }
+                this.map.DropItem(idConsu, ItemType.Consumable, attacker.Id, this);
+                return;
+            }
+            //material
+            if (Helpers.Roll(4000))
+            {
+                //tam thoi nhu nay
+                this.map.DropItem(0, ItemType.Material, attacker.Id, this);
+                return;
+            }
+
+            if (Helpers.Roll(2000))
+            {
+                int idEqLeave = ItemPick.RandomDropEquipment(this.Template.Level);
+                if (idEqLeave == -1)
+                {
+                    return;
+                }
+
+                this.map.DropItem(idEqLeave, ItemType.Equipment, attacker.Id, this);
+            }
         }
     }
 }

@@ -300,5 +300,17 @@ namespace Crimson_Knight_Server.Players
             p.SendMessage(msg);
             msg.Close();
         }
+
+        public static void DropItem(Map map, int x, int y , ItemPick info)
+        {
+            Message msg = new Message(MessageId.SERVER_ITEM_DROP);
+            msg.WriteString(info.Id);
+            msg.WriteInt(info.TemplateId);
+            msg.WriteByte((byte)info.ItemType);
+            msg.WriteShort((short)x);
+            msg.WriteShort((short)y);
+            ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
     }
 }

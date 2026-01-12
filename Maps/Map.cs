@@ -10,6 +10,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@ namespace Crimson_Knight_Server.Maps
         public List<Monster> Monsters = new List<Monster>();
         public List<Npc> Npcs = new List<Npc>();
         public List<Player> Players = new List<Player>();
+        private Dictionary<string, ItemPick> itemPicks = new();
 
         public Player GetPlayerById(int playerId)
         {
@@ -61,9 +63,19 @@ namespace Crimson_Knight_Server.Maps
 
         public void UpdateMap()
         {
+            UpdatePickItems();
             HandleAttackMessages();
             UpdateMonsters();
             UpdatePlayers();
+        }
+
+        private void UpdatePickItems()
+        {
+            
+        }
+        private void UpdatePickItemsMessage()
+        {
+
         }
 
         private void UpdatePlayers()
@@ -139,7 +151,7 @@ namespace Crimson_Knight_Server.Maps
                         {
                             dam = 1;
                         }
-                        objReceive.TakeDamage(dam);
+                        objReceive.TakeDamage(dam, playerSend);
                         objTakeDamages.Add(objReceive);
 
                         foreach (var item in objTakeDamages)
@@ -181,6 +193,16 @@ namespace Crimson_Knight_Server.Maps
                 p.SendMessage(msg);
             }
             msg.Close();
+        }
+
+        public void DropItem(int idItemTemplate, ItemType itemType, int idPlayerOwner, Monster monster, int quantity = 1)
+        {
+            string idItemPick = Helpers.GenerateId();
+            ItemPick item = new ItemPick(idItemPick, idItemTemplate, itemType, quantity, idPlayerOwner);
+            if(itemPicks.TryAdd(idItemPick, item))
+            {
+                ServerMessageSender.DropItem(this, monster.X, monster.Y, item);
+            }
         }
     }
 }

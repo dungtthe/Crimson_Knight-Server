@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Stats;
+﻿using Crimson_Knight_Server.Maps;
+using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates.Item;
 using Crimson_Knight_Server.Utils;
 using System;
@@ -39,6 +40,7 @@ namespace Crimson_Knight_Server.Templates
 
             LoadStats();
             LoadSkillTemplates();
+            MapManager.Load();
         }
 
         private static void LoadStats()

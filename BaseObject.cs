@@ -70,10 +70,11 @@ namespace Crimson_Knight_Server
 
         public virtual bool IsPlayer() {  return false; }
         public virtual bool IsMonster() { return false; }
-        public virtual void TakeDamage(int dam)
+        public virtual void TakeDamage(int dam, BaseObject attacker)
         {
             this.CurrentHp -= dam;
         }
 
+        protected virtual void AfterDie(BaseObject attacker) { }
     }
 }
