@@ -313,17 +313,14 @@ namespace Crimson_Knight_Server.Players
             msg.Close();
         }
 
-        public static void RemoveItemPick(Player p, string idItem, bool isSendFull = true)
+        public static void PlayerPickItem(Player p, string idItem, bool isPicked)
         {
-            if(p.MapCur == null)
-            {
-                isSendFull = false;
-            }
-
-            Message msg = new Message(MessageId.SERVER_ITEM_PICK_REMOVE);
+            Message msg = new Message(MessageId.SERVER_PLAYER_PICK_ITEM);
+            msg.WriteBool(isPicked);
             msg.WriteString(idItem);
-            if (isSendFull)
+            if (!isPicked)
             {
+                msg.WriteInt(p.Id);
                 ServerManager.GI().SendAllInMap(msg, p.MapCur);
             }
             else
@@ -333,31 +330,20 @@ namespace Crimson_Knight_Server.Players
             msg.Close();
         }
 
-        public static void ItemPickup(Player p, string idItem, bool isSendFull)
-        {
-            if(p.MapCur == null)
-            {
-                isSendFull = false;
-            }
-            Message msg = new Message(MessageId.SERVER_ITEM_PICKUP);
-            msg.WriteInt(p.Id);
-            msg.WriteString(idItem);
-            if (isSendFull)
-            {
-                ServerManager.GI().SendAllInMap(msg,p.MapCur);
-            }
-            else
-            {
-                p.SendMessage(msg);
-            }
-            msg.Close();
-        }
 
         public static void CenterNotificationView(Player p, string content)
         {
             Message msg = new Message(MessageId.SERVER_CENTER_NOTIFICATION_VIEW);
             msg.WriteString(content);
             p.SendMessage(msg);
+            msg.Close();
+        }
+
+        public static void RemoveItemPick(Map map, string id)
+        {
+            Message msg = new Message(MessageId.SERVER_REMOVE_ITEM_PICK);
+            msg.WriteString(id);
+            ServerManager.GI().SendAllInMap(msg, map);
             msg.Close();
         }
     }

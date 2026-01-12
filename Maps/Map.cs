@@ -75,6 +75,30 @@ namespace Crimson_Knight_Server.Maps
         private void UpdatePickItems()
         {
             UpdatePickItemsMessage();
+
+            List<string> itemremoves = new List<string>();
+            foreach(var item in itemPicks.Values)
+            {
+                if (item.PlayerId == -1)
+                {
+                    if(SystemUtil.CurrentTimeMillis() - item.StartLeaveTime > 10000)
+                    {
+                        itemremoves.Add(item.Id);
+                    }
+                }
+                else
+                {
+                    if (SystemUtil.CurrentTimeMillis() - item.StartLeaveTime > 5000)
+                    {
+                        item.PlayerId = -1;
+                    }
+                }
+            }
+            foreach (var id in itemremoves)
+            {
+                itemPicks.Remove(id);
+                ServerMessageSender.RemoveItemPick(this,id);
+            }
         }
         private void UpdatePickItemsMessage()
         {
@@ -84,6 +108,7 @@ namespace Crimson_Knight_Server.Maps
                 Player p = msg.Player;
                 if(p != null)
                 {
+                    string content = "";
                     if(itemPicks.TryGetValue(id, out var item))
                     {
                         if(item.PlayerId == -1 || item.PlayerId == p.Id)
@@ -93,15 +118,15 @@ namespace Crimson_Knight_Server.Maps
                                 int indexBag = p.GetAvailableInventory();
                                 if(indexBag == -1)
                                 {
-                                    ServerMessageSender.CenterNotificationView(p, "Hành trang không đủ chỗ trống");
+                                    content = "Hành trang không đủ chỗ trống";
                                 }
                                 else
                                 {
                                     ItemEquipment itemEquipment = new ItemEquipment(Helpers.GenerateId(), item.TemplateId);
                                     p.InventoryItems[indexBag] = itemEquipment;
-                                    ServerMessageSender.RemoveItemPick(p, id, true);
+                                    ServerMessageSender.PlayerPickItem(p, id, false);
                                     ServerMessageSender.SendInventoryItems(p);
-                                    ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                    content = "Bạn nhận được " + itemEquipment.GetName();
                                 }
                             }
                             else
@@ -112,7 +137,7 @@ namespace Crimson_Knight_Server.Maps
                                     int indexBag = p.GetAvailableInventory();
                                     if (indexBag == -1)
                                     {
-                                        ServerMessageSender.CenterNotificationView(p, "Hành trang không đủ chỗ trống");
+                                        content = "Hành trang không đủ chỗ trống";
                                     }
                                     else
                                     {
@@ -126,9 +151,9 @@ namespace Crimson_Knight_Server.Maps
                                             baseItem = new ItemMaterial(item.TemplateId, 1);
                                         }
                                         p.InventoryItems[indexBag] = baseItem;
-                                        ServerMessageSender.RemoveItemPick(p, id, true);
+                                        ServerMessageSender.PlayerPickItem(p, id, false);
                                         ServerMessageSender.SendInventoryItems(p);
-                                        ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                        content = "Bạn nhận được " + baseItem.GetName();
                                     }
                                 }
                                 else
@@ -144,23 +169,24 @@ namespace Crimson_Knight_Server.Maps
                                         {
                                             ((ItemMaterial)baseItem).Quantity += 1;
                                         }
-                                        ServerMessageSender.RemoveItemPick(p, id, true);
+                                        ServerMessageSender.PlayerPickItem(p, id, false);
                                         ServerMessageSender.SendInventoryItems(p);
-                                        ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                        content = "Bạn nhận được " + baseItem.GetName();
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            ServerMessageSender.CenterNotificationView(p, "Vật phẩm của người khác");
+                            content = "Vật phẩm của người khác";
                         }
                     }
                     else
                     {
-                        ServerMessageSender.CenterNotificationView(p, "Vật phẩm đã được nhặt bởi người khác");
-                        ServerMessageSender.RemoveItemPick(p, id, false);
+                        content = "Vật phẩm đã được nhặt bởi người khác";
+                        ServerMessageSender.PlayerPickItem(p, id, true);
                     }
+                    ServerMessageSender.CenterNotificationView(p, content);
                 }
             }
         }
