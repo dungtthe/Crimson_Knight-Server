@@ -214,13 +214,7 @@ namespace Crimson_Knight_Server.Players
         {
             this.Id = id;
         }
-        public virtual int GetMaxMp()
-        {
-            int mp = Helpers.GetStatValue(this.Stats, StatId.MP);
-            int percentMp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_MP);
-
-            return mp + (int)((long)mp * percentMp / 10000);
-        }
+      
 
 
         protected override void CheckDie()
@@ -308,6 +302,104 @@ namespace Crimson_Knight_Server.Players
                 }
             }
             return null;
+        }
+
+
+        public override int GetMaxHp()
+        {
+            int baseHp = base.GetMaxHp();
+
+            int flatHp = 0;
+            int percentHp = 0;
+
+            foreach (var item in WearingItems)
+            {
+                if (item == null) continue;
+
+                var stats = TemplateManager.ItemEquipmentTemplates[item.TemplateId].Stats;
+
+                flatHp += Helpers.GetStatValue(stats, StatId.HP);
+                percentHp += Helpers.GetStatValue(stats, StatId.PERCENT_HP);
+            }
+
+            return baseHp
+                 + flatHp
+                 + (int)((long)baseHp * percentHp / 10000);
+        }
+
+
+        public int GetMaxMp()
+        {
+            int BaseMp()
+            {
+                int mp = Helpers.GetStatValue(this.Stats, StatId.MP);
+                int percentMp = Helpers.GetStatValue(this.Stats, StatId.PERCENT_MP);
+
+                return mp + (int)((long)mp * percentMp / 10000);
+            }
+
+            int baseMp = BaseMp();
+
+            int flatMp = 0;
+            int percentMp = 0;
+
+            foreach (var item in WearingItems)
+            {
+                if (item == null) continue;
+
+                var stats = TemplateManager.ItemEquipmentTemplates[item.TemplateId].Stats;
+
+                flatMp += Helpers.GetStatValue(stats, StatId.MP);
+                percentMp += Helpers.GetStatValue(stats, StatId.PERCENT_MP);
+            }
+
+            return baseMp
+                 + flatMp
+                 + (int)((long)baseMp * percentMp / 10000);
+        }
+
+        public override int GetAtk()
+        {
+            int baseAtk = base.GetAtk();
+
+            int flatAtk = 0;
+            int percentAtk = 0;
+
+            foreach (var item in WearingItems)
+            {
+                if (item == null) continue;
+
+                var stats = TemplateManager.ItemEquipmentTemplates[item.TemplateId].Stats;
+
+                flatAtk += Helpers.GetStatValue(stats, StatId.ATK);
+                percentAtk += Helpers.GetStatValue(stats, StatId.PERCENT_ATK);
+            }
+
+            return baseAtk
+                 + flatAtk
+                 + (int)((long)baseAtk * percentAtk / 10000);
+        }
+
+        public override int GetDef()
+        {
+            int baseDef = base.GetDef();
+
+            int flatDef = 0;
+            int percentDef = 0;
+
+            foreach (var item in WearingItems)
+            {
+                if (item == null) continue;
+
+                var stats = TemplateManager.ItemEquipmentTemplates[item.TemplateId].Stats;
+
+                flatDef += Helpers.GetStatValue(stats, StatId.DEF);
+                percentDef += Helpers.GetStatValue(stats, StatId.PERCENT_DEF);
+            }
+
+            return baseDef
+                 + flatDef
+                 + (int)((long)baseDef * percentDef / 10000);
         }
     }
 

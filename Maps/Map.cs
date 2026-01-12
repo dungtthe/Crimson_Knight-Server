@@ -5,6 +5,7 @@ using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Players.Item;
+using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -258,8 +259,15 @@ namespace Crimson_Knight_Server.Maps
                                 continue;
                             }
                         }
-                        int dam = playerSend.GetAtk();
+                        int atk = playerSend.GetAtk();
+                        var statsSkill = skillUse.GetStats();
+                        int flatDmg = Helpers.GetStatValue(statsSkill, StatId.ATK);
+                        int percentDmg = Helpers.GetStatValue(statsSkill, StatId.PERCENT_ATK);
+                        int dam = atk + flatDmg + (int)((long)atk * percentDmg / 10000);
+
+
                         dam = dam - objReceive.GetDef();
+
                         if (dam < 1)
                         {
                             dam = 1;
