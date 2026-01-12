@@ -312,5 +312,53 @@ namespace Crimson_Knight_Server.Players
             ServerManager.GI().SendAllInMap(msg, map);
             msg.Close();
         }
+
+        public static void RemoveItemPick(Player p, string idItem, bool isSendFull = true)
+        {
+            if(p.MapCur == null)
+            {
+                isSendFull = false;
+            }
+
+            Message msg = new Message(MessageId.SERVER_ITEM_PICK_REMOVE);
+            msg.WriteString(idItem);
+            if (isSendFull)
+            {
+                ServerManager.GI().SendAllInMap(msg, p.MapCur);
+            }
+            else
+            {
+                p.SendMessage(msg);
+            }
+            msg.Close();
+        }
+
+        public static void ItemPickup(Player p, string idItem, bool isSendFull)
+        {
+            if(p.MapCur == null)
+            {
+                isSendFull = false;
+            }
+            Message msg = new Message(MessageId.SERVER_ITEM_PICKUP);
+            msg.WriteInt(p.Id);
+            msg.WriteString(idItem);
+            if (isSendFull)
+            {
+                ServerManager.GI().SendAllInMap(msg,p.MapCur);
+            }
+            else
+            {
+                p.SendMessage(msg);
+            }
+            msg.Close();
+        }
+
+        public static void CenterNotificationView(Player p, string content)
+        {
+            Message msg = new Message(MessageId.SERVER_CENTER_NOTIFICATION_VIEW);
+            msg.WriteString(content);
+            p.SendMessage(msg);
+            msg.Close();
+        }
     }
 }

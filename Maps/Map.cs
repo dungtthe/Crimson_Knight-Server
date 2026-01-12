@@ -1,8 +1,10 @@
-﻿using Crimson_Knight_Server.Maps.MessageMap.Attack;
+﻿using Crimson_Knight_Server.Maps.MessageMap;
+using Crimson_Knight_Server.Maps.MessageMap.Attack;
 using Crimson_Knight_Server.Monsters;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -19,6 +21,7 @@ namespace Crimson_Knight_Server.Maps
     public class Map
     {
         public ConcurrentBag<AttackMessage> AttackMessages = new ConcurrentBag<AttackMessage>();
+        public ConcurrentBag<PickItemMsg> PickItemMessages = new ConcurrentBag<PickItemMsg>();
 
         public short Id { get; set; }
         public string Name { get; set; }
@@ -71,11 +74,95 @@ namespace Crimson_Knight_Server.Maps
 
         private void UpdatePickItems()
         {
-            
+            UpdatePickItemsMessage();
         }
         private void UpdatePickItemsMessage()
         {
-
+            while(PickItemMessages.TryTake(out var msg))
+            {
+                string id = msg.Id;
+                Player p = msg.Player;
+                if(p != null)
+                {
+                    if(itemPicks.TryGetValue(id, out var item))
+                    {
+                        if(item.PlayerId == -1 || item.PlayerId == p.Id)
+                        {
+                            if(item.ItemType == ItemType.Equipment)
+                            {
+                                int indexBag = p.GetAvailableInventory();
+                                if(indexBag == -1)
+                                {
+                                    ServerMessageSender.CenterNotificationView(p, "Hành trang không đủ chỗ trống");
+                                }
+                                else
+                                {
+                                    ItemEquipment itemEquipment = new ItemEquipment(Helpers.GenerateId(), item.TemplateId);
+                                    p.InventoryItems[indexBag] = itemEquipment;
+                                    ServerMessageSender.RemoveItemPick(p, id, true);
+                                    ServerMessageSender.SendInventoryItems(p);
+                                    ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                }
+                            }
+                            else
+                            {
+                                int quantity = p.GetQuantityItem_ConsuOrMaterial(item.TemplateId, item.ItemType);
+                                if(quantity == 0)
+                                {
+                                    int indexBag = p.GetAvailableInventory();
+                                    if (indexBag == -1)
+                                    {
+                                        ServerMessageSender.CenterNotificationView(p, "Hành trang không đủ chỗ trống");
+                                    }
+                                    else
+                                    {
+                                        BaseItem baseItem = null;
+                                        if(item.ItemType == ItemType.Consumable)
+                                        {
+                                            baseItem = new ItemConsumable(item.TemplateId, 1);
+                                        }
+                                        else
+                                        {
+                                            baseItem = new ItemMaterial(item.TemplateId, 1);
+                                        }
+                                        p.InventoryItems[indexBag] = baseItem;
+                                        ServerMessageSender.RemoveItemPick(p, id, true);
+                                        ServerMessageSender.SendInventoryItems(p);
+                                        ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                    }
+                                }
+                                else
+                                {
+                                    BaseItem baseItem = p.GetItemConsuOrMate(item.TemplateId, item.ItemType);
+                                    if (baseItem != null)
+                                    {
+                                        if(baseItem.GetItemType() == ItemType.Consumable)
+                                        {
+                                            ((ItemConsumable)baseItem).Quantity += 1;
+                                        }
+                                        else
+                                        {
+                                            ((ItemMaterial)baseItem).Quantity += 1;
+                                        }
+                                        ServerMessageSender.RemoveItemPick(p, id, true);
+                                        ServerMessageSender.SendInventoryItems(p);
+                                        ServerMessageSender.CenterNotificationView(p, "Bạn nhặt được vật phẩm");
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ServerMessageSender.CenterNotificationView(p, "Vật phẩm của người khác");
+                        }
+                    }
+                    else
+                    {
+                        ServerMessageSender.CenterNotificationView(p, "Vật phẩm đã được nhặt bởi người khác");
+                        ServerMessageSender.RemoveItemPick(p, id, false);
+                    }
+                }
+            }
         }
 
         private void UpdatePlayers()

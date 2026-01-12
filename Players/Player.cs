@@ -262,6 +262,53 @@ namespace Crimson_Knight_Server.Players
             //WearingItems[2] = quan;
             //PlayerService.SaveData(this);
         }
+
+        public int GetAvailableInventory()
+        {
+            for(int i = 0; i < InventoryItems.Length; i++)
+            {
+                if(InventoryItems[i] == null)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int GetQuantityItem_ConsuOrMaterial(int idTemplate, ItemType type)
+        {
+            if(type == ItemType.Equipment)
+            {
+                return 0;
+            }
+            foreach(var item in  InventoryItems)
+            {
+                if(item.TemplateId == idTemplate)
+                {
+                    if (item.GetItemType() == ItemType.Consumable)
+                    {
+                        return ((ItemConsumable)item).Quantity;
+                    }
+                    else if (item.GetItemType() == ItemType.Material)
+                    {
+                        return ((ItemMaterial)item).Quantity;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        public BaseItem GetItemConsuOrMate(int idTemplate, ItemType type)
+        {
+            foreach(var item in InventoryItems)
+            {
+                if(item.TemplateId == idTemplate && item.GetItemType() == type)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
     }
 
 }

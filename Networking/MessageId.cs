@@ -16,6 +16,7 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_SELECT_MENU_ITEM,
         CLIENT_PLAYER_ATTACK,
         CLIENT_PLAYER_CHANGE_PKTYPE,
+        CLIENT_PICK_ITEM,
 
         //server
         SERVER_LOGIN,
@@ -35,5 +36,8 @@ namespace Crimson_Knight_Server.Networking
         SERVER_PLAYER_WEARING_ITEMS_INFO,
         SERVER_PLAYER_INVENTORY_ITEMS_INFO,
         SERVER_ITEM_DROP,
+        SERVER_ITEM_PICK_REMOVE,
+        SERVER_ITEM_PICKUP,
+        SERVER_CENTER_NOTIFICATION_VIEW
     }
 }

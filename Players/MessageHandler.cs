@@ -136,6 +136,15 @@ namespace Crimson_Knight_Server.Players
                     session.PkType = pkType;
                     ServerMessageSender.SendPkType(session);
                     break;
+                case MessageId.CLIENT_PICK_ITEM:
+                    string id = msg.ReadString();
+                    msg.Close();
+                    if(session.MapCur == null)
+                    {
+                        return;
+                    }
+                    session.MapCur.PickItemMessages.Add(new Maps.MessageMap.PickItemMsg(id, session));
+                    break;
                 default:
                         break;
             }
