@@ -67,7 +67,7 @@ namespace Crimson_Knight_Server.Monsters
             {
                 return;
             }
-            if(SystemUtil.CurrentTimeMillis() - startTimeAttack < Template.Cooldown)
+            if (SystemUtil.CurrentTimeMillis() - startTimeAttack < Template.Cooldown)
             {
                 return;
             }
@@ -88,39 +88,39 @@ namespace Crimson_Knight_Server.Monsters
 
                 targets.Add(p);
 
-                if(targets.Count >= targetCount)
+                if (targets.Count >= targetCount)
                 {
                     break;
                 }
             }
-            if(targets.Count == 0)
+            if (targets.Count == 0)
             {
                 return;
             }
             this.startTimeAttack = SystemUtil.CurrentTimeMillis();
 
-            foreach(var p in targets)
+            foreach (var p in targets)
             {
                 int dam = this.GetAtk() - p.GetDef();
-                if(dam <= 0)
+                if (dam <= 0)
                 {
                     dam = 1;
                 }
                 p.CurrentHp -= dam;
                 ServerMessageSender.PlayerBaseInfo(p, true);
-                SendAttackInfoMsg(dam,targets);
+                SendAttackInfoMsg(dam, targets);
             }
         }
 
 
 
-        void SendAttackInfoMsg(int dam, List<Player>targets)
+        void SendAttackInfoMsg(int dam, List<Player> targets)
         {
             Message msg = new Message(MessageId.SERVER_MONSTER_ATTACK);
             msg.WriteInt(this.Id);
             msg.WriteInt(dam);
             msg.WriteByte((byte)targets.Count);
-            foreach(var p in targets)
+            foreach (var p in targets)
             {
                 msg.WriteInt(p.Id);
             }
@@ -152,7 +152,7 @@ namespace Crimson_Knight_Server.Monsters
         protected override void AfterDie(BaseObject attacker)
         {
             //hp,mp
-            if (Helpers.Roll(4000))
+            if (Helpers.Roll(6000))
             {
                 //hp
                 int idConsu = 0;
@@ -169,12 +169,21 @@ namespace Crimson_Knight_Server.Monsters
                 return;
             }
             //material
-            if (Helpers.Roll(4000))
+            if (Helpers.Roll(5000))
             {
                 //tam thoi nhu nay
                 this.map.DropItem(0, ItemType.Material, attacker.Id, this);
                 return;
             }
+
+            //vang
+            if (Helpers.Roll(4000))
+            {
+                int vangRan = this.Template.Level * Helpers.RanInt(10, 40);
+                this.map.DropItem(-1, ItemType.Consumable, attacker.Id, this, vangRan);
+                return;
+            }
+
 
             if (Helpers.Roll(2000))
             {

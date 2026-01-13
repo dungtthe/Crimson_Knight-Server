@@ -171,6 +171,7 @@ namespace Crimson_Knight_Server.Players
             msg.WriteInt(p.GetMaxHp());
             msg.WriteInt(p.CurrentMp);
             msg.WriteInt(p.GetMaxMp());
+            msg.WriteLong(p.Gold);
             if (isSendFull)
             {
                 foreach (var item in p.MapCur.Players)
@@ -344,6 +345,14 @@ namespace Crimson_Knight_Server.Players
             Message msg = new Message(MessageId.SERVER_REMOVE_ITEM_PICK);
             msg.WriteString(id);
             ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
+
+        public static void PlayerInfoGold(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_PLAYER_GOLD_INFO);
+            msg.WriteLong(p.Gold);
+            p.SendMessage(msg);
             msg.Close();
         }
     }

@@ -130,6 +130,7 @@ namespace Crimson_Knight_Server.Services
             player.Level = playerModel.Level;
             player.Exp = playerModel.Exp;
             player.Gender = playerModel.Gender;
+            player.Gold = playerModel.Gold;
             player.SetUpStats(playerModel.Stats);
             player.SetUpSkills(playerModel.Skills);
             player.SetUpItem(playerModel.InventoryItems, playerModel.WearingItems);

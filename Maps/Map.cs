@@ -114,6 +114,13 @@ namespace Crimson_Knight_Server.Maps
                     {
                         if(item.PlayerId == -1 || item.PlayerId == p.Id)
                         {
+                            if(item.TemplateId == -1)//vang
+                            {
+                                ServerMessageSender.PlayerPickItem(p, id, false);
+                                p.UpdateGold(item.Quantity);
+                                return;
+                            }
+
                             if(item.ItemType == ItemType.Equipment)
                             {
                                 int indexBag = p.GetAvailableInventory();

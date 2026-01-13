@@ -36,6 +36,7 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                     Gender = (Gender)reader.MyGetSbyte("gender"),
                     InventoryItems = reader.MyGetString("inventory_items"),
                     WearingItems = reader.MyGetString("wearing_items"),
+                    Gold = reader.MyGetLong("gold")
                 };
                 return model;
             }

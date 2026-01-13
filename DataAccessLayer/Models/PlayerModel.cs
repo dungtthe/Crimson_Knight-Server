@@ -25,5 +25,6 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
 
         public string InventoryItems { get; set; }
         public string WearingItems { get; set; }
+        public long Gold { get; set; }
     }
 }

@@ -158,6 +158,8 @@ namespace Crimson_Knight_Server.Players
         public readonly BaseItem[] InventoryItems = new BaseItem[48];
         public readonly ItemEquipment[] WearingItems = new ItemEquipment[3];
 
+        public long Gold { get; set; }
+
         public Player(int playerId) : base(playerId)
         {
             this.PkType = PkType.None;
@@ -530,6 +532,17 @@ namespace Crimson_Knight_Server.Players
         private void OnLevelUp(short newLevel)
         {
 
+        }
+
+        public void UpdateGold(int quantity)
+        {
+            if(quantity <= 0)
+            {
+                return;
+            }
+            Gold += quantity;
+            ServerMessageSender.PlayerInfoGold(this);
+            ServerMessageSender.CenterNotificationView(this, $"Bạn nhận được {quantity} vàng");
         }
     }
 
