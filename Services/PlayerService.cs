@@ -48,7 +48,7 @@ namespace Crimson_Knight_Server.Services
                 {
                     string[] s = token.Split('.');
                     long timeMillis = long.Parse(s[1]);
-                    if (SystemUtil.CurrentTimeMillis() - timeMillis > 60000)
+                    if (SystemUtil.CurrentTimeMillis() - timeMillis > 10000)
                     {
                         rsRemove.Add(token);
                     }

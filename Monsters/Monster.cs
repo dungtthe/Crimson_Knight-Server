@@ -130,10 +130,22 @@ namespace Crimson_Knight_Server.Monsters
 
         public override void TakeDamage(int dam, BaseObject attacker)
         {
+            int hpPre = CurrentHp;
             base.TakeDamage(dam, attacker);
-            if(attacker != null && IsDie())
+
+            int exp = (int)((float)(Math.Abs(CurrentHp - hpPre)) / 5);
+
+            if (attacker != null)
             {
-                AfterDie(attacker);
+                if (attacker.IsPlayer())
+                {
+                    ((Player)attacker).UpdateExp(exp);
+                }
+
+                if (IsDie())
+                {
+                    AfterDie(attacker);
+                }
             }
         }
 

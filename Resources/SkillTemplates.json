@@ -22,6 +22,100 @@
           }
         }
       ]
+    },
+    {
+      "Id": 1,
+      "Name": "Mưa Thiên Thạch",
+      "Description": "Triệu hồi thiên thạch tấn công mục tiêu.",
+      "LevelPlayerRequire": 10,
+      "IsBuff": false,
+      "IconId": 5,
+      "EffectName": "MeteorShower",
+      "Variants": [
+        {
+          "MpLost": 10,
+          "Cooldown": 4000,
+          "Range": 180,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 12000
+            }
+          }
+        },
+        {
+          "MpLost": 14,
+          "Cooldown": 3800,
+          "Range": 180,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 15000
+            }
+          }
+        },
+        {
+          "MpLost": 18,
+          "Cooldown": 3500,
+          "Range": 180,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 18000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "Hỏa Diệm",
+      "Description": "Gây sát thương tới mục tiêu.",
+      "LevelPlayerRequire": 20,
+      "IsBuff": false,
+      "IconId": 6,
+      "EffectName": "FlameTeleportation",
+      "Variants": [
+        {
+          "MpLost": 20,
+          "Cooldown": 6000,
+          "Range": 220,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 14000
+            }
+          }
+        },
+        {
+          "MpLost": 25,
+          "Cooldown": 5500,
+          "Range": 220,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 17000
+            }
+          }
+        },
+        {
+          "MpLost": 30,
+          "Cooldown": 5000,
+          "Range": 220,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 20000
+            }
+          }
+        }
+      ]
     }
   ],
   "SAT_THU": [
@@ -43,6 +137,100 @@
             "PERCENT_ATK": {
               "Id": 6,
               "Value": 10000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Name": "Bão Tử Thần",
+      "Description": "Tấn công nhanh kẻ địch.",
+      "LevelPlayerRequire": 10,
+      "IsBuff": false,
+      "IconId": 7,
+      "EffectName": "Storm",
+      "Variants": [
+        {
+          "MpLost": 8,
+          "Cooldown": 3500,
+          "Range": 160,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 12000
+            }
+          }
+        },
+        {
+          "MpLost": 12,
+          "Cooldown": 3300,
+          "Range": 160,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 15000
+            }
+          }
+        },
+        {
+          "MpLost": 16,
+          "Cooldown": 3000,
+          "Range": 160,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 18000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "Địa Ngục Độc",
+      "Description": "Gây sát thương độc cực mạnh lên mục tiêu.",
+      "LevelPlayerRequire": 20,
+      "IsBuff": false,
+      "IconId": 8,
+      "EffectName": "PosonousInfernal",
+      "Variants": [
+        {
+          "MpLost": 18,
+          "Cooldown": 5500,
+          "Range": 200,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 14000
+            }
+          }
+        },
+        {
+          "MpLost": 23,
+          "Cooldown": 5200,
+          "Range": 200,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 17000
+            }
+          }
+        },
+        {
+          "MpLost": 28,
+          "Cooldown": 4800,
+          "Range": 200,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 20000
             }
           }
         }
@@ -72,6 +260,100 @@
           }
         }
       ]
+    },
+    {
+      "Id": 1,
+      "Name": "Băng Vỡ",
+      "Description": "Phóng mảnh băng tấn công kẻ địch.",
+      "LevelPlayerRequire": 10,
+      "IsBuff": false,
+      "IconId": 9,
+      "EffectName": "IceShard",
+      "Variants": [
+        {
+          "MpLost": 10,
+          "Cooldown": 4000,
+          "Range": 220,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 12000
+            }
+          }
+        },
+        {
+          "MpLost": 14,
+          "Cooldown": 3800,
+          "Range": 220,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 15000
+            }
+          }
+        },
+        {
+          "MpLost": 18,
+          "Cooldown": 3500,
+          "Range": 220,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 18000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "Bão Năng Lượng",
+      "Description": "Triệu hồi bão năng lượng hủy diệt.",
+      "LevelPlayerRequire": 20,
+      "IsBuff": false,
+      "IconId": 10,
+      "EffectName": "EnergyStorm",
+      "Variants": [
+        {
+          "MpLost": 22,
+          "Cooldown": 6000,
+          "Range": 260,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 14000
+            }
+          }
+        },
+        {
+          "MpLost": 27,
+          "Cooldown": 5600,
+          "Range": 260,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 17000
+            }
+          }
+        },
+        {
+          "MpLost": 32,
+          "Cooldown": 5200,
+          "Range": 260,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 20000
+            }
+          }
+        }
+      ]
     }
   ],
   "XA_THU": [
@@ -93,6 +375,100 @@
             "PERCENT_ATK": {
               "Id": 6,
               "Value": 10000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Name": "Laser Gamma",
+      "Description": "Bắn tia laser xuyên mục tiêu.",
+      "LevelPlayerRequire": 10,
+      "IsBuff": false,
+      "IconId": 11,
+      "EffectName": "GammaLaser",
+      "Variants": [
+        {
+          "MpLost": 12,
+          "Cooldown": 4000,
+          "Range": 250,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 12000
+            }
+          }
+        },
+        {
+          "MpLost": 16,
+          "Cooldown": 3700,
+          "Range": 250,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 15000
+            }
+          }
+        },
+        {
+          "MpLost": 20,
+          "Cooldown": 3400,
+          "Range": 250,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 18000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "Đạn Gamma",
+      "Description": "Bắn đạn năng lượng cực mạnh.",
+      "LevelPlayerRequire": 20,
+      "IsBuff": false,
+      "IconId": 12,
+      "EffectName": "GamaBullet",
+      "Variants": [
+        {
+          "MpLost": 20,
+          "Cooldown": 5500,
+          "Range": 280,
+          "TargetCount": 1,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 14000
+            }
+          }
+        },
+        {
+          "MpLost": 25,
+          "Cooldown": 5200,
+          "Range": 280,
+          "TargetCount": 2,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 17000
+            }
+          }
+        },
+        {
+          "MpLost": 30,
+          "Cooldown": 4800,
+          "Range": 280,
+          "TargetCount": 3,
+          "Stats": {
+            "PERCENT_ATK": {
+              "Id": 6,
+              "Value": 20000
             }
           }
         }

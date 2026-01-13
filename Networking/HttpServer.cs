@@ -118,7 +118,8 @@ namespace Crimson_Knight_Server.Networking
                         ItemEquipmentTemplates = TemplateManager.ItemEquipmentTemplates,
                         ItemConsumableTemplates = TemplateManager.ItemConsumableTemplates,
                         ItemMaterialTemplates = TemplateManager.ItemMaterialTemplates,
-                        StatDefinitions = TemplateManager.StatDefinitions
+                        StatDefinitions = TemplateManager.StatDefinitions,
+                        Levels = TemplateManager.Levels,
                     });
                     break;
                 default:

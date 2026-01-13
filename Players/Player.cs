@@ -169,10 +169,9 @@ namespace Crimson_Knight_Server.Players
         }
         public void SetUpSkills(string data)
         {
-            byte size = 1;
             Skills = new List<Skill>();
             string[] s1 = data.Split('_');
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < s1.Length; i++)
             {
                 string[] s2 = s1[i].Split('.');
                 int templateId = int.Parse(s2[0]);
@@ -499,6 +498,38 @@ namespace Crimson_Knight_Server.Players
             return baseDef
                  + flatDef
                  + (int)((long)baseDef * percentDef / 10000);
+        }
+
+        public void UpdateExp(int exp)
+        {
+            if (exp <= 0) return;
+
+            int maxLevel = TemplateManager.Levels.Count - 1;
+
+            if (this.Level >= maxLevel)
+                return;
+
+            this.Exp += exp;
+
+            if (this.Exp >= TemplateManager.Levels[maxLevel])
+            {
+                this.Exp = TemplateManager.Levels[maxLevel];
+                this.Level = (short)maxLevel;
+                return;
+            }
+
+            while (this.Level < maxLevel &&
+                   this.Exp >= TemplateManager.Levels[this.Level + 1])
+            {
+                this.Level++;
+                OnLevelUp(this.Level);
+            }
+            ServerMessageSender.PlayerBaseInfo(this, true);
+        }
+
+        private void OnLevelUp(short newLevel)
+        {
+
         }
     }
 
