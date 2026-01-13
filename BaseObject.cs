@@ -26,6 +26,11 @@ namespace Crimson_Knight_Server
                 if (_currentHp == value) return;
 
                 _currentHp = Math.Max(0, value);
+                int maxhp = GetMaxHp();
+                if (_currentHp > maxhp)
+                {
+                    _currentHp = maxhp;
+                }
                 CheckDie();
             }
         }

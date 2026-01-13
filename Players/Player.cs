@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Players.Item;
+using Crimson_Knight_Server.Players.MessagePlayer;
 using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates;
@@ -18,6 +19,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 namespace Crimson_Knight_Server.Players
 {
     public class Player : BaseObject
@@ -108,7 +110,7 @@ namespace Crimson_Knight_Server.Players
                 {
                     //this.MapCur?.BusPlayerExitMap.Enqueue(this);
                     //ServerManager.GI().RemoveSession(this);
-                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool,short,short>(this.MapCur, this, false,-1,-1));
+                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(this.MapCur, this, false, -1, -1));
                     ServerManager.GI().RemoveSession(this);
                     ConsoleLogging.LogWarning($"[Client {Id}] Đã đóng kết nối.");
                 }
@@ -125,8 +127,26 @@ namespace Crimson_Knight_Server.Players
 
 
         #endregion
+
+        public readonly ConcurrentQueue<UseItemMsg> UseItemMsgs = new ConcurrentQueue<UseItemMsg>();
+
         public string Name { get; set; }
-        public int CurrentMp { get; set; }
+
+        private int _currentMp;
+        public int CurrentMp
+        {
+            get => _currentMp;
+            set
+            {
+                if (_currentMp == value) return;
+                _currentMp = Math.Max(0, value);
+                int maxMp = GetMaxMp();
+                if (_currentMp > maxMp)
+                {
+                    _currentMp = maxMp;
+                }
+            }
+        }
         public short Level { get; set; }
         public PkType PkType { get; set; }
 
@@ -186,7 +206,7 @@ namespace Crimson_Knight_Server.Players
                             InventoryItems[i] = ItemMaterial.Create(data);
                             break;
                     }
-                }    
+                }
             }
 
             JsonElement[] wears = JsonSerializer.Deserialize<JsonElement[]>(wearingItems);
@@ -214,7 +234,7 @@ namespace Crimson_Knight_Server.Players
         {
             this.Id = id;
         }
-      
+
 
 
         protected override void CheckDie()
@@ -227,41 +247,100 @@ namespace Crimson_Knight_Server.Players
             return true;
         }
 
-        private bool test = false;
         public override void Update()
         {
-            //if (test)
-            //{
-            //    return;
-            //}
-            //test = true;
+            UpdateUseItemMsgs();
+        }
 
-            //ItemConsumable hp = new ItemConsumable(0, 5546);
-            //InventoryItems[0] = hp;
-            //ItemConsumable mp = new ItemConsumable(1, 65);
-            //InventoryItems[1] = mp;
 
-            //ItemMaterial da = new ItemMaterial(0, 8855);
-            //InventoryItems[2] = da;
+        private long startTimeUseHp = 0;
+        private long startTimeUseMp = 0;
+        private void UpdateUseItemMsgs()
+        {
+            while (UseItemMsgs.TryDequeue(out var msg))
+            {
+                try
+                {
+                    string idItem = msg.ItemId;
+                    ItemType itemType = msg.ItemType;
+                    if (itemType == ItemType.Consumable)
+                    {
+                        int templateId = int.Parse(idItem);
+                        int quantity = GetQuantityItem_ConsuOrMaterial(templateId, itemType);
+                        if (quantity == 0)
+                        {
+                            string name = TemplateManager.ItemConsumableTemplates[templateId].Name;
+                            ServerMessageSender.CenterNotificationView(this, $"Đã hết {name}");
+                        }
+                        else
+                        {
+                            HandleUseItemConsumable(templateId);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    ConsoleLogging.LogError($"Lỗi ở UpdateUseItemMsgs {e.Message}");
+                }
+            }
 
-            //ItemEquipment vukhi = new ItemEquipment(Helpers.GenerateId(), 0);
-            //InventoryItems[3] = vukhi;
-            //ItemEquipment ao = new ItemEquipment(Helpers.GenerateId(), 4);
-            //InventoryItems[4] = ao;
-            //ItemEquipment quan = new ItemEquipment(Helpers.GenerateId(), 6);
-            //InventoryItems[5] = quan;
 
-            //WearingItems[0] = vukhi;
-            //WearingItems[1] = ao;
-            //WearingItems[2] = quan;
-            //PlayerService.SaveData(this);
+            void HandleUseItemConsumable(int templateId)
+            {
+                BaseItem baseItem = GetItemConsuOrMate(templateId, ItemType.Consumable);
+                if(baseItem == null)
+                {
+                    return;
+                }
+
+                if(this.Level < TemplateManager.ItemConsumableTemplates[templateId].LevelRequire)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ level để dùng vật phẩm này");
+                    return;
+                }
+
+                if (templateId == 0 || templateId == 2)//hp
+                {
+                    if (SystemUtil.CurrentTimeMillis() - startTimeUseHp < TemplateManager.ItemConsumableTemplates[templateId].Cooldown)
+                    {
+                        ServerMessageSender.CenterNotificationView(this, "Thao tác quá nhanh");
+                        return;
+                    }
+                    startTimeUseHp = SystemUtil.CurrentTimeMillis();
+                }
+                else if (templateId == 1 || templateId == 3)//mp
+                {
+                    if (SystemUtil.CurrentTimeMillis() - startTimeUseMp < TemplateManager.ItemConsumableTemplates[templateId].Cooldown)
+                    {
+                        ServerMessageSender.CenterNotificationView(this, "Thao tác quá nhanh");
+                        return;
+                    }
+                    startTimeUseMp = SystemUtil.CurrentTimeMillis();
+                }
+
+                ((ItemConsumable)baseItem).Quantity -= 1;
+                if (templateId == 0 || templateId == 2)//hp
+                {
+                    CurrentHp += (int)TemplateManager.ItemConsumableTemplates[templateId].Value;
+                }
+                else if (templateId == 1 || templateId == 3)//mp
+                {
+                    CurrentMp += (int)TemplateManager.ItemConsumableTemplates[templateId].Value;
+                }
+                if(((ItemConsumable)baseItem).Quantity == 0)
+                {
+                    RemoveItem(baseItem);
+                }
+                ServerMessageSender.PlayerBaseInfo(this, true);
+                ServerMessageSender.SendInventoryItems(this);
+            }
         }
 
         public int GetAvailableInventory()
         {
-            for(int i = 0; i < InventoryItems.Length; i++)
+            for (int i = 0; i < InventoryItems.Length; i++)
             {
-                if(InventoryItems[i] == null)
+                if (InventoryItems[i] == null)
                 {
                     return i;
                 }
@@ -269,15 +348,31 @@ namespace Crimson_Knight_Server.Players
             return -1;
         }
 
+        public void RemoveItem(BaseItem item)
+        {
+            for(int i = 0;i < InventoryItems.Length;i++)
+            {
+                if(InventoryItems[i] == item)
+                {
+                    InventoryItems[i] = null;
+                }
+            }
+        }
+
         public int GetQuantityItem_ConsuOrMaterial(int idTemplate, ItemType type)
         {
-            if(type == ItemType.Equipment)
+            if (type == ItemType.Equipment)
             {
                 return 0;
             }
-            foreach(var item in  InventoryItems)
+            foreach (var item in InventoryItems)
             {
-                if(item.TemplateId == idTemplate)
+                if (item == null)
+                {
+                    continue;
+                }
+
+                if (item.TemplateId == idTemplate && item.GetItemType() == type)
                 {
                     if (item.GetItemType() == ItemType.Consumable)
                     {
@@ -294,9 +389,13 @@ namespace Crimson_Knight_Server.Players
 
         public BaseItem GetItemConsuOrMate(int idTemplate, ItemType type)
         {
-            foreach(var item in InventoryItems)
+            foreach (var item in InventoryItems)
             {
-                if(item.TemplateId == idTemplate && item.GetItemType() == type)
+                if(item == null)
+                {
+                    continue;
+                }
+                if (item.TemplateId == idTemplate && item.GetItemType() == type)
                 {
                     return item;
                 }

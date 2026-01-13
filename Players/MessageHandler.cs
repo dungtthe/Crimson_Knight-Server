@@ -145,6 +145,11 @@ namespace Crimson_Knight_Server.Players
                     }
                     session.MapCur.PickItemMessages.Add(new Maps.MessageMap.PickItemMsg(id, session));
                     break;
+                case MessageId.CLIENT_USE_ITEM:
+                    string idItem = msg.ReadString();
+                    ItemType type = (ItemType)msg.ReadByte();
+                    session.UseItemMsgs.Enqueue(new MessagePlayer.UseItemMsg(idItem,type));
+                    break;
                 default:
                         break;
             }

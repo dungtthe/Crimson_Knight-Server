@@ -17,6 +17,7 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_PLAYER_ATTACK,
         CLIENT_PLAYER_CHANGE_PKTYPE,
         CLIENT_PICK_ITEM,
+        CLIENT_USE_ITEM,
 
         //server
         SERVER_LOGIN,
