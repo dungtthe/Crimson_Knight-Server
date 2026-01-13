@@ -229,6 +229,7 @@ namespace Crimson_Knight_Server.Maps
 
                     int countTarget = 0;
                     List<BaseObject> objTakeDamages = new List<BaseObject>();
+                    List<int>dams = new List<int>();
                     for (int i = 0; i < attackMessage.TargetIds.Length; i++)
                     {
                         if (countTarget >= skillUse.GetTargetCount())
@@ -272,21 +273,21 @@ namespace Crimson_Knight_Server.Maps
                         {
                             dam = 1;
                         }
+                        dams.Add(dam);
                         objReceive.TakeDamage(dam, playerSend);
                         objTakeDamages.Add(objReceive);
-
-                        foreach (var item in objTakeDamages)
+                    }
+                    SendAttackPlayerInfoMsg(playerSend, skillUse.TemplateId, dams, objTakeDamages);
+                    foreach (var item in objTakeDamages)
+                    {
+                        if (item.IsMonster())
                         {
-                            if (item.IsMonster())
-                            {
-                                ServerMessageSender.MonsterBaseInfo((Monster)item, this);
-                            }
-                            else
-                            {
-                                ServerMessageSender.PlayerBaseInfo((Player)item, true);
-                            }
+                            ServerMessageSender.MonsterBaseInfo((Monster)item, this);
                         }
-                        SendAttackPlayerInfoMsg(playerSend, skillUse.TemplateId, dam, objTakeDamages);
+                        else
+                        {
+                            ServerMessageSender.PlayerBaseInfo((Player)item, true);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -296,16 +297,15 @@ namespace Crimson_Knight_Server.Maps
             }
         }
 
-        void SendAttackPlayerInfoMsg(BaseObject attacker, int skillUseId, int dame, List<BaseObject> targets)
+        void SendAttackPlayerInfoMsg(BaseObject attacker, int skillUseId, List<int> dames, List<BaseObject> targets)
         {
             Message msg = new Message(MessageId.SERVER_PLAYER_ATTACK);
             msg.WriteInt(attacker.Id);
             msg.WriteInt(skillUseId);
-            msg.WriteInt(dame);
-
             msg.WriteByte((byte)targets.Count);
             for (int i = 0; i < targets.Count; i++)
             {
+                msg.WriteInt(dames[i]);
                 msg.WriteBool(targets[i].IsPlayer());
                 msg.WriteInt(targets[i].Id);
             }
