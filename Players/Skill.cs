@@ -13,8 +13,8 @@ namespace Crimson_Knight_Server.Players
     {
         public int TemplateId { get; private set; }
         private ClassType playerClassType;
-        public byte VariantId { get; private set; }
-        public Skill(int templateId, byte variantId, ClassType playerClassType)
+        public sbyte VariantId { get; private set; }
+        public Skill(int templateId,sbyte variantId, ClassType playerClassType)
         {
             this.TemplateId = templateId;
             this.VariantId = variantId;

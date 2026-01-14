@@ -177,7 +177,7 @@ namespace Crimson_Knight_Server.Players
             {
                 string[] s2 = s1[i].Split('.');
                 int templateId = int.Parse(s2[0]);
-                byte variantId = byte.Parse(s2[1]);
+                sbyte variantId = sbyte.Parse(s2[1]);
                 var skill = new Skill(templateId, variantId, this.ClassType);
                 Skills.Add(skill);
             }
@@ -289,12 +289,12 @@ namespace Crimson_Knight_Server.Players
             void HandleUseItemConsumable(int templateId)
             {
                 BaseItem baseItem = GetItemConsuOrMate(templateId, ItemType.Consumable);
-                if(baseItem == null)
+                if (baseItem == null)
                 {
                     return;
                 }
 
-                if(this.Level < TemplateManager.ItemConsumableTemplates[templateId].LevelRequire)
+                if (this.Level < TemplateManager.ItemConsumableTemplates[templateId].LevelRequire)
                 {
                     ServerMessageSender.CenterNotificationView(this, "Không đủ level để dùng vật phẩm này");
                     return;
@@ -328,7 +328,7 @@ namespace Crimson_Knight_Server.Players
                 {
                     CurrentMp += (int)TemplateManager.ItemConsumableTemplates[templateId].Value;
                 }
-                if(((ItemConsumable)baseItem).Quantity == 0)
+                if (((ItemConsumable)baseItem).Quantity == 0)
                 {
                     RemoveItem(baseItem);
                 }
@@ -351,9 +351,9 @@ namespace Crimson_Knight_Server.Players
 
         public void RemoveItem(BaseItem item)
         {
-            for(int i = 0;i < InventoryItems.Length;i++)
+            for (int i = 0; i < InventoryItems.Length; i++)
             {
-                if(InventoryItems[i] == item)
+                if (InventoryItems[i] == item)
                 {
                     InventoryItems[i] = null;
                 }
@@ -392,7 +392,7 @@ namespace Crimson_Knight_Server.Players
         {
             foreach (var item in InventoryItems)
             {
-                if(item == null)
+                if (item == null)
                 {
                     continue;
                 }
@@ -536,7 +536,7 @@ namespace Crimson_Knight_Server.Players
 
         public void UpdateGold(int quantity)
         {
-            if(quantity <= 0)
+            if (quantity <= 0)
             {
                 return;
             }

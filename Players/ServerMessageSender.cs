@@ -224,7 +224,7 @@ namespace Crimson_Knight_Server.Players
             foreach (var item in p.Skills)
             {
                 msg.WriteInt(item.TemplateId);
-                msg.WriteByte(item.VariantId);
+                msg.WriteSByte(item.VariantId);
             }
             p.SendMessage(msg);
             msg.Close();
