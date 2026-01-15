@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 0,
+    "Name": "Thử thách nho nhỏ!",
+    "Description": "Tiêu diệt lũ Slime",
+    "MonsterTemplateId": 0,
+    "Quantity": 5,
+    "NpcId": 0,
+    "GoldReceive": 10000,
+    "EXPReceive": 100
+  }
+]

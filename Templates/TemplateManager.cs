@@ -23,6 +23,7 @@ namespace Crimson_Knight_Server.Templates
         public static List<ItemConsumableTemplate> ItemConsumableTemplates = new List<ItemConsumableTemplate>();
         public static List<ItemMaterialTemplate> ItemMaterialTemplates = new List<ItemMaterialTemplate>();
         public static List<int> Levels = new List<int>();
+        public static List<QuestTemplate> QuestTemplates = new List<QuestTemplate>();
 
         public static Dictionary<StatId, StatDefinition> StatDefinitions;
 
@@ -38,6 +39,7 @@ namespace Crimson_Knight_Server.Templates
             ItemEquipmentTemplates = LoadTemplates<ItemEquipmentTemplate>("ItemEquipmentTemplates.json");
             ItemConsumableTemplates = LoadTemplates<ItemConsumableTemplate>("ItemConsumableTemplates.json");
             ItemMaterialTemplates = LoadTemplates<ItemMaterialTemplate>("ItemMaterialTemplates.json");
+            QuestTemplates = LoadTemplates<QuestTemplate>("Quests.json");
             Levels = LoadTemplates<int>("Level.json");
             LoadStats();
             LoadSkillTemplates();

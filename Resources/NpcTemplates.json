@@ -12,5 +12,12 @@
     "ImageId": 21,
     "ImageTalkId": 21,
     "Content": "Hi. Chào cậu!"
+  },
+  {
+    "Id": 2,
+    "Name": "Cây thông",
+    "ImageId": 48,
+    "ImageTalkId": 48,
+    "Content": "Chúc mừng năm mới 'Phát triển game với Unity - SE115.Q11'"
   }
 ]

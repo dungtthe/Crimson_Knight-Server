@@ -37,6 +37,9 @@
     <None Update="Resources\NpcTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Quests.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\SkillTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

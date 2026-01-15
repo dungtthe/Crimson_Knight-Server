@@ -40,6 +40,7 @@ public static class NpcService
                 ShowMenuKiemSi(npcId, p);
                 break;
             default:
+                ShowDialogOk("Nhóm mình chưa làm chức năng này nha >.<", p);
                 break;
         }
     }
