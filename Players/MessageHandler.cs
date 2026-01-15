@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Maps.MessageMap.Attack;
 using Crimson_Knight_Server.Networking;
+using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
@@ -150,6 +151,11 @@ namespace Crimson_Knight_Server.Players
                     ItemType type = (ItemType)msg.ReadByte();
                     session.UseItemMsgs.Enqueue(new MessagePlayer.UseItemMsg(idItem,type));
                     break;
+                case MessageId.CLIENT_SELECT_DIALOG_YES_NO:
+                    DialogYesNoId dialogYesNoId = (DialogYesNoId)msg.ReadByte();
+                    bool isOk = msg.ReadBool();
+                    NpcService.HandleDialogYesNo(dialogYesNoId, isOk, session);
+                    break; 
                 default:
                         break;
             }

@@ -44,7 +44,14 @@
   },
   {
     "Id": 1,
-    "Name": "Tên map số 1"
+    "Name": "Tên map số 1",
+    "Npcs": [
+      {
+        "TemplateId": 1,
+        "X": 626,
+        "Y": 912
+      }
+    ]
   },
   {
     "Id": 2,

@@ -5,5 +5,12 @@
     "ImageId": 34,
     "ImageTalkId": 34,
     "Content": "Hi! Chào con, đừng báo cha báo mẹ nhé."
+  },
+  {
+    "Id": 1,
+    "Name": "Kiếm sĩ",
+    "ImageId": 21,
+    "ImageTalkId": 21,
+    "Content": "Hi. Chào cậu!"
   }
 ]
