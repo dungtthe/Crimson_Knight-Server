@@ -151,6 +151,26 @@ namespace Crimson_Knight_Server.Monsters
 
         protected override void AfterDie(BaseObject attacker)
         {
+            if (attacker != null)
+            {
+                Player p = attacker as Player;
+                if (p.Quest != null && p.Quest.QuestState == QuestState.InProgress)
+                {
+                    if(p.Quest.GetTemplate().MonsterTemplateId == this.Template.Id)
+                    {
+                        p.Quest.QuantityCur++;
+                        string content = $"Nhiệm vụ {p.Quest.GetTemplate().Name}: {p.Quest.QuantityCur}/{p.Quest.GetTemplate().Quantity}";
+                        ServerMessageSender.CenterNotificationView(p,content);
+                        if(p.Quest.QuantityCur >= p.Quest.GetTemplate().Quantity)
+                        {
+                            p.Quest.QuestState = QuestState.Completed;
+                            ServerMessageSender.CenterNotificationView(p, $"Hoàn thành nhiệm vụ {p.Quest.GetTemplate().Name}");
+                            ServerMessageSender.SendQuest(p);
+                        }
+                    }
+                }
+            }
+
             //hp,mp
             if (Helpers.Roll(6000))
             {

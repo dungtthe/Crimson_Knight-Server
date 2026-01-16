@@ -154,6 +154,7 @@ namespace Crimson_Knight_Server.Players
         public List<Skill> Skills;
         public long Exp { get; set; }
         public Gender Gender { get; set; }
+        public Quest Quest { get; set; }
 
         public readonly BaseItem[] InventoryItems = new BaseItem[48];
         public readonly ItemEquipment[] WearingItems = new ItemEquipment[3];
@@ -220,6 +221,27 @@ namespace Crimson_Knight_Server.Players
                 }
             }
         }
+
+        public void SetUpQuest(string quest)
+        {
+            if(quest == null)
+            {
+                this.Quest = null;
+            }
+            else
+            {
+                string[] s= quest.Split(".");
+                int id = int.Parse(s[0]);
+                int quantity = int.Parse(s[1]);
+                byte state = byte.Parse(s[2]);
+                this.Quest = new Quest()
+                {
+                    Id = id,
+                    QuantityCur = quantity,
+                    QuestState = (QuestState)state,
+                };
+            }
+        }
         public void FinalSetup()
         {
             this.CurrentHp = this.GetMaxHp();
@@ -228,6 +250,7 @@ namespace Crimson_Knight_Server.Players
             ServerMessageSender.SendPlayerSkillInfo(this);
             ServerMessageSender.SendWearingItems(this);
             ServerMessageSender.SendInventoryItems(this);
+            ServerMessageSender.SendQuest(this);
         }
 
         public ClassType ClassType;

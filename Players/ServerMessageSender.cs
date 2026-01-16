@@ -355,5 +355,24 @@ namespace Crimson_Knight_Server.Players
             p.SendMessage(msg);
             msg.Close();
         }
+
+        public static void SendQuest(Player p)
+        {
+            Message msg = new Message(MessageId.SERVER_QUEST_INFO);
+            bool hasQuest = true;
+            if(p.Quest == null)
+            {
+                hasQuest = false;
+            }
+            msg.WriteBool(hasQuest);
+            if (hasQuest)
+            {
+                msg.WriteInt(p.Quest.Id);
+                msg.WriteInt(p.Quest.QuantityCur);
+                msg.WriteByte((byte)p.Quest.QuestState);
+            }
+            p.SendMessage(msg);
+            msg.Close();
+        }
     }
 }

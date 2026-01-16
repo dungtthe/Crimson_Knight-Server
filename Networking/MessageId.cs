@@ -44,5 +44,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_REMOVE_ITEM_PICK,
         SERVER_CENTER_NOTIFICATION_VIEW,
         SERVER_PLAYER_GOLD_INFO,
+        SERVER_QUEST_INFO,
     }
 }

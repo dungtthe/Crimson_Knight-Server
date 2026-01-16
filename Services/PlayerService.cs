@@ -134,6 +134,7 @@ namespace Crimson_Knight_Server.Services
             player.SetUpStats(playerModel.Stats);
             player.SetUpSkills(playerModel.Skills);
             player.SetUpItem(playerModel.InventoryItems, playerModel.WearingItems);
+            player.SetUpQuest(playerModel.Quest);
             ServerManager.GI().AddSession(player);
             PlayerEnterGame(player, playerModel);
             return true;

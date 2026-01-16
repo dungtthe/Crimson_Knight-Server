@@ -120,6 +120,7 @@ namespace Crimson_Knight_Server.Networking
                         ItemMaterialTemplates = TemplateManager.ItemMaterialTemplates,
                         StatDefinitions = TemplateManager.StatDefinitions,
                         Levels = TemplateManager.Levels,
+                        QuestTemplates = TemplateManager.QuestTemplates,
                     });
                     break;
                 default:

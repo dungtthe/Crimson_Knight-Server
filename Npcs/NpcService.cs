@@ -65,15 +65,7 @@ public static class NpcService
   
     private static void ShowMenuNguoiMe(int npcId, Player p)
     {
-        Message msg = new Message(MessageId.SERVER_SHOW_MENU);
-        msg.WriteInt(npcId);
-        msg.WriteString("E hehe he");
-        msg.WriteByte(3);
-        msg.WriteString("Xin chào " + 1);
-        msg.WriteString("Xin chào " + 2);
-        msg.WriteString("Xin chào " + 3);
-        p.SendMessage(msg);
-        msg.Close();
+        ShowDialogOk("Chưa có chức năng cho npc này", p);
     }
 
     private static void SelectMenuItemNguoiMe(int npcId, byte menuItemId, Player p)
