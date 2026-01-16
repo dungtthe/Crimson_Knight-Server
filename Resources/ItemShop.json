@@ -1,0 +1,147 @@
+[
+  {
+    "IdItem": 0,
+    "ItemType": "Consumable",
+    "Price": 1000
+  },
+  {
+    "IdItem": 1,
+    "ItemType": "Consumable",
+    "Price": 1000
+  },
+  {
+    "IdItem": 2,
+    "ItemType": "Consumable",
+    "Price": 2000
+  },
+  {
+    "IdItem": 3,
+    "ItemType": "Consumable",
+    "Price": 2000
+  },
+  {
+    "IdItem": 0,
+    "ItemType": "Material",
+    "Price": 1000
+  },
+  {
+    "IdItem": 0,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 1,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 2,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 3,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 4,
+    "ItemType": "Equipment",
+    "Price": 10000
+  },
+  {
+    "IdItem": 5,
+    "ItemType": "Equipment",
+    "Price": 10000
+  },
+  {
+    "IdItem": 6,
+    "ItemType": "Equipment",
+    "Price": 10000
+  },
+  {
+    "IdItem": 7,
+    "ItemType": "Equipment",
+    "Price": 10000
+  },
+  {
+    "IdItem": 8,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 9,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 10,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 11,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 12,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 13,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 14,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 15,
+    "ItemType": "Equipment",
+    "Price": 20000
+  },
+  {
+    "IdItem": 16,
+    "ItemType": "Equipment",
+    "Price": 80000
+  },
+  {
+    "IdItem": 17,
+    "ItemType": "Equipment",
+    "Price": 80000
+  },
+  {
+    "IdItem": 18,
+    "ItemType": "Equipment",
+    "Price": 80000
+  },
+  {
+    "IdItem": 19,
+    "ItemType": "Equipment",
+    "Price": 80000
+  },
+  {
+    "IdItem": 20,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 21,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 22,
+    "ItemType": "Equipment",
+    "Price": 40000
+  },
+  {
+    "IdItem": 23,
+    "ItemType": "Equipment",
+    "Price": 40000
+  }
+]

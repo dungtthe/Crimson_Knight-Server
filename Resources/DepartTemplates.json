@@ -20,7 +20,19 @@
   {
     "Id": 3,
     "MapEnterId": 1,
-    "XEnter": 1763,
+    "XEnter": 1595,
     "YEnter": 741
+  },
+  {
+    "Id": 4,
+    "MapEnterId": 3,
+    "XEnter": 486,
+    "YEnter": 215
+  },
+  {
+    "Id": 5,
+    "MapEnterId": 1,
+    "XEnter": 989,
+    "YEnter": 1233
   }
 ]

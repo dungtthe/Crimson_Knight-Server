@@ -60,6 +60,92 @@
   },
   {
     "Id": 2,
-    "Name": "Tên map số 2"
+    "Name": "Tên map số 2",
+    "Monsters": [
+      {
+        "TemplateId": 1,
+        "X": 1307,
+        "Y": 410
+      },
+      {
+        "TemplateId": 1,
+        "X": 1307,
+        "Y": 272
+      },
+      {
+        "TemplateId": 1,
+        "X": 1133,
+        "Y": 272
+      },
+      {
+        "TemplateId": 1,
+        "X": 1079,
+        "Y": 380
+      },
+      {
+        "TemplateId": 2,
+        "X": 1577,
+        "Y": 772
+      },
+      {
+        "TemplateId": 2,
+        "X": 1697,
+        "Y": 772
+      },
+      {
+        "TemplateId": 2,
+        "X": 1547,
+        "Y": 724
+      },
+      {
+        "TemplateId": 2,
+        "X": 1613,
+        "Y": 946
+      },
+      {
+        "TemplateId": 3,
+        "X": 2087,
+        "Y": 1696
+      },
+      {
+        "TemplateId": 3,
+        "X": 1907,
+        "Y": 1696
+      },
+      {
+        "TemplateId": 3,
+        "X": 1907,
+        "Y": 1840
+      },
+      {
+        "TemplateId": 3,
+        "X": 1961,
+        "Y": 1600
+      },
+      {
+        "TemplateId": 4,
+        "X": 388,
+        "Y": 2116
+      },
+      {
+        "TemplateId": 4,
+        "X": 588,
+        "Y": 2116
+      },
+      {
+        "TemplateId": 4,
+        "X": 588,
+        "Y": 1966
+      },
+      {
+        "TemplateId": 4,
+        "X": 460,
+        "Y": 1966
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Tên map số 3"
   }
 ]

@@ -11,11 +11,11 @@
     "Stats": {
       "HP": {
         "Id": 0,
-        "Value": 200
+        "Value": 300
       },
       "ATK": {
         "Id": 2,
-        "Value": 5
+        "Value": 10
       }
     }
   },
@@ -31,11 +31,11 @@
     "Stats": {
       "HP": {
         "Id": 0,
-        "Value": 500
+        "Value": 600
       },
       "ATK": {
         "Id": 2,
-        "Value": 10
+        "Value": 20
       }
     }
   },
@@ -47,15 +47,15 @@
     "RespawnTime": 5000,
     "Range": 150,
     "TargetCount": 1,
-    "Level": 7,
+    "Level": 8,
     "Stats": {
       "HP": {
         "Id": 0,
-        "Value": 1000
+        "Value": 1200
       },
       "ATK": {
         "Id": 2,
-        "Value": 12
+        "Value": 30
       }
     }
   },
@@ -63,7 +63,7 @@
     "Id": 3,
     "Name": "Bunny",
     "ImageId": 1173,
-    "Level": 10,
+    "Level": 12,
     "Cooldown": 3000,
     "RespawnTime": 5000,
     "Range": 150,
@@ -71,11 +71,11 @@
     "Stats": {
       "HP": {
         "Id": 0,
-        "Value": 1500
+        "Value": 2400
       },
       "ATK": {
         "Id": 2,
-        "Value": 15
+        "Value": 40
       }
     }
   },
@@ -87,15 +87,15 @@
     "RespawnTime": 5000,
     "Range": 150,
     "TargetCount": 1,
-    "Level": 14,
+    "Level": 16,
     "Stats": {
       "HP": {
         "Id": 0,
-        "Value": 2000
+        "Value": 4800
       },
       "ATK": {
         "Id": 2,
-        "Value": 18
+        "Value": 50
       }
     }
   }

@@ -1,6 +1,7 @@
 ﻿using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates.Item;
+using Crimson_Knight_Server.Templates.Shops;
 using Crimson_Knight_Server.Utils;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Crimson_Knight_Server.Templates
         public static List<ItemMaterialTemplate> ItemMaterialTemplates = new List<ItemMaterialTemplate>();
         public static List<int> Levels = new List<int>();
         public static List<QuestTemplate> QuestTemplates = new List<QuestTemplate>();
+        public static List<ItemShop> ItemShops = new List<ItemShop>();
 
         public static Dictionary<StatId, StatDefinition> StatDefinitions;
 
@@ -41,6 +43,7 @@ namespace Crimson_Knight_Server.Templates
             ItemMaterialTemplates = LoadTemplates<ItemMaterialTemplate>("ItemMaterialTemplates.json");
             QuestTemplates = LoadTemplates<QuestTemplate>("Quests.json");
             Levels = LoadTemplates<int>("Level.json");
+            ItemShops = LoadTemplates<ItemShop>("ItemShop.json");
             LoadStats();
             LoadSkillTemplates();
             MapManager.Load();

@@ -2,6 +2,7 @@
 using Crimson_Knight_Server.Services.Dtos;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Templates.Item;
+using Crimson_Knight_Server.Templates.Shops;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -121,6 +122,7 @@ namespace Crimson_Knight_Server.Networking
                         StatDefinitions = TemplateManager.StatDefinitions,
                         Levels = TemplateManager.Levels,
                         QuestTemplates = TemplateManager.QuestTemplates,
+                        ItemShops = TemplateManager.ItemShops,
                     });
                     break;
                 default:

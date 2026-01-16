@@ -25,6 +25,9 @@
     <None Update="Resources\ItemMaterialTemplates.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\ItemShop.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Level.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
