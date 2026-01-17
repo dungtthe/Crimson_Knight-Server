@@ -6,6 +6,7 @@ using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Crimson_Knight_Server
 {
@@ -69,7 +71,7 @@ namespace Crimson_Knight_Server
                 TemplateManager.LoadTemplate();
                 LoadDB();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ConsoleLogging.LogError($"[LoadData] Load loi: {ex.Message}");
                 flag = false;
@@ -85,15 +87,15 @@ namespace Crimson_Knight_Server
         private void SetUpGame()
         {
             //map
-            foreach(var item in TemplateManager.MapTemplates)
+            foreach (var item in TemplateManager.MapTemplates)
             {
                 MapManager.Maps.Add(new Map(item));
             }
-            TemplateManager.MapTemplates.Clear();
             MapManager.DepartTemplates = TemplateManager.DepartTemplates;
         }
 
 
+        public ConcurrentQueue<Player> RequestEnterPhobans = new ConcurrentQueue<Player>();
         private void RunGameLoop()
         {
             new Thread(() =>
@@ -102,6 +104,8 @@ namespace Crimson_Knight_Server
                 while (isRunning)
                 {
                     long start = SystemUtil.CurrentTimeMillis();
+
+                    HandleRequestEnterPhoBan();
 
                     CheckPlayerEnterOrExitMap();
 
@@ -131,6 +135,46 @@ namespace Crimson_Knight_Server
 
         }
 
+        private void HandleRequestEnterPhoBan()
+        {
+            while (this.RequestEnterPhobans.TryDequeue(out Player p))
+            {
+                try
+                {
+                    if(p == null || p.IsDie())
+                    {
+                        continue;
+                    }
+                    Map mapPhoBan = null;
+                    short xEnter = 0;
+                    short yEnter = 0;
+                    foreach(var map in MapManager.Maps)
+                    {
+                        MapTemplate template = TemplateManager.MapTemplates[map.Id];
+                        if(template.IsPhoBan && map.Players.Count == 0)
+                        {
+                            mapPhoBan = map;
+                            xEnter = template.XEnter;
+                            yEnter = template.YEnter;
+                            break;
+                        }
+                    }
+                    if(mapPhoBan != null)
+                    {
+                        MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(mapPhoBan, p, true, xEnter, yEnter));
+                    }
+                    else
+                    {
+                        NpcService.ShowDialogOk("Phó bản đang quá tải, hãy thử lại sau ít phút.", p);
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    ConsoleLogging.LogError($"[HandleRequestEnterPhoBan] Load loi: {ex.Message}");
+                }
+            }
+        }
 
         private void CheckPlayerEnterOrExitMap()
         {
@@ -146,7 +190,7 @@ namespace Crimson_Knight_Server
                             ServerMessageSender.ExitMap(item.Item2);
                             item.Item2.MapCur.Players.Remove(item.Item2);
                         }
-                        item.Item2.X = item.Item4; 
+                        item.Item2.X = item.Item4;
                         item.Item2.Y = item.Item5;
                         item.Item1.Players.Add(item.Item2);
                         item.Item2.MapCur = item.Item1;

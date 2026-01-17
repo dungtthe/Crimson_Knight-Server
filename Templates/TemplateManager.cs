@@ -36,7 +36,7 @@ namespace Crimson_Knight_Server.Templates
         {
             NpcTemplates = LoadTemplates<NpcTemplate>("NpcTemplates.json");
             MonsterTemplates = LoadTemplates<MonsterTemplate>("MonsterTemplates.json");
-            MapTemplates = LoadTemplates<MapTemplate>("MapTemplates.json");
+            LoadMapTemplates();
             DepartTemplates = LoadTemplates<DepartTemplate>("DepartTemplates.json");
             ItemEquipmentTemplates = LoadTemplates<ItemEquipmentTemplate>("ItemEquipmentTemplates.json");
             ItemConsumableTemplates = LoadTemplates<ItemConsumableTemplate>("ItemConsumableTemplates.json");
@@ -47,6 +47,25 @@ namespace Crimson_Knight_Server.Templates
             LoadStats();
             LoadSkillTemplates();
             MapManager.Load();
+        }
+
+        private static void LoadMapTemplates()
+        {
+            MapTemplates = LoadTemplates<MapTemplate>("MapTemplates.json");
+            int sizePhoban = 20;
+            short id = (short)MapTemplates.Count;
+            for(int i  = 0; i < sizePhoban; i++)
+            {
+                MapTemplate map = new MapTemplate()
+                {
+                    Id = id,
+                    Name = "Phó bản",
+                    XEnter = 100,
+                    YEnter = 100,
+                    IsPhoBan = true
+                };
+                MapTemplates.Add(map);
+            }
         }
 
         private static void LoadStats()

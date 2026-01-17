@@ -19,5 +19,12 @@
     "ImageId": 48,
     "ImageTalkId": 48,
     "Content": "Chúc mừng năm mới 'Phát triển game với Unity - SE115.Q11'"
+  },
+  {
+    "Id": 3,
+    "Name": "Cửa hàng tổng hợp",
+    "ImageId": 10,
+    "ImageTalkId": 10,
+    "Content": "Xin chào! Tại đây có bán vật phẩm mà ngươi muốn."
   }
 ]

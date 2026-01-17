@@ -14,6 +14,7 @@ namespace Crimson_Knight_Server.Templates
         public short YEnter { get; set; }
         public List<MonsterInMap> Monsters { get; set; }
         public List<NpcInMap> Npcs { get; set; }
+        public bool IsPhoBan { get; set; }
 
         public class MonsterInMap
         {

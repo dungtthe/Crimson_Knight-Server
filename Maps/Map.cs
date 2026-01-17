@@ -34,6 +34,8 @@ namespace Crimson_Knight_Server.Maps
         public List<Player> Players = new List<Player>();
         private Dictionary<string, ItemPick> itemPicks = new();
 
+        public bool IsPhoBan { get; set; }
+
         public Player GetPlayerById(int playerId)
         {
             return Players.FirstOrDefault(p => p.Id == playerId);
@@ -62,6 +64,8 @@ namespace Crimson_Knight_Server.Maps
                     Npcs.Add(npc);
                 }
             }
+
+            IsPhoBan = template.IsPhoBan;
         }
 
 

@@ -123,6 +123,7 @@ namespace Crimson_Knight_Server.Networking
                         Levels = TemplateManager.Levels,
                         QuestTemplates = TemplateManager.QuestTemplates,
                         ItemShops = TemplateManager.ItemShops,
+                        MapTemplates = TemplateManager.MapTemplates,
                     });
                     break;
                 default:

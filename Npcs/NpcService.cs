@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Networking;
+﻿using Crimson_Knight_Server;
+using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -39,13 +40,21 @@ public static class NpcService
             case 1:
                 ShowMenuKiemSi(npcId, p);
                 break;
+            case 3:
+                ShowMenuThuongNhan(p);
+                break;
             default:
                 ShowDialogOk("Nhóm mình chưa làm chức năng này nha >.<", p);
                 break;
         }
     }
 
- 
+    private static void ShowMenuThuongNhan(Player p)
+    {
+        Message msg = new Message(MessageId.SERVER_SHOP_INFO);
+        p.SendMessage(msg);
+        msg.Close();
+    }
 
     public static void SelectMenuItem(int npcId, byte menuItemId, Player p)
     {
@@ -107,7 +116,7 @@ public static class NpcService
             switch (id)
             {
                 case DialogYesNoId.ENTER_PHO_BAN:
-
+                    ServerManager.GI().RequestEnterPhobans.Enqueue(p);
                 break;
             }
         }

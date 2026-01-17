@@ -45,5 +45,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_CENTER_NOTIFICATION_VIEW,
         SERVER_PLAYER_GOLD_INFO,
         SERVER_QUEST_INFO,
+        SERVER_SHOP_INFO,
     }
 }
