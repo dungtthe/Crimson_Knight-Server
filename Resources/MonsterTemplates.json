@@ -21,7 +21,7 @@
   },
   {
     "Id": 1,
-    "Name": "Snail",
+    "Name": "Ốc sên",
     "ImageId": 1001,
     "Level": 4,
     "Cooldown": 3000,
@@ -41,8 +41,8 @@
   },
   {
     "Id": 2,
-    "Name": "Scorpion",
-    "ImageId": 1103,
+    "Name": "Nấm xanh",
+    "ImageId": 1069,
     "Cooldown": 3000,
     "RespawnTime": 5000,
     "Range": 150,
@@ -61,8 +61,8 @@
   },
   {
     "Id": 3,
-    "Name": "Bunny",
-    "ImageId": 1173,
+    "Name": "Slime mẹ",
+    "ImageId": 1076,
     "Level": 12,
     "Cooldown": 3000,
     "RespawnTime": 5000,
@@ -81,7 +81,7 @@
   },
   {
     "Id": 4,
-    "Name": "Frog",
+    "Name": "Ếch",
     "ImageId": 1215,
     "Cooldown": 3000,
     "RespawnTime": 5000,
@@ -96,6 +96,86 @@
       "ATK": {
         "Id": 2,
         "Value": 50
+      }
+    }
+  },
+  {
+    "Id": 5,
+    "Name": "Nhện sa mạc",
+    "ImageId": 1041,
+    "Cooldown": 3000,
+    "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
+    "Level": 20,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 10000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 100
+      }
+    }
+  },
+  {
+    "Id": 6,
+    "Name": "Tê giác",
+    "ImageId": 1044,
+    "Cooldown": 3000,
+    "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
+    "Level": 24,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 15000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 200
+      }
+    }
+  },
+  {
+    "Id": 7,
+    "Name": "Trâu điên",
+    "ImageId": 1075,
+    "Cooldown": 3000,
+    "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
+    "Level": 28,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 20000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 300
+      }
+    }
+  },
+  {
+    "Id": 8,
+    "Name": "Bọ cạp chúa",
+    "ImageId": 1103,
+    "Cooldown": 3000,
+    "RespawnTime": 5000,
+    "Range": 150,
+    "TargetCount": 1,
+    "Level": 30,
+    "Stats": {
+      "HP": {
+        "Id": 0,
+        "Value": 30000
+      },
+      "ATK": {
+        "Id": 2,
+        "Value": 500
       }
     }
   }

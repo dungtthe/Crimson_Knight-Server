@@ -152,6 +152,7 @@ namespace Crimson_Knight_Server.Players
             foreach (var item in p.MapCur.Players)
             {
                 PlayerBaseInfo(item, true);
+                ServerMessageSender.SendWearingItems(item);
             }
         }
         public static void PlayerBaseInfo(Player p, bool isSendFull)

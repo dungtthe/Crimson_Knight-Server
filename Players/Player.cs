@@ -157,7 +157,7 @@ namespace Crimson_Knight_Server.Players
         public Quest Quest { get; set; }
 
         public readonly BaseItem[] InventoryItems = new BaseItem[48];
-        public readonly ItemEquipment[] WearingItems = new ItemEquipment[3];
+        public readonly ItemEquipment[] WearingItems = new ItemEquipment[4];
 
         public long Gold { get; set; }
 

@@ -140,11 +140,11 @@
     "Name": "Kiếm chiến binh Lv10",
     "Description": "Kiếm Lv 10 cho chiến binh",
     "LevelRequire": 10,
-    "IconId": 0,
+    "IconId": 8,
     "Gender": "Unisex",
     "ClassType": "CHIEN_BINH",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 14,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -157,11 +157,11 @@
     "Name": "Kiếm sát thủ Lv10",
     "Description": "Kiếm Lv10 cho sát thủ",
     "LevelRequire": 10,
-    "IconId": 1,
+    "IconId": 9,
     "Gender": "Unisex",
     "ClassType": "SAT_THU",
     "EquipmentType": "Weapon",
-    "PartId": 7,
+    "PartId": 12,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -174,11 +174,11 @@
     "Name": "Gậy pháp sư Lv10",
     "Description": "Gậy Lv10 cho pháp sư",
     "LevelRequire": 10,
-    "IconId": 2,
+    "IconId": 10,
     "Gender": "Unisex",
     "ClassType": "PHAP_SU",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 3,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -191,11 +191,11 @@
     "Name": "Súng xạ thủ Lv10",
     "Description": "Súng Lv10 cho xạ thủ",
     "LevelRequire": 10,
-    "IconId": 3,
+    "IconId": 11,
     "Gender": "Unisex",
     "ClassType": "XA_THU",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 8,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -208,11 +208,11 @@
     "Name": "Áo nam Lv10",
     "Description": "Mô tả áo nam Lv10",
     "LevelRequire": 10,
-    "IconId": 4,
+    "IconId": 12,
     "Gender": "Male",
     "ClassType": "NONE",
     "EquipmentType": "Armor",
-    "PartId": 0,
+    "PartId": 16,
     "Stats": {
       "DEF": {
         "Id": 3,
@@ -225,11 +225,11 @@
     "Name": "Áo nữ Lv10",
     "Description": "Mô tả áo nữ Lv10",
     "LevelRequire": 10,
-    "IconId": 5,
+    "IconId": 13,
     "Gender": "Female",
     "ClassType": "NONE",
     "EquipmentType": "Armor",
-    "PartId": 3,
+    "PartId": 17,
     "Stats": {
       "DEF": {
         "Id": 3,
@@ -242,11 +242,11 @@
     "Name": "Quần nam Lv10",
     "Description": "Mô tả quần nam Lv10",
     "LevelRequire": 10,
-    "IconId": 6,
+    "IconId": 14,
     "Gender": "Male",
     "ClassType": "NONE",
     "EquipmentType": "Pants",
-    "PartId": 0,
+    "PartId": 16,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -259,11 +259,11 @@
     "Name": "Quần nữ Lv10",
     "Description": "Mô tả quần nữ Lv10",
     "LevelRequire": 10,
-    "IconId": 7,
+    "IconId": 15,
     "Gender": "Female",
     "ClassType": "NONE",
     "EquipmentType": "Pants",
-    "PartId": 3,
+    "PartId": 17,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -276,11 +276,11 @@
     "Name": "Kiếm chiến binh Lv20",
     "Description": "Kiếm Lv 20 cho chiến binh",
     "LevelRequire": 20,
-    "IconId": 0,
+    "IconId": 16,
     "Gender": "Unisex",
     "ClassType": "CHIEN_BINH",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 18,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -293,11 +293,11 @@
     "Name": "Kiếm sát thủ Lv20",
     "Description": "Kiếm Lv20 cho sát thủ",
     "LevelRequire": 20,
-    "IconId": 1,
+    "IconId": 17,
     "Gender": "Unisex",
     "ClassType": "SAT_THU",
     "EquipmentType": "Weapon",
-    "PartId": 7,
+    "PartId": 18,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -310,11 +310,11 @@
     "Name": "Gậy pháp sư Lv20",
     "Description": "Gậy Lv20 cho pháp sư",
     "LevelRequire": 20,
-    "IconId": 2,
+    "IconId": 18,
     "Gender": "Unisex",
     "ClassType": "PHAP_SU",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 19,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -327,11 +327,11 @@
     "Name": "Súng xạ thủ Lv20",
     "Description": "Súng Lv20 cho xạ thủ",
     "LevelRequire": 20,
-    "IconId": 3,
+    "IconId": 19,
     "Gender": "Unisex",
     "ClassType": "XA_THU",
     "EquipmentType": "Weapon",
-    "PartId": 0,
+    "PartId": 22,
     "Stats": {
       "ATK": {
         "Id": 2,
@@ -344,11 +344,11 @@
     "Name": "Áo nam Lv20",
     "Description": "Mô tả áo nam Lv20",
     "LevelRequire": 20,
-    "IconId": 4,
+    "IconId": 20,
     "Gender": "Male",
     "ClassType": "NONE",
     "EquipmentType": "Armor",
-    "PartId": 0,
+    "PartId": 38,
     "Stats": {
       "DEF": {
         "Id": 3,
@@ -361,11 +361,11 @@
     "Name": "Áo nữ Lv20",
     "Description": "Mô tả áo nữ Lv20",
     "LevelRequire": 20,
-    "IconId": 5,
+    "IconId": 21,
     "Gender": "Female",
     "ClassType": "NONE",
     "EquipmentType": "Armor",
-    "PartId": 3,
+    "PartId": 46,
     "Stats": {
       "DEF": {
         "Id": 3,
@@ -378,11 +378,11 @@
     "Name": "Quần nam Lv20",
     "Description": "Mô tả quần nam Lv20",
     "LevelRequire": 20,
-    "IconId": 6,
+    "IconId": 22,
     "Gender": "Male",
     "ClassType": "NONE",
     "EquipmentType": "Pants",
-    "PartId": 0,
+    "PartId": 38,
     "Stats": {
       "HP": {
         "Id": 0,
@@ -395,15 +395,83 @@
     "Name": "Quần nữ Lv20",
     "Description": "Mô tả quần nữ Lv20",
     "LevelRequire": 20,
-    "IconId": 7,
+    "IconId": 23,
     "Gender": "Female",
     "ClassType": "NONE",
     "EquipmentType": "Pants",
-    "PartId": 3,
+    "PartId": 46,
     "Stats": {
       "HP": {
         "Id": 0,
         "Value": 180
+      }
+    }
+  },
+  {
+    "Id": 24,
+    "Name": "Cánh chiến binh",
+    "Description": "Cánh cho chiến binh",
+    "LevelRequire": 1,
+    "IconId": 24,
+    "Gender": "Unisex",
+    "ClassType": "CHIEN_BINH",
+    "EquipmentType": "Wing",
+    "PartId": 7,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 25,
+    "Name": "Cánh sát thủ",
+    "Description": "Cánh cho sát thủ",
+    "LevelRequire": 1,
+    "IconId": 25,
+    "Gender": "Unisex",
+    "ClassType": "SAT_THU",
+    "EquipmentType": "Wing",
+    "PartId": 40,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 26,
+    "Name": "Cánh pháp sư",
+    "Description": "Cánh cho pháp sư",
+    "LevelRequire": 1,
+    "IconId": 26,
+    "Gender": "Unisex",
+    "ClassType": "PHAP_SU",
+    "EquipmentType": "Wing",
+    "PartId": 23,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
+      }
+    }
+  },
+  {
+    "Id": 27,
+    "Name": "Cánh xạ thủ",
+    "Description": "Cánh cho xạ thủ",
+    "LevelRequire": 27,
+    "IconId": 3,
+    "Gender": "Unisex",
+    "ClassType": "XA_THU",
+    "EquipmentType": "Wing",
+    "PartId": 3,
+    "Stats": {
+      "ATK": {
+        "Id": 2,
+        "Value": 18
       }
     }
   }
