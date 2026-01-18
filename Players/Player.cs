@@ -111,9 +111,20 @@ namespace Crimson_Knight_Server.Players
                 {
                     //this.MapCur?.BusPlayerExitMap.Enqueue(this);
                     //ServerManager.GI().RemoveSession(this);
+                    short mapId = this.MapCur.Id;
+                    short x = this.X;
+                    short y = this.Y;
+                    if (this.MapCur.IsPhoBan)
+                    {
+                        mapId = 1;
+                        x = 500;
+                        y = 500;
+                    }
+                            
                     MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(this.MapCur, this, false, -1, -1));
                     ServerManager.GI().RemoveSession(this);
                     ConsoleLogging.LogWarning($"[Client {Id}] Đã đóng kết nối.");
+                    ServerManager.GI().SaveDataMsgs.Enqueue(new Tuple<Player, short, short, short>(this, mapId,x,y));
                 }
                 else
                 {

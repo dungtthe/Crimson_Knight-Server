@@ -26,5 +26,24 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories.Bases
                 cmd.Parameters.AddRange(parameters);
             return cmd.ExecuteReader(CommandBehavior.CloseConnection);
         }
+
+        protected int ExecuteNonQuery(string sql, params MySqlParameter[] parameters)
+        {
+            var cmd = new MySqlCommand(sql, Connection);
+
+            if (parameters != null)
+                cmd.Parameters.AddRange(parameters);
+            
+            return cmd.ExecuteNonQuery();
+        }
+
+        public void Dispose()
+        {
+            if (Connection != null && Connection.State == ConnectionState.Open)
+            {
+                Connection.Close();
+                Connection.Dispose();
+            }
+        }
     }
 }

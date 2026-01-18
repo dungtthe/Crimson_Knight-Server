@@ -45,6 +45,19 @@ namespace Crimson_Knight_Server.Utils
                 });
         }
 
+        public static string SerializeStats(Dictionary<StatId, Stat> stats)
+        {
+            if (stats == null || stats.Count == 0)
+                return "{}";
+
+            return JsonSerializer.Serialize(stats,
+                new JsonSerializerOptions
+                {
+                    Converters = { new JsonStringEnumConverter() },
+                    WriteIndented = false
+                });
+        }
+
         public static int GetStatValue(Dictionary<StatId, Stat> stats, StatId id)
         {
             if (stats == null || stats.Count == 0) return 0;

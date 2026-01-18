@@ -2,6 +2,7 @@
 using Crimson_Knight_Server.Maps;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Players;
+using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -41,11 +42,31 @@ namespace Crimson_Knight_Server
                 SetUpGame();
                 RunTcpServer();
                 RunGameLoop();
+                RunBackGroundService();
             }
             catch (Exception ex)
             {
                 ConsoleLogging.LogError($"[TcpServer] Không thể khởi động: {ex.Message}");
             }
+        }
+
+
+        public readonly ConcurrentQueue<Tuple<Player,short,short, short>> SaveDataMsgs = new();
+
+        private void RunBackGroundService()
+        {
+            new Thread(() =>
+            {
+                while (isRunning)
+                {
+                    while(SaveDataMsgs.TryDequeue(out var item))
+                    {
+                        PlayerService.SaveData(item.Item1, item.Item2, item.Item3, item.Item4);
+                        Thread.Sleep(500);
+                    }
+                    Thread.Sleep(1000);
+                }
+            }).Start();
         }
 
         private void RunTcpServer()

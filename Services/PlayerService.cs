@@ -80,6 +80,18 @@ namespace Crimson_Knight_Server.Services
                     };
                 }
 
+                foreach(var saveDataMsg in ServerManager.GI().SaveDataMsgs)
+                {
+                    if(saveDataMsg.Item1.Id == playerId)
+                    {
+                        return new LoginResponse
+                        {
+                            HttpStatusCode = 400,
+                            Message = "Đợi chút nữa rùi vào nhé!"
+                        };
+                    }
+                }
+
                 foreach (var token in LoginTokens)
                 {
                     string[] s = token.Split('.');
@@ -151,48 +163,81 @@ namespace Crimson_Knight_Server.Services
             MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool,short, short>(map, player, true, player.X, player.Y));
         }
 
-        public static void SaveData(Player player)
+        public static void SaveData(Player player, short mapId, short x, short y)
         {
-
-            object[] inven = new object[player.InventoryItems.Length];
-
-            for (int i = 0; i < inven.Length; i++)
+            try
             {
-                BaseItem item = player.InventoryItems[i];
-                if (item == null) continue;
+                object[] inven = new object[player.InventoryItems.Length];
 
-                inven[i] = new object[]
+                for (int i = 0; i < inven.Length; i++)
                 {
-                    (byte)item.GetItemType(),
-                    item switch
+                    BaseItem item = player.InventoryItems[i];
+                    if (item == null) continue;
+
+                    inven[i] = new object[]
                     {
-                        ItemEquipment e  => e.ToSaveData(),
-                        ItemConsumable c => c.ToSaveData(),
-                        ItemMaterial m   => m.ToSaveData(),
-                        _ => null
-                    }
+                        (byte)item.GetItemType(),
+                        item switch
+                        {
+                            ItemEquipment e  => e.ToSaveData(),
+                            ItemConsumable c => c.ToSaveData(),
+                            ItemMaterial m   => m.ToSaveData(),
+                            _ => null
+                        }
+                    };
+                }
+
+                string inventoryJson = JsonSerializer.Serialize(inven);
+
+                object[] wear = new object[player.WearingItems.Length];
+
+                for (int i = 0; i < wear.Length; i++)
+                {
+                    ItemEquipment item = player.WearingItems[i];
+                    if (item == null) continue;
+                    wear[i] = item.ToSaveData();
+                }
+
+                string wearingJson = JsonSerializer.Serialize(wear);
+
+                string skillsString = string.Join("_", player.Skills.Select(s => $"{s.TemplateId}.{s.VariantId}"));
+
+                string statsJson = Helpers.SerializeStats(player.Stats);
+
+                string questString = null;
+                if (player.Quest != null)
+                {
+                    questString = $"{player.Quest.Id}.{player.Quest.QuantityCur}.{(byte)player.Quest.QuestState}";
+                }
+
+                PlayerModel playerModel = new PlayerModel()
+                {
+                    Id = player.Id,
+                    MapId = mapId,
+                    X = x,
+                    Y = y,
+                    Stats = statsJson,
+                    Skills = skillsString,
+                    Level = player.Level,
+                    Exp = player.Exp,
+                    InventoryItems = inventoryJson,
+                    WearingItems = wearingJson,
+                    Gold = player.Gold,
+                    Quest = questString,
+                    PotentialPoint = player.PotentialPoint,
+                    SkillPoint = player.SkillPoint
                 };
+
+                PlayerRepository repository = new PlayerRepository();
+                repository.UpdatePlayer(playerModel);
+                repository.Dispose();
+
+                ConsoleLogging.LogInfor($"[SaveData] Player {player.Name} (ID: {player.Id}) thanh cong");
             }
-
-            File.WriteAllText(
-                @"C:\Users\ADMIN\Desktop\inventory.json",
-                JsonSerializer.Serialize(inven)
-               
-            );
-
-            object[] wear = new object[player.WearingItems.Length];
-
-            for (int i = 0; i < wear.Length; i++)
+            catch (Exception ex)
             {
-                ItemEquipment item = player.WearingItems[i];
-                if (item == null) continue;
-                wear[i] = item.ToSaveData();
+                ConsoleLogging.LogError($"[SaveData] loi save player {player.Id}: {ex.Message}");
             }
-
-            File.WriteAllText(
-                @"C:\Users\ADMIN\Desktop\wearing.json",
-                JsonSerializer.Serialize(wear)
-            );
         }
 
     }

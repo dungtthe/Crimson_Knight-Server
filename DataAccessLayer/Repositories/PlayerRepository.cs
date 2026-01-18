@@ -58,5 +58,51 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
             }
             return -1;
         }
+
+        public bool UpdatePlayer(PlayerModel model)
+        {
+            try
+            {
+                string sql = @"UPDATE player SET 
+                    mapid = @mapid,
+                    x = @x,
+                    y = @y,
+                    stats = @stats,
+                    skills = @skills,
+                    level = @level,
+                    exp = @exp,
+                    inventory_items = @inventory_items,
+                    wearing_items = @wearing_items,
+                    gold = @gold,
+                    quest = @quest,
+                    potentialpoint = @potentialpoint,
+                    skillpoint = @skillpoint
+                    WHERE id = @id";
+
+                int rowsAffected = ExecuteNonQuery(sql,
+                    new MySqlParameter("@id", model.Id),
+                    new MySqlParameter("@mapid", model.MapId),
+                    new MySqlParameter("@x", model.X),
+                    new MySqlParameter("@y", model.Y),
+                    new MySqlParameter("@stats", model.Stats),
+                    new MySqlParameter("@skills", model.Skills),
+                    new MySqlParameter("@level", model.Level),
+                    new MySqlParameter("@exp", model.Exp),
+                    new MySqlParameter("@inventory_items", model.InventoryItems),
+                    new MySqlParameter("@wearing_items", model.WearingItems),
+                    new MySqlParameter("@gold", model.Gold),
+                    new MySqlParameter("@quest", model.Quest ?? (object)DBNull.Value),
+                    new MySqlParameter("@potentialpoint", model.PotentialPoint),
+                    new MySqlParameter("@skillpoint", model.SkillPoint)
+                );
+
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogging.LogError($"[UpdatePlayer] update player loi {model.Id}: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
