@@ -224,13 +224,13 @@ namespace Crimson_Knight_Server.Players
 
         public void SetUpQuest(string quest)
         {
-            if(quest == null)
+            if (quest == null)
             {
                 this.Quest = null;
             }
             else
             {
-                string[] s= quest.Split(".");
+                string[] s = quest.Split(".");
                 int id = int.Parse(s[0]);
                 int quantity = int.Parse(s[1]);
                 byte state = byte.Parse(s[2]);
@@ -301,6 +301,23 @@ namespace Crimson_Knight_Server.Players
                             HandleUseItemConsumable(templateId);
                         }
                     }
+                    else if (itemType == ItemType.Material)
+                    {
+                        ServerMessageSender.CenterNotificationView(this, "Vật phẩm này chỉ được dùng để nâng cấp");
+                    }
+                    else
+                    {
+                        var itemEq = GetItemEquipment(idItem);
+                        if (itemEq == null)
+                        {
+                            ServerMessageSender.CenterNotificationView(this, "Không tìm thấy vật phẩm");
+                            ServerMessageSender.SendInventoryItems(this);
+                        }
+                        else
+                        {
+                            HandleUseItemEquipment(itemEq);
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -358,7 +375,41 @@ namespace Crimson_Knight_Server.Players
                 ServerMessageSender.PlayerBaseInfo(this, true);
                 ServerMessageSender.SendInventoryItems(this);
             }
+
+            void HandleUseItemEquipment(ItemEquipment itemUse)
+            {
+                var template = itemUse.GetTemplate();
+                if (template.Gender != Gender.Unisex && template.Gender != this.Gender)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Giới tính không phù hợp");
+                    return;
+                }
+
+                if(template.ClassType != ClassType.NONE &&  template.ClassType != this.ClassType)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Class không phù hợp");
+                    return;
+                }
+                if(template.LevelRequire > this.Level)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ Level");
+                    return;
+                }
+                EquipmentType equipmentType = template.EquipmentType;
+
+                RemoveItem(itemUse);
+
+                var itemWearing = WearingItems[(int)equipmentType];
+                if(itemWearing != null)
+                {
+                    AddItem(itemWearing);
+                }
+                WearingItems[(int)equipmentType] = itemUse;
+                ServerMessageSender.SendInventoryItems(this);
+                ServerMessageSender.SendWearingItems(this);
+            }
         }
+
 
         public int GetAvailableInventory()
         {
@@ -379,6 +430,19 @@ namespace Crimson_Knight_Server.Players
                 if (InventoryItems[i] == item)
                 {
                     InventoryItems[i] = null;
+                    return;
+                }
+            }
+        }
+
+        public void AddItem(BaseItem item)
+        {
+            for (int i = 0; i < InventoryItems.Length; i++)
+            {
+                if (InventoryItems[i] == null)
+                {
+                    InventoryItems[i] = item;
+                    return;
                 }
             }
         }
@@ -422,6 +486,19 @@ namespace Crimson_Knight_Server.Players
                 if (item.TemplateId == idTemplate && item.GetItemType() == type)
                 {
                     return item;
+                }
+            }
+            return null;
+        }
+
+
+        public ItemEquipment GetItemEquipment(string iditem)
+        {
+            foreach (var item in InventoryItems)
+            {
+                if (item != null && item.GetItemType() == ItemType.Equipment && item.Id == iditem)
+                {
+                    return (ItemEquipment)item;
                 }
             }
             return null;

@@ -1,4 +1,5 @@
-﻿using Crimson_Knight_Server.Templates.Item;
+﻿using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Templates.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace Crimson_Knight_Server.Players.Item
                 Id,
                 TemplateId
             };
+        }
+
+        public ItemEquipmentTemplate GetTemplate()
+        {
+            return TemplateManager.ItemEquipmentTemplates[TemplateId];
         }
     }
 }
