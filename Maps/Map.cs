@@ -127,7 +127,7 @@ namespace Crimson_Knight_Server.Maps
 
                             if(item.ItemType == ItemType.Equipment)
                             {
-                                int indexBag = p.GetAvailableInventory();
+                                int indexBag = p.GetAvailableIndexInventory();
                                 if(indexBag == -1)
                                 {
                                     content = "Hành trang không đủ chỗ trống";
@@ -146,7 +146,7 @@ namespace Crimson_Knight_Server.Maps
                                 int quantity = p.GetQuantityItem_ConsuOrMaterial(item.TemplateId, item.ItemType);
                                 if(quantity == 0)
                                 {
-                                    int indexBag = p.GetAvailableInventory();
+                                    int indexBag = p.GetAvailableIndexInventory();
                                     if (indexBag == -1)
                                     {
                                         content = "Hành trang không đủ chỗ trống";

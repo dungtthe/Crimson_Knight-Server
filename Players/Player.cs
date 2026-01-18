@@ -5,6 +5,7 @@ using Crimson_Knight_Server.Players.MessagePlayer;
 using Crimson_Knight_Server.Services;
 using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Templates.Shops;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
@@ -129,6 +130,7 @@ namespace Crimson_Knight_Server.Players
         #endregion
 
         public readonly ConcurrentQueue<UseItemMsg> UseItemMsgs = new ConcurrentQueue<UseItemMsg>();
+        public readonly ConcurrentQueue<Tuple<ItemShop, int>> BuyItems = new ConcurrentQueue<Tuple<ItemShop, int>>();
 
         public string Name { get; set; }
 
@@ -274,8 +276,87 @@ namespace Crimson_Knight_Server.Players
         public override void Update()
         {
             UpdateUseItemMsgs();
+            HandleBuyItemMsgs();
         }
 
+        private void HandleBuyItemMsgs()
+        {
+            while (BuyItems.TryDequeue(out var item))
+            {
+                ItemShop itemShop = item.Item1;
+                int quantity = item.Item2;
+                if (this.Gold < itemShop.Price * quantity)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ vàng");
+                    continue;
+                }
+
+                int quantityAvai = GetAvailableSlotInventory();
+                if (itemShop.ItemType == ItemType.Equipment)
+                {
+                    if (quantityAvai < quantity)
+                    {
+                        ServerMessageSender.CenterNotificationView(this, "Không đủ hành trang");
+                        continue;
+                    }
+                    for (int i = 0; i < quantity; i++)
+                    {
+                        ItemEquipment itemEquipment = new ItemEquipment(Helpers.GenerateId(), itemShop.IdItem);
+                        AddItem(itemEquipment);
+                    }
+                }
+                else if (itemShop.ItemType == ItemType.Consumable)
+                {
+                    var itemConsu = GetItemConsuOrMate(itemShop.IdItem, ItemType.Consumable);
+                    if (itemConsu == null)
+                    {
+                        if (quantityAvai == 0)
+                        {
+                            ServerMessageSender.CenterNotificationView(this, "Không đủ hành trang");
+                            continue;
+                        }
+                        else
+                        {
+                            ItemConsumable itemConsumable = new ItemConsumable(itemShop.IdItem, quantity);
+                            AddItem(itemConsumable);
+                        }
+                    }
+                    else
+                    {
+                        ItemConsumable itemConsumable = itemConsu as ItemConsumable;
+                        itemConsumable.Quantity += quantity;
+                    }
+                }
+                else
+                {
+                    var itemMate = GetItemConsuOrMate(itemShop.IdItem, ItemType.Material);
+                    if (itemMate == null)
+                    {
+
+                        if (quantityAvai == 0)
+                        {
+                            ServerMessageSender.CenterNotificationView(this, "Không đủ hành trang");
+                            continue;
+                        }
+                        else
+                        {
+                            ItemMaterial itemMaterial = new ItemMaterial(itemShop.IdItem, quantity);
+                            AddItem(itemMaterial);
+                        }
+                    }
+                    else
+                    {
+                        ItemMaterial itemMaterial = itemMate as ItemMaterial;
+                        itemMaterial.Quantity += quantity;
+                    }
+                }
+
+                Gold -= quantity * itemShop.Price;
+                ServerMessageSender.CenterNotificationView(this, $"Bạn nhận được {quantity} {itemShop.GetName()}");
+                ServerMessageSender.SendInventoryItems(this);
+                ServerMessageSender.PlayerInfoGold(this);
+            }
+        }
 
         private long startTimeUseHp = 0;
         private long startTimeUseMp = 0;
@@ -385,12 +466,12 @@ namespace Crimson_Knight_Server.Players
                     return;
                 }
 
-                if(template.ClassType != ClassType.NONE &&  template.ClassType != this.ClassType)
+                if (template.ClassType != ClassType.NONE && template.ClassType != this.ClassType)
                 {
                     ServerMessageSender.CenterNotificationView(this, "Class không phù hợp");
                     return;
                 }
-                if(template.LevelRequire > this.Level)
+                if (template.LevelRequire > this.Level)
                 {
                     ServerMessageSender.CenterNotificationView(this, "Không đủ Level");
                     return;
@@ -400,7 +481,7 @@ namespace Crimson_Knight_Server.Players
                 RemoveItem(itemUse);
 
                 var itemWearing = WearingItems[(int)equipmentType];
-                if(itemWearing != null)
+                if (itemWearing != null)
                 {
                     AddItem(itemWearing);
                 }
@@ -410,8 +491,7 @@ namespace Crimson_Knight_Server.Players
             }
         }
 
-
-        public int GetAvailableInventory()
+        public int GetAvailableIndexInventory()
         {
             for (int i = 0; i < InventoryItems.Length; i++)
             {
@@ -421,6 +501,19 @@ namespace Crimson_Knight_Server.Players
                 }
             }
             return -1;
+        }
+
+        public int GetAvailableSlotInventory()
+        {
+            int count = 0;
+            for (int i = 0; i < InventoryItems.Length; i++)
+            {
+                if (InventoryItems[i] == null)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
         public void RemoveItem(BaseItem item)

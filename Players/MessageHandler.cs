@@ -2,7 +2,10 @@
 using Crimson_Knight_Server.Maps.MessageMap.Attack;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
+using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Services;
+using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Templates.Shops;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -155,7 +158,24 @@ namespace Crimson_Knight_Server.Players
                     DialogYesNoId dialogYesNoId = (DialogYesNoId)msg.ReadByte();
                     bool isOk = msg.ReadBool();
                     NpcService.HandleDialogYesNo(dialogYesNoId, isOk, session);
-                    break; 
+                    break;
+                case MessageId.CLIENT_BUY_ITEM:
+                    int templateId = msg.ReadInt();
+                    type = (ItemType)msg.ReadByte();
+                    int quantity = msg.ReadInt();
+                    if(quantity<0 || quantity > 1000)
+                    {
+                        ServerMessageSender.CenterNotificationView(session, "Số lượng phải >0 và <= 1000");
+                        return;
+                    }
+                    ItemShop itemshop = ItemShop.GetItem(templateId, type);
+                    if (itemshop == null)
+                    {
+                        ServerMessageSender.CenterNotificationView(session, "Không tìm thấy vật phẩm");
+                        return;
+                    }
+                    session.BuyItems.Enqueue(new Tuple<ItemShop, int>(itemshop, quantity));
+                    break;
                 default:
                         break;
             }
