@@ -28,8 +28,17 @@ namespace Crimson_Knight_Server.Services
         private static List<string> LoginTokens = new List<string>();
 
         private static readonly object _lock = new object();
+        static string version = "e8eb7ee5-3abc-4da5-8869-15cd10cf3b23";
         public static LoginResponse Login(LoginRequest request)
         {
+            if(version != request.Version)
+            {
+                return new LoginResponse
+                {
+                    HttpStatusCode = 400,
+                    Message = "Vui lòng cập nhật phiên bản mới nhất"
+                };
+            }
             if (request == null ||
             string.IsNullOrWhiteSpace(request.Username) ||
             string.IsNullOrWhiteSpace(request.Password))
