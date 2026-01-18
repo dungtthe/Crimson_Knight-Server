@@ -264,7 +264,7 @@ namespace Crimson_Knight_Server.Maps
                             {
                                 continue;
                             }
-                            if(playerSend.PkType == ((Player)objReceive).PkType)
+                            if(playerSend.PkType == ((Player)objReceive).PkType || ((Player)objReceive).PkType == PkType.None)
                             {
                                 continue;
                             }
