@@ -109,6 +109,45 @@ namespace Crimson_Knight_Server.Networking
                     statusCode = loginResponse.HttpStatusCode;
                     responseJson = JsonSerializer.Serialize(loginResponse);
                     break;
+                case "/register":
+                    if (request.HttpMethod != "POST")
+                    {
+                        statusCode = 405;
+                        responseJson = JsonSerializer.Serialize(new RegisterRespone
+                        {
+                            HttpStatusCode = 405,
+                            Message = "Có lỗi xảy ra"
+                        });
+                        break;
+                    }
+
+                    string registerBody;
+                    using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                    {
+                        registerBody = reader.ReadToEnd();
+                    }
+
+                    RegisterRequest registerRequest;
+                    try
+                    {
+                        registerRequest = JsonSerializer.Deserialize<RegisterRequest>(registerBody);
+                    }
+                    catch
+                    {
+                        statusCode = 400;
+                        responseJson = JsonSerializer.Serialize(new RegisterRespone
+                        {
+                            HttpStatusCode = 400,
+                            Message = "loi json"
+                        });
+                        break;
+                    }
+
+                    var registerResponse = PlayerService.Register(registerRequest);
+
+                    statusCode = registerResponse.HttpStatusCode;
+                    responseJson = JsonSerializer.Serialize(registerResponse);
+                    break;
                 case "/load-templates":
                     statusCode = 200;
                     responseJson = JsonSerializer.Serialize(

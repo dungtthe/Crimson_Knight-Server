@@ -5,12 +5,16 @@ using Crimson_Knight_Server.Players;
 using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Services.Dtos;
 using Crimson_Knight_Server.Services.Mappers;
+using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Templates;
+using Crimson_Knight_Server.Templates.Item;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -80,9 +84,9 @@ namespace Crimson_Knight_Server.Services
                     };
                 }
 
-                foreach(var saveDataMsg in ServerManager.GI().SaveDataMsgs)
+                foreach (var saveDataMsg in ServerManager.GI().SaveDataMsgs)
                 {
-                    if(saveDataMsg.Item1.Id == playerId)
+                    if (saveDataMsg.Item1.Id == playerId)
                     {
                         return new LoginResponse
                         {
@@ -108,6 +112,7 @@ namespace Crimson_Knight_Server.Services
                 string tokenGenerate = GenerateToken(playerId);
                 LoginTokens.Add(tokenGenerate);
 
+                playerRepository.Dispose();
                 return new LoginResponse
                 {
                     HttpStatusCode = 200,
@@ -160,7 +165,7 @@ namespace Crimson_Knight_Server.Services
             player.Y = model.Y;
             Map map = MapManager.Maps[model.MapId];
             //map.BusPlayerEnterMap.Enqueue(player);
-            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool,short, short>(map, player, true, player.X, player.Y));
+            MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(map, player, true, player.X, player.Y));
         }
 
         public static void SaveData(Player player, short mapId, short x, short y)
@@ -240,5 +245,188 @@ namespace Crimson_Knight_Server.Services
             }
         }
 
+
+        private static object objLockRegister = new object();
+        public static RegisterRespone Register(RegisterRequest data)
+        {
+            try
+            {
+                if (data.UserName != null)
+                {
+                    data.UserName.Trim();
+                }
+                if (data.Password != null)
+                {
+                    data.Password.Trim();
+                }
+                if (string.IsNullOrEmpty(data.UserName) || string.IsNullOrEmpty(data.Password))
+                {
+                    return new RegisterRespone
+                    {
+                        HttpStatusCode = 400,
+                        Message = "Tên tài khoản hoặc mật khẩu không được để trống"
+                    };
+                }
+
+                if (data.ClassType == ClassType.NONE)
+                {
+                    return new RegisterRespone
+                    {
+                        HttpStatusCode = 400,
+                        Message = "Class không hợp lệ"
+                    };
+                }
+
+                if (data.Gender == Gender.Unisex)
+                {
+                    return new RegisterRespone
+                    {
+                        HttpStatusCode = 400,
+                        Message = "Giới tính không hợp lệ"
+                    };
+                }
+
+                lock (objLockRegister)
+                {
+                    PlayerRepository playerRepository = new PlayerRepository();
+
+                    if (playerRepository.IsUsernameExists(data.UserName))
+                    {
+                        return new RegisterRespone
+                        {
+                            HttpStatusCode = 400,
+                            Message = "Tên tài khoản đã tồn tại"
+                        };
+                    }
+
+                    PlayerModel model = new PlayerModel();
+                    model.UserName = data.UserName;
+                    model.Password = data.Password;
+                    model.Name = data.UserName;
+                    model.MapId = 0;
+                    model.X = 744;
+                    model.Y = 486;
+
+                    Dictionary<StatId, Stat> Stats = new Dictionary<StatId, Stat>();
+                    Stats.Add(StatId.HP, new Stat() { Id = StatId.HP, Value = 300 });
+                    Stats.Add(StatId.MP, new Stat() { Id = StatId.MP, Value = 300 });
+                    Stats.Add(StatId.ATK, new Stat() { Id = StatId.ATK, Value = 30 });
+                    Stats.Add(StatId.DEF, new Stat() { Id = StatId.DEF, Value = 5 });
+
+                    model.Stats = Helpers.SerializeStats(Stats);
+                    model.ClassType = (byte)data.ClassType;
+                    model.Skills = "0.0_1.-1_2.-1";
+                    model.Gender = data.Gender;
+
+                    ItemEquipment[] WearingItems = new ItemEquipment[4];
+                    ItemEquipmentTemplate equipmentTemplate = null;
+                    ItemEquipmentTemplate wingTemplate = null;
+
+                    if (data.ClassType == ClassType.CHIEN_BINH)
+                    {
+                        equipmentTemplate = TemplateManager.ItemEquipmentTemplates[0];
+                        wingTemplate = TemplateManager.ItemEquipmentTemplates[24];
+                    }
+                    else if (data.ClassType == ClassType.SAT_THU)
+                    {
+                        equipmentTemplate = TemplateManager.ItemEquipmentTemplates[1];
+                        wingTemplate = TemplateManager.ItemEquipmentTemplates[25];
+                    }
+                    else if (data.ClassType == ClassType.PHAP_SU)
+                    {
+                        equipmentTemplate = TemplateManager.ItemEquipmentTemplates[2];
+                        wingTemplate = TemplateManager.ItemEquipmentTemplates[26];
+                    }
+                    else
+                    {
+                        equipmentTemplate = TemplateManager.ItemEquipmentTemplates[3];
+                        wingTemplate = TemplateManager.ItemEquipmentTemplates[27];
+                    }
+                    WearingItems[0] = new ItemEquipment(Helpers.GenerateId(), equipmentTemplate.Id);
+                    if (data.Gender == Gender.Male)
+                    {
+                        WearingItems[1] = new ItemEquipment(Helpers.GenerateId(), 4);
+                        WearingItems[2] = new ItemEquipment(Helpers.GenerateId(), 6);
+                    }
+                    else
+                    {
+                        WearingItems[1] = new ItemEquipment(Helpers.GenerateId(), 5);
+                        WearingItems[2] = new ItemEquipment(Helpers.GenerateId(), 7);
+                    }
+
+                    object[] wear = new object[WearingItems.Length];
+                    for (int i = 0; i < wear.Length; i++)
+                    {
+                        ItemEquipment item = WearingItems[i];
+                        if (item == null) continue;
+                        wear[i] = item.ToSaveData();
+                    }
+                    string wearingJson = JsonSerializer.Serialize(wear);
+                    model.WearingItems = wearingJson;
+
+                    model.Level = 1;
+                    model.Exp = 0;
+                    model.Gold = 1000000;
+
+
+
+                    ItemEquipment wing = null;
+                    wing = new ItemEquipment(Helpers.GenerateId(), wingTemplate.Id);
+                    BaseItem[] InventoryItems = new BaseItem[48];
+                    InventoryItems[0] = wing;
+
+                    object[] inven = new object[InventoryItems.Length];
+
+                    for (int i = 0; i < inven.Length; i++)
+                    {
+                        BaseItem item = InventoryItems[i];
+                        if (item == null) continue;
+
+                        inven[i] = new object[]
+                        {
+                        (byte)item.GetItemType(),
+                        item switch
+                        {
+                            ItemEquipment e  => e.ToSaveData(),
+                            ItemConsumable c => c.ToSaveData(),
+                            ItemMaterial m   => m.ToSaveData(),
+                            _ => null
+                        }
+                        };
+                    }
+                    string inventoryJson = JsonSerializer.Serialize(inven);
+                    model.InventoryItems = inventoryJson;
+                    model.PotentialPoint = 10;
+                    model.SkillPoint = 10;
+                    model.Quest = null;
+
+                    int newPlayerId = playerRepository.InsertPlayer(model);
+                    playerRepository.Dispose();
+
+                    if (newPlayerId == -1)
+                    {
+                        return new RegisterRespone
+                        {
+                            HttpStatusCode = 500,
+                            Message = "Lỗi khi tạo tài khoản"
+                        };
+                    }
+
+                    return new RegisterRespone
+                    {
+                        HttpStatusCode = 200,
+                        Message = $"Đăng ký thành công! ID: {newPlayerId}"
+                    };
+                }
+            }
+            catch
+            {
+                return new RegisterRespone
+                {
+                    HttpStatusCode = 400,
+                    Message = "Có lỗi xảy ra"
+                };
+            }
+        }
     }
 }

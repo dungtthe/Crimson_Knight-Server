@@ -104,5 +104,62 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                 return false;
             }
         }
+
+        public int InsertPlayer(PlayerModel model)
+        {
+            try
+            {
+                string sql = @"INSERT INTO player 
+                    (username, password, name, mapid, x, y, stats, classtype, skills, 
+                     level, exp, gender, inventory_items, wearing_items, gold, quest, 
+                     potentialpoint, skillpoint) 
+                    VALUES 
+                    (@username, @password, @name, @mapid, @x, @y, @stats, @classtype, @skills, 
+                     @level, @exp, @gender, @inventory_items, @wearing_items, @gold, @quest, 
+                     @potentialpoint, @skillpoint);
+                    SELECT LAST_INSERT_ID();";
+
+                using var cmd = new MySqlCommand(sql, Connection);
+                cmd.Parameters.AddRange(new MySqlParameter[]
+                {
+                    new MySqlParameter("@username", model.UserName),
+                    new MySqlParameter("@password", model.Password),
+                    new MySqlParameter("@name", model.Name),
+                    new MySqlParameter("@mapid", model.MapId),
+                    new MySqlParameter("@x", model.X),
+                    new MySqlParameter("@y", model.Y),
+                    new MySqlParameter("@stats", model.Stats),
+                    new MySqlParameter("@classtype", model.ClassType),
+                    new MySqlParameter("@skills", model.Skills),
+                    new MySqlParameter("@level", model.Level),
+                    new MySqlParameter("@exp", model.Exp),
+                    new MySqlParameter("@gender", (sbyte)model.Gender),
+                    new MySqlParameter("@inventory_items", model.InventoryItems),
+                    new MySqlParameter("@wearing_items", model.WearingItems),
+                    new MySqlParameter("@gold", model.Gold),
+                    new MySqlParameter("@quest", model.Quest ?? (object)DBNull.Value),
+                    new MySqlParameter("@potentialpoint", model.PotentialPoint),
+                    new MySqlParameter("@skillpoint", model.SkillPoint)
+                });
+
+                object result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : -1;
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogging.LogError($"[InsertPlayer] insert player loi: {ex.Message}");
+                return -1;
+            }
+        }
+
+        public bool IsUsernameExists(string username)
+        {
+            string sql = "SELECT COUNT(*) FROM player WHERE username = @username";
+            using var cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.Add(new MySqlParameter("@username", username));
+            
+            object result = cmd.ExecuteScalar();
+            return result != null && Convert.ToInt32(result) > 0;
+        }
     }
 }

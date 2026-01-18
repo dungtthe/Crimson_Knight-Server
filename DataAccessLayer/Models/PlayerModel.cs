@@ -29,5 +29,8 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
         public string Quest { get;set; }
         public int PotentialPoint { get; set; }
         public int SkillPoint { get; set; }
+
+        public string UserName { get; set; } 
+        public string Password { get; set; }
     }
 }
