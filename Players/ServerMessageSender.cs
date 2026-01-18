@@ -2,6 +2,8 @@
 using Crimson_Knight_Server.Monsters;
 using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Players.Item;
+using Crimson_Knight_Server.Stats;
+using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
 using System;
 using System.Collections.Generic;
@@ -173,6 +175,12 @@ namespace Crimson_Knight_Server.Players
             msg.WriteInt(p.CurrentMp);
             msg.WriteInt(p.GetMaxMp());
             msg.WriteLong(p.Gold);
+            msg.WriteInt(p.PotentialPoint);
+            msg.WriteInt(p.SkillPoint);
+            msg.WriteInt(Helpers.GetStatValue(p.Stats, StatId.HP));
+            msg.WriteInt(Helpers.GetStatValue(p.Stats, StatId.MP));
+            msg.WriteInt(Helpers.GetStatValue(p.Stats, StatId.ATK));
+            msg.WriteInt(Helpers.GetStatValue(p.Stats, StatId.DEF));
             if (isSendFull)
             {
                 foreach (var item in p.MapCur.Players)

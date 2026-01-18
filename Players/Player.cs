@@ -131,6 +131,8 @@ namespace Crimson_Knight_Server.Players
 
         public readonly ConcurrentQueue<UseItemMsg> UseItemMsgs = new ConcurrentQueue<UseItemMsg>();
         public readonly ConcurrentQueue<Tuple<ItemShop, int>> BuyItems = new ConcurrentQueue<Tuple<ItemShop, int>>();
+        public readonly ConcurrentQueue<StatId> AddPotentialPoints = new ConcurrentQueue<StatId>();
+        public readonly ConcurrentQueue<int> AddSkillPoints = new ConcurrentQueue<int>();
 
         public string Name { get; set; }
 
@@ -162,6 +164,8 @@ namespace Crimson_Knight_Server.Players
         public readonly ItemEquipment[] WearingItems = new ItemEquipment[4];
 
         public long Gold { get; set; }
+        public int PotentialPoint { get; set; }
+        public int SkillPoint { get; set; }
 
         public Player(int playerId) : base(playerId)
         {
@@ -277,6 +281,82 @@ namespace Crimson_Knight_Server.Players
         {
             UpdateUseItemMsgs();
             HandleBuyItemMsgs();
+            UpdateAddPointMsg();
+        }
+
+        private void UpdateAddPointMsg()
+        {
+            //tiem nag
+            while (AddPotentialPoints.TryDequeue(out var statId))
+            {
+                if (this.PotentialPoint == 0)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ điểm tiềm năng");
+                    continue;
+                }
+                this.PotentialPoint--;
+                if (this.Stats.TryGetValue(statId, out var stat))
+                {
+                    if (statId == StatId.HP || statId == StatId.MP)
+                    {
+                        stat.Value += 100;
+                    }
+                    else if (statId == StatId.ATK)
+                    {
+                        stat.Value += 20;
+                    }
+                    else if (statId == StatId.DEF)
+                    {
+                        stat.Value += 10;
+                    }
+                    ServerMessageSender.PlayerBaseInfo(this, true);
+                }
+            }
+
+            //ky nang
+            while(AddSkillPoints.TryDequeue(out var templateId))
+            {
+                if(this.SkillPoint == 0)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ điểm kỹ năng");
+                    continue;
+                }
+                Skill skill = null;
+                foreach(var item in this.Skills)
+                {
+                    if(item.TemplateId == templateId)
+                    {
+                        skill = item;
+                        break; 
+                    }
+                }
+                if(skill == null)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Có lỗi. Không tìm thấy skill");
+                    continue;
+                }
+                var template = skill.GetTemplate();
+                if (template.LevelPlayerRequire > this.Level)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Không đủ level");
+                    continue;
+                }
+                if (!skill.IsLearned)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Bạn chưa học skill này");
+                    continue;
+                }
+                if(skill.VariantId == template.Variants.Count - 1)
+                {
+                    ServerMessageSender.CenterNotificationView(this, "Skill đã đạt cấp độ tối đa");
+                    continue;
+                }
+                skill.AddPlus();
+                this.SkillPoint--;
+                ServerMessageSender.CenterNotificationView(this, $"Cộng 1 điểm kỹ năng vào {template.Name}");
+                ServerMessageSender.PlayerBaseInfo(this, true);
+                ServerMessageSender.SendPlayerSkillInfo(this);
+            }
         }
 
         private void HandleBuyItemMsgs()
@@ -724,7 +804,24 @@ namespace Crimson_Knight_Server.Players
 
         private void OnLevelUp(short newLevel)
         {
+            this.PotentialPoint += 10;
+            this.SkillPoint += 1;
 
+            if(newLevel == 10 || newLevel == 20)
+            {
+                foreach(var skill in this.Skills)
+                {
+                    var template = skill.GetTemplate();
+                    if(template.LevelPlayerRequire == newLevel && !skill.IsLearned)
+                    {
+                        skill.AddPlus();
+                        this.SkillPoint -= 1;
+                        break;
+                    }
+                }
+                ServerMessageSender.SendPlayerSkillInfo(this);
+            }
+            ServerMessageSender.PlayerBaseInfo(this, true);
         }
 
         public void UpdateGold(int quantity)

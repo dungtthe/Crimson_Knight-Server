@@ -66,6 +66,12 @@ namespace Crimson_Knight_Server.Maps
             }
 
             IsPhoBan = template.IsPhoBan;
+            if (IsPhoBan)
+            {
+                //tam thoi nhu nay
+                var monster = new Monster(0, 3166, 882, TemplateManager.MonsterTemplates[9], this);
+                Monsters.Add(monster);
+            }
         }
 
 

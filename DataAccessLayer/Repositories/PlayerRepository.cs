@@ -37,7 +37,9 @@ namespace Crimson_Knight_Server.DataAccessLayer.Repositories
                     InventoryItems = reader.MyGetString("inventory_items"),
                     WearingItems = reader.MyGetString("wearing_items"),
                     Gold = reader.MyGetLong("gold"),
-                    Quest = reader.MyGetString("quest")
+                    Quest = reader.MyGetString("quest"),
+                    PotentialPoint = reader.MyGetInt("potentialpoint"),
+                    SkillPoint = reader.MyGetInt("potentialpoint")
                 };
                 return model;
             }

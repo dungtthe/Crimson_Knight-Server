@@ -20,6 +20,8 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_USE_ITEM,
         CLIENT_SELECT_DIALOG_YES_NO,
         CLIENT_BUY_ITEM,
+        CLIENT_ADD_POTENTIAL_POINT,
+        CLIENT_ADD_SKILL_POINT,
 
         //server
         SERVER_LOGIN,

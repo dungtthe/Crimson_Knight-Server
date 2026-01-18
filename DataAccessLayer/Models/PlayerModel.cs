@@ -27,5 +27,7 @@ namespace Crimson_Knight_Server.DataAccessLayer.Models
         public string WearingItems { get; set; }
         public long Gold { get; set; }
         public string Quest { get;set; }
+        public int PotentialPoint { get; set; }
+        public int SkillPoint { get; set; }
     }
 }

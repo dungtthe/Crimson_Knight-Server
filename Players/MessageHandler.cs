@@ -4,6 +4,7 @@ using Crimson_Knight_Server.Networking;
 using Crimson_Knight_Server.Npcs;
 using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Services;
+using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Templates;
 using Crimson_Knight_Server.Templates.Shops;
 using Crimson_Knight_Server.Utils.Loggings;
@@ -175,6 +176,12 @@ namespace Crimson_Knight_Server.Players
                         return;
                     }
                     session.BuyItems.Enqueue(new Tuple<ItemShop, int>(itemshop, quantity));
+                    break;
+                case MessageId.CLIENT_ADD_POTENTIAL_POINT:
+                    session.AddPotentialPoints.Enqueue((StatId)msg.ReadByte());
+                    break;
+                case MessageId.CLIENT_ADD_SKILL_POINT:
+                    session.AddSkillPoints.Enqueue(msg.ReadInt());
                     break;
                 default:
                         break;

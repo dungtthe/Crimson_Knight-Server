@@ -20,8 +20,11 @@ namespace Crimson_Knight_Server.Players
             this.VariantId = variantId;
             this.playerClassType = playerClassType;
         }
-
-        private SkillTemplate GetTemplate()
+        public void AddPlus()
+        {
+            this.VariantId++;
+        }
+        public SkillTemplate GetTemplate()
         {
             return TemplateManager.SkillTemplates[playerClassType][TemplateId];
         }
