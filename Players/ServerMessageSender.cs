@@ -383,5 +383,17 @@ namespace Crimson_Knight_Server.Players
             p.SendMessage(msg);
             msg.Close();
         }
+
+
+        public static void MonsterMove(int monsterId, short x, short y, int playerId, Map map)
+        {
+            Message msg = new Message(MessageId.SERVER_MONSTER_MOVE);
+            msg.WriteInt(monsterId);
+            msg.WriteShort(x);
+            msg.WriteShort(y);
+            msg.WriteInt(playerId);
+            ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
     }
 }

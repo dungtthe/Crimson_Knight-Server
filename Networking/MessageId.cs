@@ -50,5 +50,6 @@ namespace Crimson_Knight_Server.Networking
         SERVER_PLAYER_GOLD_INFO,
         SERVER_QUEST_INFO,
         SERVER_SHOP_INFO,
+        SERVER_MONSTER_MOVE,
     }
 }

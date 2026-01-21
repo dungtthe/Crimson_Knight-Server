@@ -60,8 +60,8 @@ namespace Crimson_Knight_Server.Templates
                 {
                     Id = id,
                     Name = "Phó bản",
-                    XEnter = 100,
-                    YEnter = 100,
+                    XEnter = 4065,
+                    YEnter = 244,
                     IsPhoBan = true
                 };
                 MapTemplates.Add(map);

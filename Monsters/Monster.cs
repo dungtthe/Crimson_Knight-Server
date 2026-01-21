@@ -28,6 +28,7 @@ namespace Crimson_Knight_Server.Monsters
         public MonsterTemplate Template { get; set; }
         private long startTimeDie;
         private long startTimeAttack;
+        public bool IsBoss { get; set; }
 
         public override bool IsMonster()
         {
@@ -46,8 +47,31 @@ namespace Crimson_Knight_Server.Monsters
         {
             CheckRespawn();
             AttackPlayer();
+            MoveToPlayer();
         }
 
+
+        private long startTimeMove = 0;
+        private void MoveToPlayer()
+        {
+            if (!IsBoss)
+            {
+                return;
+            }
+            if (map.Players.Count == 0)
+            {
+                return;
+            }
+            if (SystemUtil.CurrentTimeMillis() - startTimeMove > 10000)
+            {
+                startTimeMove = SystemUtil.CurrentTimeMillis();
+                int index = Helpers.RanInt(0, map.Players.Count - 1);
+                Player p = map.Players[index];
+                this.X = p.X;
+                this.Y = p.Y;
+                ServerMessageSender.MonsterMove(this.Id, p.X, p.Y, p.Id, map);
+            }
+        }
 
         void CheckRespawn()
         {
@@ -156,12 +180,12 @@ namespace Crimson_Knight_Server.Monsters
                 Player p = attacker as Player;
                 if (p.Quest != null && p.Quest.QuestState == QuestState.InProgress)
                 {
-                    if(p.Quest.GetTemplate().MonsterTemplateId == this.Template.Id)
+                    if (p.Quest.GetTemplate().MonsterTemplateId == this.Template.Id)
                     {
                         p.Quest.QuantityCur++;
                         string content = $"Nhiệm vụ {p.Quest.GetTemplate().Name}: {p.Quest.QuantityCur}/{p.Quest.GetTemplate().Quantity}";
-                        ServerMessageSender.CenterNotificationView(p,content);
-                        if(p.Quest.QuantityCur >= p.Quest.GetTemplate().Quantity)
+                        ServerMessageSender.CenterNotificationView(p, content);
+                        if (p.Quest.QuantityCur >= p.Quest.GetTemplate().Quantity)
                         {
                             p.Quest.QuestState = QuestState.Completed;
                             ServerMessageSender.CenterNotificationView(p, $"Hoàn thành nhiệm vụ {p.Quest.GetTemplate().Name}");
