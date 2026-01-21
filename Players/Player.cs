@@ -144,7 +144,7 @@ namespace Crimson_Knight_Server.Players
         public readonly ConcurrentQueue<Tuple<ItemShop, int>> BuyItems = new ConcurrentQueue<Tuple<ItemShop, int>>();
         public readonly ConcurrentQueue<StatId> AddPotentialPoints = new ConcurrentQueue<StatId>();
         public readonly ConcurrentQueue<int> AddSkillPoints = new ConcurrentQueue<int>();
-
+        public readonly ConcurrentQueue<bool> Revives = new ConcurrentQueue<bool>();
         public string Name { get; set; }
 
         private int _currentMp;
@@ -290,9 +290,41 @@ namespace Crimson_Knight_Server.Players
 
         public override void Update()
         {
+            UpdateReviveMsgs();
             UpdateUseItemMsgs();
             HandleBuyItemMsgs();
             UpdateAddPointMsg();
+        }
+
+        private void UpdateReviveMsgs()
+        {
+            if(Revives.TryDequeue(out var isRevive))
+            {
+                if (isRevive)
+                {
+                    if (this.Gold < 10000)
+                    {
+                        ServerMessageSender.CenterNotificationView(this, "Không đủ vàng để hồi sinh");
+                    }
+                    else
+                    {
+                        this.Gold -= 10000;
+                        this.CurrentHp = GetMaxHp();
+                        this.CurrentMp = GetMaxMp();
+                        ServerMessageSender.PlayerBaseInfo(this, true);
+                        ServerMessageSender.PlayerInfoGold(this);
+                    }
+                }
+                else
+                {
+                    this.CurrentHp = GetMaxHp();
+                    this.CurrentMp = GetMaxMp();
+                    ServerMessageSender.PlayerBaseInfo(this, true);
+                    ServerMessageSender.PlayerInfoGold(this);
+                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(MapManager.Maps[1], this, true, 500, 500));
+                }
+                Revives.Clear();
+            }
         }
 
         private void UpdateAddPointMsg()

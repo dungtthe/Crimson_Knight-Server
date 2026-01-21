@@ -259,6 +259,10 @@ namespace Crimson_Knight_Server.Maps
                         bool isPlayer = attackMessage.IsPlayers[i];
                         if (isPlayer)
                         {
+                            if(playerSend.PkType == PkType.None)
+                            {
+                                continue;
+                            }
                             objReceive = GetPlayerById(objectTargetId);
                             if (objReceive == null || objReceive.IsDie())
                             {

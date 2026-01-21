@@ -183,6 +183,10 @@ namespace Crimson_Knight_Server.Players
                 case MessageId.CLIENT_ADD_SKILL_POINT:
                     session.AddSkillPoints.Enqueue(msg.ReadInt());
                     break;
+                case MessageId.CLIENT_REVIVE:
+                    bool isRevive = msg.ReadBool();
+                    session.Revives.Enqueue(isRevive);
+                    break;
                 default:
                         break;
             }

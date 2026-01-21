@@ -22,6 +22,7 @@ namespace Crimson_Knight_Server.Networking
         CLIENT_BUY_ITEM,
         CLIENT_ADD_POTENTIAL_POINT,
         CLIENT_ADD_SKILL_POINT,
+        CLIENT_REVIVE,
 
         //server
         SERVER_LOGIN,
