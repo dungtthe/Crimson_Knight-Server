@@ -51,5 +51,8 @@ namespace Crimson_Knight_Server.Networking
         SERVER_QUEST_INFO,
         SERVER_SHOP_INFO,
         SERVER_MONSTER_MOVE,
+        SERVER_MONSTER_MOVE_IMEDIATETLY,
+        SERVER_REMAINING_TIME_INFO,
+        SERVER_EFFECT_INFO,
     }
 }

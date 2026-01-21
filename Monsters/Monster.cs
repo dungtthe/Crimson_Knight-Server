@@ -46,14 +46,18 @@ namespace Crimson_Knight_Server.Monsters
         public override void Update()
         {
             CheckRespawn();
-            AttackPlayer();
             MoveToPlayer();
+            AttackPlayer();
         }
 
 
         private long startTimeMove = 0;
         private void MoveToPlayer()
         {
+            if (!map.IsPhoBan)
+            {
+                return;
+            }
             if (!IsBoss)
             {
                 return;
@@ -62,14 +66,14 @@ namespace Crimson_Knight_Server.Monsters
             {
                 return;
             }
-            if (SystemUtil.CurrentTimeMillis() - startTimeMove > 10000)
+            if (SystemUtil.CurrentTimeMillis() - startTimeMove > 5000)
             {
                 startTimeMove = SystemUtil.CurrentTimeMillis();
                 int index = Helpers.RanInt(0, map.Players.Count - 1);
                 Player p = map.Players[index];
-                this.X = p.X;
-                this.Y = p.Y;
-                ServerMessageSender.MonsterMove(this.Id, p.X, p.Y, p.Id, map);
+                this.X = (short)(p.X + Helpers.RanInt(-100, 100));
+                this.Y = (short)(p.Y + Helpers.RanInt(-100, 100));
+                ServerMessageSender.MonsterMoveImediatetly(this.Id, this.X, this.Y, map);
             }
         }
 
@@ -123,6 +127,12 @@ namespace Crimson_Knight_Server.Monsters
             }
             this.startTimeAttack = SystemUtil.CurrentTimeMillis();
 
+            //tam thoi
+            List<string> effs = new List<string>()
+            {
+                "ShockWave","ThunderArrow","ThunderStrike"
+            };
+            string effRan = effs[Helpers.RanInt(0, effs.Count - 1)];
             foreach (var p in targets)
             {
                 int dam = this.GetAtk() - p.GetDef();
@@ -133,6 +143,12 @@ namespace Crimson_Knight_Server.Monsters
                 p.CurrentHp -= dam;
                 ServerMessageSender.PlayerBaseInfo(p, true);
                 SendAttackInfoMsg(dam, targets);
+
+                //tam thoi
+                if (map.IsPhoBan)
+                {
+                    ServerMessageSender.EffectInfo(this.Id, p.Id, effRan, map);
+                }
             }
         }
 
@@ -194,7 +210,31 @@ namespace Crimson_Knight_Server.Monsters
                     }
                 }
             }
+            if (IsBoss)
+            {
+                //hp
+                int idConsu = 0;
+                if (this.Template.Level >= 10)
+                {
+                    idConsu = 2;
+                }
+                int idMp = idConsu + 1;
+                for (int i = 0; i < 10; i++)
+                {
+                    this.map.DropItem(idConsu, ItemType.Consumable, -1, this);
+                    this.map.DropItem(idMp, ItemType.Consumable, -1, this);
+                    this.map.DropItem(0, ItemType.Material, -1, this);
+                    this.map.DropItem(-1, ItemType.Consumable, -1, this, Helpers.RanInt(10000, 100000));
+                    int idEqLeave = ItemPick.RandomDropEquipment(this.Template.Level);
+                    if (idEqLeave == -1)
+                    {
+                        return;
+                    }
 
+                    this.map.DropItem(idEqLeave, ItemType.Equipment, -1, this);
+                }
+                return;
+            }
             //hp,mp
             if (Helpers.Roll(6000))
             {

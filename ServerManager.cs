@@ -182,6 +182,7 @@ namespace Crimson_Knight_Server
                     }
                     if(mapPhoBan != null)
                     {
+                        mapPhoBan.SetUp();
                         MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(mapPhoBan, p, true, xEnter, yEnter));
                     }
                     else

@@ -66,15 +66,20 @@ namespace Crimson_Knight_Server.Maps
             }
 
             IsPhoBan = template.IsPhoBan;
-            if (IsPhoBan)
-            {
-                //tam thoi nhu nay
-                var monster = new Monster(0, 4239, 694, TemplateManager.MonsterTemplates[9], this);
-                monster.IsBoss = true;
-                Monsters.Add(monster);
-            }
+          
         }
 
+        private long startTimeSetUp = 0;
+        public void SetUp()
+        {
+            AttackMessages.Clear();
+            PickItemMessages.Clear();
+            Monsters.Clear();
+            var monster = new Monster(0, 4239, 694, TemplateManager.MonsterTemplates[9], this);
+            monster.IsBoss = true;
+            Monsters.Add(monster);
+            startTimeSetUp = SystemUtil.CurrentTimeMillis();
+        }
 
         public void UpdateMap()
         {
@@ -82,7 +87,36 @@ namespace Crimson_Knight_Server.Maps
             HandleAttackMessages();
             UpdateMonsters();
             UpdatePlayers();
+            UpdateTimePhoBan();
         }
+
+        //long timepb = 600_000;
+        long timepb = 600_00;
+        private void UpdateTimePhoBan()
+        {
+            if (!IsPhoBan)
+            {
+                return;
+            }
+            if(this.Players.Count == 0)
+            {
+                return;
+            }
+            if(SystemUtil.CurrentTimeMillis() - startTimeSetUp > timepb)
+            {
+                foreach(var player in this.Players)
+                {
+                    MapManager.PlayerEnterOrExitmap.Enqueue(new Tuple<Map, Player, bool, short, short>(MapManager.Maps[1], player, true, 500, 500));
+                    ServerMessageSender.CenterNotificationView(player, "Đã hết thời gian đi phó bản");
+                }
+            }
+            else
+            {
+                long remaining = (startTimeSetUp + timepb) - SystemUtil.CurrentTimeMillis();
+                ServerMessageSender.RemainingTimeInfo(remaining, this);
+            }
+        }
+       
 
         private void UpdatePickItems()
         {

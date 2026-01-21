@@ -5,6 +5,7 @@ using Crimson_Knight_Server.Players.Item;
 using Crimson_Knight_Server.Stats;
 using Crimson_Knight_Server.Utils;
 using Crimson_Knight_Server.Utils.Loggings;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -392,6 +393,34 @@ namespace Crimson_Knight_Server.Players
             msg.WriteShort(x);
             msg.WriteShort(y);
             msg.WriteInt(playerId);
+            ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
+        public static void MonsterMoveImediatetly(int monsterId, short x, short y, Map map)
+        {
+            Message msg = new Message(MessageId.SERVER_MONSTER_MOVE_IMEDIATETLY);
+            msg.WriteInt(monsterId);
+            msg.WriteShort(x);
+            msg.WriteShort(y);
+            ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
+
+        public static void RemainingTimeInfo(long time, Map map)
+        {
+            Message msg = new Message(MessageId.SERVER_REMAINING_TIME_INFO);
+            msg.WriteLong(time);
+            ServerManager.GI().SendAllInMap(msg, map);
+            msg.Close();
+        }
+
+        public static void EffectInfo(int monsterId, int playerId, string effName, Map map)
+        {
+            //tam thoi lam nhu nay
+            Message msg = new Message(MessageId.SERVER_EFFECT_INFO);
+            msg.WriteInt(monsterId);
+            msg.WriteInt(playerId);
+            msg.WriteString(effName);
             ServerManager.GI().SendAllInMap(msg, map);
             msg.Close();
         }
