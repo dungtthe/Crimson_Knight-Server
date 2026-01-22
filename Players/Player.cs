@@ -820,6 +820,7 @@ namespace Crimson_Knight_Server.Players
 
         public void UpdateExp(int exp)
         {
+            exp = exp * ServerSetting.XEXP;
             if (exp <= 0) return;
 
             int maxLevel = TemplateManager.Levels.Count - 1;

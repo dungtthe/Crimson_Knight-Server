@@ -11,5 +11,6 @@
   },
   "Dbs": {
     "ConnectionString": "Server=localhost;Port=3308;Database=crimson_knight;User=root;Password=123456;"
-  }
+  },
+  "XEXP": 10
 }

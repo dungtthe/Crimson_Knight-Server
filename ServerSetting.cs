@@ -22,6 +22,9 @@ namespace Crimson_Knight_Server
 
         //db
         public static string ConnectionString;
+
+
+        public static int XEXP = 1;
         public static void SetUp()
         {
             JsonObject obj = (JsonObject)JsonNode.Parse(File.ReadAllText("ServerSetting.json"));
@@ -41,6 +44,9 @@ namespace Crimson_Knight_Server
             //db
             JsonObject dbsSection = (JsonObject)obj["Dbs"];
             ConnectionString = (string)dbsSection["ConnectionString"];
+
+            XEXP = obj["XEXP"]!.GetValue<int>();
+
         }
     }
 }
